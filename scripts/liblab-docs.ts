@@ -18,15 +18,27 @@ function rewriteHref(url: string) {
   return urlJoin(repoUrl, url);
 }
 
+function removeFirstHeading() {
+  let idx = 0;
+  let done = false;
+  return (node) => {
+    // 0 can be yaml
+    if (idx <= 1 && node.type === 'heading' && !done) {
+      done = true;
+      return true;
+    }
+
+    return false;
+  }
+}
+
 // process readme
 const [readme] = glob.sync('README.md', { cwd: root });
 const readmeAst = await md.read(readme);
 md.reIndentHeadings(readmeAst, 1);
 md.mapLinks(readmeAst, rewriteHref);
-md.insertFrontMatter(readmeAst, {
-  title: "MagicBell GO SDK",
-});
-
+md.insertFrontMatter(readmeAst, { title: "MagicBell GO SDK" });
+md.remove(readmeAst, removeFirstHeading())
 await md.write(readmeAst, path.join(outdir, 'index.mdx'));
 
 // copy snippets
