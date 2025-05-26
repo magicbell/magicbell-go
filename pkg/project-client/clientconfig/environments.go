@@ -1,5 +1,5 @@
 package clientconfig
 
 const (
-	DEFAULT_ENVIRONMENT = "https://petstore.swagger.io/v2"
+	DEFAULT_ENVIRONMENT = "https://api.magicbell.com/v2"
 )
