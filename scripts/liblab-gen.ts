@@ -76,6 +76,11 @@ async function mergeReadme(source: string, dest: string, block: string) {
   await md.write(mainAst, dest);
 }
 
+function run(cmd: string) {
+  console.log(`run: ${cmd}`);
+  execSync(cmd, { stdio: "inherit" });
+}
+
 async function build(options: typeof args) {
   if (!options.spec) {
     console.log(`error: missing required argument '--spec <file>'`);
@@ -95,13 +100,9 @@ async function build(options: typeof args) {
   const openapiJSON = await readFile(options.spec);
   await writeJSON(liblabConfig.specFilePath, openapiJSON);
 
-  const cmd = `npx -y liblab@latest build --skip-validation --approve-docs --liblab-config=${liblabCfgFile}`;
-  console.log(`Invoking liblab: ${cmd}`);
-  return;
-  
-  execSync(cmd, {
-    stdio: "inherit",
-  });
+  // validate to unblock build 🤦‍♂️
+  run(`npx -y liblab@latest validate --nonInteractive --liblab-config=${liblabCfgFile}`);
+  run(`npx -y liblab@latest build --skip-validation --approve-docs --liblab-config=${liblabCfgFile}`);
   await fs.rm(liblabConfig.specFilePath);
 
   await move('output/go/pkg', `${dest}`);
