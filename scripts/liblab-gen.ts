@@ -97,6 +97,8 @@ async function build(options: typeof args) {
 
   const cmd = `npx -y liblab@latest build --skip-validation --approve-docs --liblab-config=${liblabCfgFile}`;
   console.log(`Invoking liblab: ${cmd}`);
+  return;
+  
   execSync(cmd, {
     stdio: "inherit",
   });

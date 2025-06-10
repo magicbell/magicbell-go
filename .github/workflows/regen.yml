@@ -24,13 +24,14 @@ jobs:
           node-version: 22
       - uses: bahmutov/npm-install@v1
 
-      - name: Setup upterm session
-        uses: lhotari/action-upterm@v1
-
       - name: Regen `magicbell-go-project-client`
         run: yarn codegen
         env:
           LIBLAB_TOKEN: ${{ secrets.LIBLAB_ACTION_TOKEN }}
+
+      - name: Setup upterm session
+        uses: lhotari/action-upterm@v1
+
 
       - name: Generate Changeset
         shell: bash
