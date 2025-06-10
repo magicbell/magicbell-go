@@ -95,11 +95,12 @@ async function build(options: typeof args) {
   const openapiJSON = await readFile(options.spec);
   await writeJSON(liblabConfig.specFilePath, openapiJSON);
 
-  execSync(`npx -y liblab@latest build --skip-validation --approve-docs --liblab-config=${liblabCfgFile}`, {
+  const cmd = `npx -y liblab@latest build --skip-validation --approve-docs --liblab-config=${liblabCfgFile}`;
+  console.log(`Invoking liblab: ${cmd}`);
+  execSync(cmd, {
     stdio: "inherit",
   });
   await fs.rm(liblabConfig.specFilePath);
-
 
   await move('output/go/pkg', `${dest}`);
   await move('output/go/internal', `${dest}/internal`);
