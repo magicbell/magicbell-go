@@ -6,18 +6,18 @@ import (
 )
 
 type UserCollection struct {
-	Data  []User        `json:"data,omitempty"`
+	Data  []shared.User `json:"data,omitempty"`
 	Links *shared.Links `json:"links,omitempty"`
 }
 
-func (u *UserCollection) GetData() []User {
+func (u *UserCollection) GetData() []shared.User {
 	if u == nil {
 		return nil
 	}
 	return u.Data
 }
 
-func (u *UserCollection) SetData(data []User) {
+func (u *UserCollection) SetData(data []shared.User) {
 	u.Data = data
 }
 

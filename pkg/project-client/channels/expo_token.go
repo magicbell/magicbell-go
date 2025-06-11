@@ -2,6 +2,7 @@ package channels
 
 import (
 	"encoding/json"
+	"github.com/magicbell/magicbell-go/pkg/project-client/internal/unmarshal"
 	"github.com/magicbell/magicbell-go/pkg/project-client/util"
 )
 
@@ -82,4 +83,8 @@ func (e ExpoToken) String() string {
 		return "error converting struct: ExpoToken to string"
 	}
 	return string(jsonData)
+}
+
+func (e *ExpoToken) UnmarshalJSON(data []byte) error {
+	return unmarshal.UnmarshalNullable(data, e)
 }

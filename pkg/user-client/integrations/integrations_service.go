@@ -44,12 +44,12 @@ func (api *IntegrationsService) SetAccessToken(accessToken string) {
 	config.SetAccessToken(accessToken)
 }
 
-// Creates a new installation of a inbox integration for a user. This endpoint is used when an integration needs to be set up with user-specific credentials or configuration.
+// Creates a new installation of a Inbox integration for a user. This endpoint is used when an integration needs to be set up with user-specific credentials or configuration.
 func (api *IntegrationsService) SaveInboxInstallation(ctx context.Context, inboxConfigPayload InboxConfigPayload) (*shared.ClientResponse[InboxConfigPayload], *shared.ClientError) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
-		WithMethod("POST").
+		WithMethod("PUT").
 		WithPath("/integrations/inbox/installations").
 		WithConfig(config).
 		WithBody(inboxConfigPayload).
@@ -67,7 +67,7 @@ func (api *IntegrationsService) SaveInboxInstallation(ctx context.Context, inbox
 	return shared.NewClientResponse[InboxConfigPayload](resp), nil
 }
 
-// Initiates the installation flow for a inbox integration. This is the first step in a multi-step installation process where user authorization or external service configuration may be required.
+// Initiates the installation flow for an Inbox integration. This is the first step in a multi-step installation process where user authorization or external service configuration may be required.
 func (api *IntegrationsService) StartInboxInstallation(ctx context.Context) (*shared.ClientResponse[InboxConfigPayload], *shared.ClientError) {
 	config := *api.getConfig()
 
@@ -88,12 +88,12 @@ func (api *IntegrationsService) StartInboxInstallation(ctx context.Context) (*sh
 	return shared.NewClientResponse[InboxConfigPayload](resp), nil
 }
 
-// Creates a new installation of a slack integration for a user. This endpoint is used when an integration needs to be set up with user-specific credentials or configuration.
+// Creates a new installation of a Slack integration for a user. This endpoint is used when an integration needs to be set up with user-specific credentials or configuration.
 func (api *IntegrationsService) SaveSlackInstallation(ctx context.Context, slackInstallation SlackInstallation) (*shared.ClientResponse[SlackInstallation], *shared.ClientError) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
-		WithMethod("POST").
+		WithMethod("PUT").
 		WithPath("/integrations/slack/installations").
 		WithConfig(config).
 		WithBody(slackInstallation).
@@ -111,7 +111,7 @@ func (api *IntegrationsService) SaveSlackInstallation(ctx context.Context, slack
 	return shared.NewClientResponse[SlackInstallation](resp), nil
 }
 
-// Completes the installation flow for a slack integration. This endpoint is typically called after the user has completed any required authorization steps with slack.
+// Completes the installation flow for the Slack integration. This endpoint is typically called after the user has completed any required authorization steps with Slack.
 func (api *IntegrationsService) FinishSlackInstallation(ctx context.Context, slackFinishInstallResponse SlackFinishInstallResponse) (*shared.ClientResponse[SlackInstallation], *shared.ClientError) {
 	config := *api.getConfig()
 
@@ -134,7 +134,7 @@ func (api *IntegrationsService) FinishSlackInstallation(ctx context.Context, sla
 	return shared.NewClientResponse[SlackInstallation](resp), nil
 }
 
-// Initiates the installation flow for a slack integration. This is the first step in a multi-step installation process where user authorization or external service configuration may be required.
+// Initiates the installation flow for a Slack integration. This is the first step in a multi-step installation process where user authorization or external service configuration may be required.
 func (api *IntegrationsService) StartSlackInstallation(ctx context.Context, slackStartInstall SlackStartInstall) (*shared.ClientResponse[SlackStartInstallResponseContent], *shared.ClientError) {
 	config := *api.getConfig()
 
@@ -157,35 +157,12 @@ func (api *IntegrationsService) StartSlackInstallation(ctx context.Context, slac
 	return shared.NewClientResponse[SlackStartInstallResponseContent](resp), nil
 }
 
-// Creates a new installation of a templates integration for a user. This endpoint is used when an integration needs to be set up with user-specific credentials or configuration.
-func (api *IntegrationsService) SaveTemplatesInstallation(ctx context.Context, templatesInstallation TemplatesInstallation) (*shared.ClientResponse[TemplatesInstallation], *shared.ClientError) {
-	config := *api.getConfig()
-
-	request := httptransport.NewRequestBuilder().WithContext(ctx).
-		WithMethod("POST").
-		WithPath("/integrations/templates/installations").
-		WithConfig(config).
-		WithBody(templatesInstallation).
-		AddHeader("CONTENT-TYPE", "application/json").
-		WithContentType(httptransport.ContentTypeJson).
-		WithResponseContentType(httptransport.ContentTypeJson).
-		Build()
-
-	client := restClient.NewRestClient[TemplatesInstallation](config)
-	resp, err := client.Call(*request)
-	if err != nil {
-		return nil, shared.NewClientError[TemplatesInstallation](err)
-	}
-
-	return shared.NewClientResponse[TemplatesInstallation](resp), nil
-}
-
-// Creates a new installation of a web_push integration for a user. This endpoint is used when an integration needs to be set up with user-specific credentials or configuration.
+// Creates a new installation of a Web Push integration for a user. This endpoint is used when an integration needs to be set up with user-specific credentials or configuration.
 func (api *IntegrationsService) SaveWebPushInstallation(ctx context.Context, webPushTokenPayload shared.WebPushTokenPayload) (*shared.ClientResponse[shared.WebPushTokenPayload], *shared.ClientError) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
-		WithMethod("POST").
+		WithMethod("PUT").
 		WithPath("/integrations/web_push/installations").
 		WithConfig(config).
 		WithBody(webPushTokenPayload).
@@ -203,7 +180,7 @@ func (api *IntegrationsService) SaveWebPushInstallation(ctx context.Context, web
 	return shared.NewClientResponse[shared.WebPushTokenPayload](resp), nil
 }
 
-// Initiates the installation flow for a web_push integration. This is the first step in a multi-step installation process where user authorization or external service configuration may be required.
+// Initiates the installation flow for a Web Push integration. This is the first step in a multi-step installation process where user authorization or external service configuration may be required.
 func (api *IntegrationsService) StartWebPushInstallation(ctx context.Context) (*shared.ClientResponse[WebPushStartInstallationResponse], *shared.ClientError) {
 	config := *api.getConfig()
 

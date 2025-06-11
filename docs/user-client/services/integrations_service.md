@@ -2,22 +2,21 @@
 
 A list of all methods in the `IntegrationsService` service. Click on the method name to view detailed information about that method.
 
-| Methods                                                 | Description                                                                                                                                                                                         |
-| :------------------------------------------------------ | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [SaveInboxInstallation](#saveinboxinstallation)         | Creates a new installation of a inbox integration for a user. This endpoint is used when an integration needs to be set up with user-specific credentials or configuration.                         |
-| [StartInboxInstallation](#startinboxinstallation)       | Initiates the installation flow for a inbox integration. This is the first step in a multi-step installation process where user authorization or external service configuration may be required.    |
-| [SaveSlackInstallation](#saveslackinstallation)         | Creates a new installation of a slack integration for a user. This endpoint is used when an integration needs to be set up with user-specific credentials or configuration.                         |
-| [FinishSlackInstallation](#finishslackinstallation)     | Completes the installation flow for a slack integration. This endpoint is typically called after the user has completed any required authorization steps with slack.                                |
-| [StartSlackInstallation](#startslackinstallation)       | Initiates the installation flow for a slack integration. This is the first step in a multi-step installation process where user authorization or external service configuration may be required.    |
-| [SaveTemplatesInstallation](#savetemplatesinstallation) | Creates a new installation of a templates integration for a user. This endpoint is used when an integration needs to be set up with user-specific credentials or configuration.                     |
-| [SaveWebPushInstallation](#savewebpushinstallation)     | Creates a new installation of a web_push integration for a user. This endpoint is used when an integration needs to be set up with user-specific credentials or configuration.                      |
-| [StartWebPushInstallation](#startwebpushinstallation)   | Initiates the installation flow for a web_push integration. This is the first step in a multi-step installation process where user authorization or external service configuration may be required. |
+| Methods                                               | Description                                                                                                                                                                                         |
+| :---------------------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [SaveInboxInstallation](#saveinboxinstallation)       | Creates a new installation of a Inbox integration for a user. This endpoint is used when an integration needs to be set up with user-specific credentials or configuration.                         |
+| [StartInboxInstallation](#startinboxinstallation)     | Initiates the installation flow for an Inbox integration. This is the first step in a multi-step installation process where user authorization or external service configuration may be required.   |
+| [SaveSlackInstallation](#saveslackinstallation)       | Creates a new installation of a Slack integration for a user. This endpoint is used when an integration needs to be set up with user-specific credentials or configuration.                         |
+| [FinishSlackInstallation](#finishslackinstallation)   | Completes the installation flow for the Slack integration. This endpoint is typically called after the user has completed any required authorization steps with Slack.                              |
+| [StartSlackInstallation](#startslackinstallation)     | Initiates the installation flow for a Slack integration. This is the first step in a multi-step installation process where user authorization or external service configuration may be required.    |
+| [SaveWebPushInstallation](#savewebpushinstallation)   | Creates a new installation of a Web Push integration for a user. This endpoint is used when an integration needs to be set up with user-specific credentials or configuration.                      |
+| [StartWebPushInstallation](#startwebpushinstallation) | Initiates the installation flow for a Web Push integration. This is the first step in a multi-step installation process where user authorization or external service configuration may be required. |
 
 ## SaveInboxInstallation
 
-Creates a new installation of a inbox integration for a user. This endpoint is used when an integration needs to be set up with user-specific credentials or configuration.
+Creates a new installation of a Inbox integration for a user. This endpoint is used when an integration needs to be set up with user-specific credentials or configuration.
 
-- HTTP Method: `POST`
+- HTTP Method: `PUT`
 - Endpoint: `/integrations/inbox/installations`
 
 **Parameters**
@@ -181,7 +180,7 @@ fmt.Println(response)
 
 ## StartInboxInstallation
 
-Initiates the installation flow for a inbox integration. This is the first step in a multi-step installation process where user authorization or external service configuration may be required.
+Initiates the installation flow for an Inbox integration. This is the first step in a multi-step installation process where user authorization or external service configuration may be required.
 
 - HTTP Method: `POST`
 - Endpoint: `/integrations/inbox/installations/start`
@@ -220,9 +219,9 @@ fmt.Println(response)
 
 ## SaveSlackInstallation
 
-Creates a new installation of a slack integration for a user. This endpoint is used when an integration needs to be set up with user-specific credentials or configuration.
+Creates a new installation of a Slack integration for a user. This endpoint is used when an integration needs to be set up with user-specific credentials or configuration.
 
-- HTTP Method: `POST`
+- HTTP Method: `PUT`
 - Endpoint: `/integrations/slack/installations`
 
 **Parameters**
@@ -306,7 +305,7 @@ fmt.Println(response)
 
 ## FinishSlackInstallation
 
-Completes the installation flow for a slack integration. This endpoint is typically called after the user has completed any required authorization steps with slack.
+Completes the installation flow for the Slack integration. This endpoint is typically called after the user has completed any required authorization steps with Slack.
 
 - HTTP Method: `POST`
 - Endpoint: `/integrations/slack/installations/finish`
@@ -354,7 +353,7 @@ fmt.Println(response)
 
 ## StartSlackInstallation
 
-Initiates the installation flow for a slack integration. This is the first step in a multi-step installation process where user authorization or external service configuration may be required.
+Initiates the installation flow for a Slack integration. This is the first step in a multi-step installation process where user authorization or external service configuration may be required.
 
 - HTTP Method: `POST`
 - Endpoint: `/integrations/slack/installations/start`
@@ -401,59 +400,11 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## SaveTemplatesInstallation
-
-Creates a new installation of a templates integration for a user. This endpoint is used when an integration needs to be set up with user-specific credentials or configuration.
-
-- HTTP Method: `POST`
-- Endpoint: `/integrations/templates/installations`
-
-**Parameters**
-
-| Name                  | Type                  | Required | Description                 |
-| :-------------------- | :-------------------- | :------- | :-------------------------- |
-| ctx                   | Context               | ✅       | Default go language context |
-| templatesInstallation | TemplatesInstallation | ✅       |                             |
-
-**Return Type**
-
-`TemplatesInstallation`
-
-**Example Usage Code Snippet**
-
-```go
-import (
-  "fmt"
-  "encoding/json"
-  "github.com/magicbell/magicbell-go/pkg/user-client/clientconfig"
-  "github.com/magicbell/magicbell-go/pkg/user-client/client"
-  "github.com/magicbell/magicbell-go/pkg/user-client/util"
-  "github.com/magicbell/magicbell-go/pkg/user-client/integrations"
-)
-
-config := clientconfig.NewConfig()
-client := client.NewClient(config)
-
-
-request := integrations.TemplatesInstallation{
-  Category: util.ToPointer(util.Nullable[string]{ Value: "Category" }),
-  Channel: util.ToPointer("Channel"),
-  Text: util.ToPointer("Text"),
-}
-
-response, err := client.Integrations.SaveTemplatesInstallation(context.Background(), request)
-if err != nil {
-  panic(err)
-}
-
-fmt.Println(response)
-```
-
 ## SaveWebPushInstallation
 
-Creates a new installation of a web_push integration for a user. This endpoint is used when an integration needs to be set up with user-specific credentials or configuration.
+Creates a new installation of a Web Push integration for a user. This endpoint is used when an integration needs to be set up with user-specific credentials or configuration.
 
-- HTTP Method: `POST`
+- HTTP Method: `PUT`
 - Endpoint: `/integrations/web_push/installations`
 
 **Parameters**
@@ -503,7 +454,7 @@ fmt.Println(response)
 
 ## StartWebPushInstallation
 
-Initiates the installation flow for a web_push integration. This is the first step in a multi-step installation process where user authorization or external service configuration may be required.
+Initiates the installation flow for a Web Push integration. This is the first step in a multi-step installation process where user authorization or external service configuration may be required.
 
 - HTTP Method: `POST`
 - Endpoint: `/integrations/web_push/installations/start`

@@ -7,21 +7,17 @@ import (
 	"github.com/magicbell/magicbell-go/pkg/project-client/clientconfig"
 	"github.com/magicbell/magicbell-go/pkg/project-client/events"
 	"github.com/magicbell/magicbell-go/pkg/project-client/integrations"
-	"github.com/magicbell/magicbell-go/pkg/project-client/jwt"
-	"github.com/magicbell/magicbell-go/pkg/project-client/notifications"
 	"github.com/magicbell/magicbell-go/pkg/project-client/users"
 	"time"
 )
 
 type Client struct {
-	Broadcasts    *broadcasts.BroadcastsService
-	Channels      *channels.ChannelsService
-	Events        *events.EventsService
-	Integrations  *integrations.IntegrationsService
-	Jwt           *jwt.JwtService
-	Notifications *notifications.NotificationsService
-	Users         *users.UsersService
-	manager       *configmanager.ConfigManager
+	Broadcasts   *broadcasts.BroadcastsService
+	Channels     *channels.ChannelsService
+	Events       *events.EventsService
+	Integrations *integrations.IntegrationsService
+	Users        *users.UsersService
+	manager      *configmanager.ConfigManager
 }
 
 func NewClient(config clientconfig.Config) *Client {
@@ -29,8 +25,6 @@ func NewClient(config clientconfig.Config) *Client {
 	channels := channels.NewChannelsService()
 	events := events.NewEventsService()
 	integrations := integrations.NewIntegrationsService()
-	jwt := jwt.NewJwtService()
-	notifications := notifications.NewNotificationsService()
 	users := users.NewUsersService()
 
 	manager := configmanager.NewConfigManager(config)
@@ -38,19 +32,15 @@ func NewClient(config clientconfig.Config) *Client {
 	channels.WithConfigManager(manager)
 	events.WithConfigManager(manager)
 	integrations.WithConfigManager(manager)
-	jwt.WithConfigManager(manager)
-	notifications.WithConfigManager(manager)
 	users.WithConfigManager(manager)
 
 	return &Client{
-		Broadcasts:    broadcasts,
-		Channels:      channels,
-		Events:        events,
-		Integrations:  integrations,
-		Jwt:           jwt,
-		Notifications: notifications,
-		Users:         users,
-		manager:       manager,
+		Broadcasts:   broadcasts,
+		Channels:     channels,
+		Events:       events,
+		Integrations: integrations,
+		Users:        users,
+		manager:      manager,
 	}
 }
 

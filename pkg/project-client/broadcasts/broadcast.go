@@ -2,6 +2,8 @@ package broadcasts
 
 import (
 	"encoding/json"
+	"github.com/magicbell/magicbell-go/pkg/project-client/internal/unmarshal"
+	"github.com/magicbell/magicbell-go/pkg/project-client/shared"
 	"github.com/magicbell/magicbell-go/pkg/project-client/util"
 )
 
@@ -13,12 +15,12 @@ type Broadcast struct {
 	CreatedAt        *string             `json:"created_at,omitempty"`
 	CustomAttributes *util.Nullable[any] `json:"custom_attributes,omitempty"`
 	// The unique id for this broadcast.
-	Id         *string                         `json:"id,omitempty"`
-	Overrides  *util.Nullable[Overrides]       `json:"overrides,omitempty"`
-	Recipients *util.Nullable[[]any]           `json:"recipients,omitempty" required:"true" minItems:"1" maxItems:"1000"`
-	Status     *util.Nullable[BroadcastStatus] `json:"status,omitempty"`
-	Title      *string                         `json:"title,omitempty" required:"true" maxLength:"255" minLength:"1"`
-	Topic      *util.Nullable[string]          `json:"topic,omitempty" maxLength:"255" pattern:"^[A-Za-z0-9_\.\-/:]+$"`
+	Id         *string                   `json:"id,omitempty"`
+	Overrides  *util.Nullable[Overrides] `json:"overrides,omitempty"`
+	Recipients []shared.User             `json:"recipients,omitempty" required:"true" minItems:"1" maxItems:"1000"`
+	Status     *BroadcastStatus          `json:"status,omitempty"`
+	Title      *string                   `json:"title,omitempty" required:"true" maxLength:"255" minLength:"1"`
+	Topic      *util.Nullable[string]    `json:"topic,omitempty" maxLength:"255" pattern:"^[A-Za-z0-9_\.\-/:]+$"`
 }
 
 func (b *Broadcast) GetActionUrl() *util.Nullable[string] {
@@ -118,34 +120,26 @@ func (b *Broadcast) SetOverridesNull() {
 	b.Overrides = &util.Nullable[Overrides]{IsNull: true}
 }
 
-func (b *Broadcast) GetRecipients() *util.Nullable[[]any] {
+func (b *Broadcast) GetRecipients() []shared.User {
 	if b == nil {
 		return nil
 	}
 	return b.Recipients
 }
 
-func (b *Broadcast) SetRecipients(recipients util.Nullable[[]any]) {
-	b.Recipients = &recipients
+func (b *Broadcast) SetRecipients(recipients []shared.User) {
+	b.Recipients = recipients
 }
 
-func (b *Broadcast) SetRecipientsNull() {
-	b.Recipients = &util.Nullable[[]any]{IsNull: true}
-}
-
-func (b *Broadcast) GetStatus() *util.Nullable[BroadcastStatus] {
+func (b *Broadcast) GetStatus() *BroadcastStatus {
 	if b == nil {
 		return nil
 	}
 	return b.Status
 }
 
-func (b *Broadcast) SetStatus(status util.Nullable[BroadcastStatus]) {
+func (b *Broadcast) SetStatus(status BroadcastStatus) {
 	b.Status = &status
-}
-
-func (b *Broadcast) SetStatusNull() {
-	b.Status = &util.Nullable[BroadcastStatus]{IsNull: true}
 }
 
 func (b *Broadcast) GetTitle() *string {
@@ -180,6 +174,10 @@ func (b Broadcast) String() string {
 		return "error converting struct: Broadcast to string"
 	}
 	return string(jsonData)
+}
+
+func (b *Broadcast) UnmarshalJSON(data []byte) error {
+	return unmarshal.UnmarshalNullable(data, b)
 }
 
 type Overrides struct {
@@ -221,9 +219,7 @@ type OverridesChannels struct {
 	Email      *Email      `json:"email,omitempty"`
 	InApp      *InApp      `json:"in_app,omitempty"`
 	MobilePush *MobilePush `json:"mobile_push,omitempty"`
-	Slack      *Slack      `json:"slack,omitempty"`
 	Sms        *Sms        `json:"sms,omitempty"`
-	WebPush    *WebPush    `json:"web_push,omitempty"`
 }
 
 func (o *OverridesChannels) GetEmail() *Email {
@@ -259,17 +255,6 @@ func (o *OverridesChannels) SetMobilePush(mobilePush MobilePush) {
 	o.MobilePush = &mobilePush
 }
 
-func (o *OverridesChannels) GetSlack() *Slack {
-	if o == nil {
-		return nil
-	}
-	return o.Slack
-}
-
-func (o *OverridesChannels) SetSlack(slack Slack) {
-	o.Slack = &slack
-}
-
 func (o *OverridesChannels) GetSms() *Sms {
 	if o == nil {
 		return nil
@@ -279,17 +264,6 @@ func (o *OverridesChannels) GetSms() *Sms {
 
 func (o *OverridesChannels) SetSms(sms Sms) {
 	o.Sms = &sms
-}
-
-func (o *OverridesChannels) GetWebPush() *WebPush {
-	if o == nil {
-		return nil
-	}
-	return o.WebPush
-}
-
-func (o *OverridesChannels) SetWebPush(webPush WebPush) {
-	o.WebPush = &webPush
 }
 
 func (o OverridesChannels) String() string {
@@ -351,6 +325,10 @@ func (e Email) String() string {
 	return string(jsonData)
 }
 
+func (e *Email) UnmarshalJSON(data []byte) error {
+	return unmarshal.UnmarshalNullable(data, e)
+}
+
 type InApp struct {
 	ActionUrl *util.Nullable[string] `json:"action_url,omitempty" maxLength:"2048"`
 	Content   *string                `json:"content,omitempty" maxLength:"1048576"`
@@ -400,6 +378,10 @@ func (i InApp) String() string {
 		return "error converting struct: InApp to string"
 	}
 	return string(jsonData)
+}
+
+func (i *InApp) UnmarshalJSON(data []byte) error {
+	return unmarshal.UnmarshalNullable(data, i)
 }
 
 type MobilePush struct {
@@ -453,55 +435,8 @@ func (m MobilePush) String() string {
 	return string(jsonData)
 }
 
-type Slack struct {
-	ActionUrl *util.Nullable[string] `json:"action_url,omitempty" maxLength:"2048"`
-	Content   *string                `json:"content,omitempty" maxLength:"1048576"`
-	Title     *string                `json:"title,omitempty" maxLength:"255" minLength:"1"`
-}
-
-func (s *Slack) GetActionUrl() *util.Nullable[string] {
-	if s == nil {
-		return nil
-	}
-	return s.ActionUrl
-}
-
-func (s *Slack) SetActionUrl(actionUrl util.Nullable[string]) {
-	s.ActionUrl = &actionUrl
-}
-
-func (s *Slack) SetActionUrlNull() {
-	s.ActionUrl = &util.Nullable[string]{IsNull: true}
-}
-
-func (s *Slack) GetContent() *string {
-	if s == nil {
-		return nil
-	}
-	return s.Content
-}
-
-func (s *Slack) SetContent(content string) {
-	s.Content = &content
-}
-
-func (s *Slack) GetTitle() *string {
-	if s == nil {
-		return nil
-	}
-	return s.Title
-}
-
-func (s *Slack) SetTitle(title string) {
-	s.Title = &title
-}
-
-func (s Slack) String() string {
-	jsonData, err := json.MarshalIndent(s, "", "  ")
-	if err != nil {
-		return "error converting struct: Slack to string"
-	}
-	return string(jsonData)
+func (m *MobilePush) UnmarshalJSON(data []byte) error {
+	return unmarshal.UnmarshalNullable(data, m)
 }
 
 type Sms struct {
@@ -555,98 +490,54 @@ func (s Sms) String() string {
 	return string(jsonData)
 }
 
-type WebPush struct {
-	ActionUrl *util.Nullable[string] `json:"action_url,omitempty" maxLength:"2048"`
-	Content   *string                `json:"content,omitempty" maxLength:"1048576"`
-	Title     *string                `json:"title,omitempty" maxLength:"255" minLength:"1"`
-}
-
-func (w *WebPush) GetActionUrl() *util.Nullable[string] {
-	if w == nil {
-		return nil
-	}
-	return w.ActionUrl
-}
-
-func (w *WebPush) SetActionUrl(actionUrl util.Nullable[string]) {
-	w.ActionUrl = &actionUrl
-}
-
-func (w *WebPush) SetActionUrlNull() {
-	w.ActionUrl = &util.Nullable[string]{IsNull: true}
-}
-
-func (w *WebPush) GetContent() *string {
-	if w == nil {
-		return nil
-	}
-	return w.Content
-}
-
-func (w *WebPush) SetContent(content string) {
-	w.Content = &content
-}
-
-func (w *WebPush) GetTitle() *string {
-	if w == nil {
-		return nil
-	}
-	return w.Title
-}
-
-func (w *WebPush) SetTitle(title string) {
-	w.Title = &title
-}
-
-func (w WebPush) String() string {
-	jsonData, err := json.MarshalIndent(w, "", "  ")
-	if err != nil {
-		return "error converting struct: WebPush to string"
-	}
-	return string(jsonData)
+func (s *Sms) UnmarshalJSON(data []byte) error {
+	return unmarshal.UnmarshalNullable(data, s)
 }
 
 type Providers struct {
-	AmazonSes any `json:"amazon_ses,omitempty"`
-	Android   any `json:"android,omitempty"`
-	Ios       any `json:"ios,omitempty"`
-	Mailgun   any `json:"mailgun,omitempty"`
-	Postmark  any `json:"postmark,omitempty"`
-	Sendgrid  any `json:"sendgrid,omitempty"`
-	Slack     any `json:"slack,omitempty"`
+	Apns     any `json:"apns,omitempty"`
+	Expo     any `json:"expo,omitempty"`
+	Fcm      any `json:"fcm,omitempty"`
+	Mailgun  any `json:"mailgun,omitempty"`
+	Sendgrid any `json:"sendgrid,omitempty"`
+	Ses      any `json:"ses,omitempty"`
+	Slack    any `json:"slack,omitempty"`
+	Teams    any `json:"teams,omitempty"`
+	Twilio   any `json:"twilio,omitempty"`
+	WebPush  any `json:"web_push,omitempty"`
 }
 
-func (p *Providers) GetAmazonSes() any {
+func (p *Providers) GetApns() any {
 	if p == nil {
 		return nil
 	}
-	return p.AmazonSes
+	return p.Apns
 }
 
-func (p *Providers) SetAmazonSes(amazonSes any) {
-	p.AmazonSes = &amazonSes
+func (p *Providers) SetApns(apns any) {
+	p.Apns = &apns
 }
 
-func (p *Providers) GetAndroid() any {
+func (p *Providers) GetExpo() any {
 	if p == nil {
 		return nil
 	}
-	return p.Android
+	return p.Expo
 }
 
-func (p *Providers) SetAndroid(android any) {
-	p.Android = &android
+func (p *Providers) SetExpo(expo any) {
+	p.Expo = &expo
 }
 
-func (p *Providers) GetIos() any {
+func (p *Providers) GetFcm() any {
 	if p == nil {
 		return nil
 	}
-	return p.Ios
+	return p.Fcm
 }
 
-func (p *Providers) SetIos(ios any) {
-	p.Ios = &ios
+func (p *Providers) SetFcm(fcm any) {
+	p.Fcm = &fcm
 }
 
 func (p *Providers) GetMailgun() any {
@@ -660,17 +551,6 @@ func (p *Providers) SetMailgun(mailgun any) {
 	p.Mailgun = &mailgun
 }
 
-func (p *Providers) GetPostmark() any {
-	if p == nil {
-		return nil
-	}
-	return p.Postmark
-}
-
-func (p *Providers) SetPostmark(postmark any) {
-	p.Postmark = &postmark
-}
-
 func (p *Providers) GetSendgrid() any {
 	if p == nil {
 		return nil
@@ -682,6 +562,17 @@ func (p *Providers) SetSendgrid(sendgrid any) {
 	p.Sendgrid = &sendgrid
 }
 
+func (p *Providers) GetSes() any {
+	if p == nil {
+		return nil
+	}
+	return p.Ses
+}
+
+func (p *Providers) SetSes(ses any) {
+	p.Ses = &ses
+}
+
 func (p *Providers) GetSlack() any {
 	if p == nil {
 		return nil
@@ -691,6 +582,39 @@ func (p *Providers) GetSlack() any {
 
 func (p *Providers) SetSlack(slack any) {
 	p.Slack = &slack
+}
+
+func (p *Providers) GetTeams() any {
+	if p == nil {
+		return nil
+	}
+	return p.Teams
+}
+
+func (p *Providers) SetTeams(teams any) {
+	p.Teams = &teams
+}
+
+func (p *Providers) GetTwilio() any {
+	if p == nil {
+		return nil
+	}
+	return p.Twilio
+}
+
+func (p *Providers) SetTwilio(twilio any) {
+	p.Twilio = &twilio
+}
+
+func (p *Providers) GetWebPush() any {
+	if p == nil {
+		return nil
+	}
+	return p.WebPush
+}
+
+func (p *Providers) SetWebPush(webPush any) {
+	p.WebPush = &webPush
 }
 
 func (p Providers) String() string {
@@ -750,6 +674,10 @@ func (b BroadcastStatus) String() string {
 		return "error converting struct: BroadcastStatus to string"
 	}
 	return string(jsonData)
+}
+
+func (b *BroadcastStatus) UnmarshalJSON(data []byte) error {
+	return unmarshal.UnmarshalNullable(data, b)
 }
 
 type Errors struct {

@@ -1,7 +1,8 @@
-package users
+package shared
 
 import (
 	"encoding/json"
+	"github.com/magicbell/magicbell-go/pkg/project-client/internal/unmarshal"
 	"github.com/magicbell/magicbell-go/pkg/project-client/util"
 )
 
@@ -170,4 +171,8 @@ func (u User) String() string {
 		return "error converting struct: User to string"
 	}
 	return string(jsonData)
+}
+
+func (u *User) UnmarshalJSON(data []byte) error {
+	return unmarshal.UnmarshalNullable(data, u)
 }

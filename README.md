@@ -51,15 +51,13 @@ The SDK provides various services to interact with the API.
 <details> 
 <summary>Below is a list of all available services with links to their detailed documentation:</summary>
 
-| Name                                                                    |
-| :---------------------------------------------------------------------- |
-| [BroadcastsService](docs/project-client/services/broadcasts_service.md)       |
-| [ChannelsService](docs/project-client/services/channels_service.md)           |
-| [EventsService](docs/project-client/services/events_service.md)               |
-| [IntegrationsService](docs/project-client/services/integrations_service.md)   |
-| [JwtService](docs/project-client/services/jwt_service.md)                     |
-| [NotificationsService](docs/project-client/services/notifications_service.md) |
-| [UsersService](docs/project-client/services/users_service.md)                 |
+| Name                                                                  |
+| :-------------------------------------------------------------------- |
+| [BroadcastsService](docs/project-client/services/broadcasts_service.md)     |
+| [ChannelsService](docs/project-client/services/channels_service.md)         |
+| [EventsService](docs/project-client/services/events_service.md)             |
+| [IntegrationsService](docs/project-client/services/integrations_service.md) |
+| [UsersService](docs/project-client/services/users_service.md)               |
 
 </details>
 
@@ -134,16 +132,10 @@ The SDK includes several models that represent the data structures used in API r
 | [IntegrationConfigCollection](docs/project-client/models/integration_config_collection.md)    |             |
 | [ApnsConfigCollection](docs/project-client/models/apns_config_collection.md)                  |             |
 | [ApnsConfigPayload](docs/project-client/models/apns_config_payload.md)                        |             |
-| [AwssnsConfigCollection](docs/project-client/models/awssns_config_collection.md)              |             |
-| [AwssnsConfigPayload](docs/project-client/models/awssns_config_payload.md)                    |             |
-| [EventSourceConfigCollection](docs/project-client/models/event_source_config_collection.md)   |             |
-| [EventSourceConfigPayload](docs/project-client/models/event_source_config_payload.md)         |             |
 | [ExpoConfigCollection](docs/project-client/models/expo_config_collection.md)                  |             |
 | [ExpoConfigPayload](docs/project-client/models/expo_config_payload.md)                        |             |
 | [FcmConfigCollection](docs/project-client/models/fcm_config_collection.md)                    |             |
 | [FcmConfigPayload](docs/project-client/models/fcm_config_payload.md)                          |             |
-| [GithubConfigCollection](docs/project-client/models/github_config_collection.md)              |             |
-| [GithubConfigPayload](docs/project-client/models/github_config_payload.md)                    |             |
 | [InboxConfigCollection](docs/project-client/models/inbox_config_collection.md)                |             |
 | [InboxConfigPayload](docs/project-client/models/inbox_config_payload.md)                      |             |
 | [MailgunConfigCollection](docs/project-client/models/mailgun_config_collection.md)            |             |
@@ -156,41 +148,25 @@ The SDK includes several models that represent the data structures used in API r
 | [SesConfigPayload](docs/project-client/models/ses_config_payload.md)                          |             |
 | [SlackConfigCollection](docs/project-client/models/slack_config_collection.md)                |             |
 | [SlackConfigPayload](docs/project-client/models/slack_config_payload.md)                      |             |
-| [StripeConfigCollection](docs/project-client/models/stripe_config_collection.md)              |             |
-| [StripeConfigPayload](docs/project-client/models/stripe_config_payload.md)                    |             |
-| [TemplatesConfigCollection](docs/project-client/models/templates_config_collection.md)        |             |
 | [TwilioConfigCollection](docs/project-client/models/twilio_config_collection.md)              |             |
 | [TwilioConfigPayload](docs/project-client/models/twilio_config_payload.md)                    |             |
 | [WebpushConfigCollection](docs/project-client/models/webpush_config_collection.md)            |             |
 | [WebpushConfigPayload](docs/project-client/models/webpush_config_payload.md)                  |             |
-| [AccessTokenCollection](docs/project-client/models/access_token_collection.md)                |             |
-| [CreateProjectTokenRequest](docs/project-client/models/create_project_token_request.md)       |             |
-| [CreateTokenResponse](docs/project-client/models/create_token_response.md)                    |             |
-| [DiscardTokenResponse](docs/project-client/models/discard_token_response.md)                  |             |
-| [CreateUserTokenRequest](docs/project-client/models/create_user_token_request.md)             |             |
-| [DeliveryPlanCollection](docs/project-client/models/delivery_plan_collection.md)              |             |
 | [UserCollection](docs/project-client/models/user_collection.md)                               |             |
 | [User](docs/project-client/models/user.md)                                                    |             |
 | [Links](docs/project-client/models/links.md)                                                  |             |
 | [IntegrationConfig](docs/project-client/models/integration_config.md)                         |             |
 | [ApnsConfig](docs/project-client/models/apns_config.md)                                       |             |
-| [AwssnsConfig](docs/project-client/models/awssns_config.md)                                   |             |
-| [EventSourceConfig](docs/project-client/models/event_source_config.md)                        |             |
 | [ExpoConfig](docs/project-client/models/expo_config.md)                                       |             |
 | [FcmConfig](docs/project-client/models/fcm_config.md)                                         |             |
-| [GithubConfig](docs/project-client/models/github_config.md)                                   |             |
 | [InboxConfig](docs/project-client/models/inbox_config.md)                                     |             |
 | [MailgunConfig](docs/project-client/models/mailgun_config.md)                                 |             |
 | [PingConfig](docs/project-client/models/ping_config.md)                                       |             |
 | [SendgridConfig](docs/project-client/models/sendgrid_config.md)                               |             |
 | [SesConfig](docs/project-client/models/ses_config.md)                                         |             |
 | [SlackConfig](docs/project-client/models/slack_config.md)                                     |             |
-| [StripeConfig](docs/project-client/models/stripe_config.md)                                   |             |
-| [TemplatesConfig](docs/project-client/models/templates_config.md)                             |             |
 | [TwilioConfig](docs/project-client/models/twilio_config.md)                                   |             |
 | [WebpushConfig](docs/project-client/models/webpush_config.md)                                 |             |
-| [AccessToken](docs/project-client/models/access_token.md)                                     |             |
-| [DeliveryPlan](docs/project-client/models/delivery_plan.md)                                   |             |
 
 </details>
 
@@ -328,11 +304,10 @@ The SDK includes several models that represent the data structures used in API r
 | [SlackFinishInstallResponse](docs/user-client/models/slack_finish_install_response.md)              |             |
 | [SlackStartInstall](docs/user-client/models/slack_start_install.md)                                 |             |
 | [SlackStartInstallResponseContent](docs/user-client/models/slack_start_install_response_content.md) |             |
-| [TemplatesInstallation](docs/user-client/models/templates_installation.md)                          |             |
 | [WebPushStartInstallationResponse](docs/user-client/models/web_push_start_installation_response.md) |             |
 | [NotificationCollection](docs/user-client/models/notification_collection.md)                        |             |
-| [Links](docs/user-client/models/links.md)                                                           |             |
 | [Notification](docs/user-client/models/notification.md)                                             |             |
+| [Links](docs/user-client/models/links.md)                                                           |             |
 
 </details>
 

@@ -2,6 +2,7 @@ package integrations
 
 import (
 	"encoding/json"
+	"github.com/magicbell/magicbell-go/pkg/project-client/internal/unmarshal"
 	"github.com/magicbell/magicbell-go/pkg/project-client/util"
 )
 
@@ -103,6 +104,10 @@ func (m MailgunConfigPayloadFrom) String() string {
 		return "error converting struct: MailgunConfigPayloadFrom to string"
 	}
 	return string(jsonData)
+}
+
+func (m *MailgunConfigPayloadFrom) UnmarshalJSON(data []byte) error {
+	return unmarshal.UnmarshalNullable(data, m)
 }
 
 type Region string

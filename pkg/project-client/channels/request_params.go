@@ -1,121 +1,113 @@
 package channels
 
-type GetDeliveryconfigRequestParams struct {
-	Key *string `explode:"true" serializationStyle:"form" queryParam:"key"`
-}
-
-func (params *GetDeliveryconfigRequestParams) SetKey(key string) {
-	params.Key = &key
-}
-
-type GetInAppInboxUserTokensRequestParams struct {
+type ListUserInboxTokensRequestParams struct {
 	Limit         *int64  `explode:"true" serializationStyle:"form" queryParam:"limit"`
 	StartingAfter *string `explode:"true" serializationStyle:"form" queryParam:"starting_after"`
 	EndingBefore  *string `explode:"true" serializationStyle:"form" queryParam:"ending_before"`
 }
 
-func (params *GetInAppInboxUserTokensRequestParams) SetLimit(limit int64) {
+func (params *ListUserInboxTokensRequestParams) SetLimit(limit int64) {
 	params.Limit = &limit
 }
-func (params *GetInAppInboxUserTokensRequestParams) SetStartingAfter(startingAfter string) {
+func (params *ListUserInboxTokensRequestParams) SetStartingAfter(startingAfter string) {
 	params.StartingAfter = &startingAfter
 }
-func (params *GetInAppInboxUserTokensRequestParams) SetEndingBefore(endingBefore string) {
+func (params *ListUserInboxTokensRequestParams) SetEndingBefore(endingBefore string) {
 	params.EndingBefore = &endingBefore
 }
 
-type GetMobilePushApnsUserTokensRequestParams struct {
+type ListUserApnsTokensRequestParams struct {
 	Limit         *int64  `explode:"true" serializationStyle:"form" queryParam:"limit"`
 	StartingAfter *string `explode:"true" serializationStyle:"form" queryParam:"starting_after"`
 	EndingBefore  *string `explode:"true" serializationStyle:"form" queryParam:"ending_before"`
 }
 
-func (params *GetMobilePushApnsUserTokensRequestParams) SetLimit(limit int64) {
+func (params *ListUserApnsTokensRequestParams) SetLimit(limit int64) {
 	params.Limit = &limit
 }
-func (params *GetMobilePushApnsUserTokensRequestParams) SetStartingAfter(startingAfter string) {
+func (params *ListUserApnsTokensRequestParams) SetStartingAfter(startingAfter string) {
 	params.StartingAfter = &startingAfter
 }
-func (params *GetMobilePushApnsUserTokensRequestParams) SetEndingBefore(endingBefore string) {
+func (params *ListUserApnsTokensRequestParams) SetEndingBefore(endingBefore string) {
 	params.EndingBefore = &endingBefore
 }
 
-type GetMobilePushExpoUserTokensRequestParams struct {
+type ListUserExpoTokensRequestParams struct {
 	Limit         *int64  `explode:"true" serializationStyle:"form" queryParam:"limit"`
 	StartingAfter *string `explode:"true" serializationStyle:"form" queryParam:"starting_after"`
 	EndingBefore  *string `explode:"true" serializationStyle:"form" queryParam:"ending_before"`
 }
 
-func (params *GetMobilePushExpoUserTokensRequestParams) SetLimit(limit int64) {
+func (params *ListUserExpoTokensRequestParams) SetLimit(limit int64) {
 	params.Limit = &limit
 }
-func (params *GetMobilePushExpoUserTokensRequestParams) SetStartingAfter(startingAfter string) {
+func (params *ListUserExpoTokensRequestParams) SetStartingAfter(startingAfter string) {
 	params.StartingAfter = &startingAfter
 }
-func (params *GetMobilePushExpoUserTokensRequestParams) SetEndingBefore(endingBefore string) {
+func (params *ListUserExpoTokensRequestParams) SetEndingBefore(endingBefore string) {
 	params.EndingBefore = &endingBefore
 }
 
-type GetMobilePushFcmUserTokensRequestParams struct {
+type ListUserFcmTokensRequestParams struct {
 	Limit         *int64  `explode:"true" serializationStyle:"form" queryParam:"limit"`
 	StartingAfter *string `explode:"true" serializationStyle:"form" queryParam:"starting_after"`
 	EndingBefore  *string `explode:"true" serializationStyle:"form" queryParam:"ending_before"`
 }
 
-func (params *GetMobilePushFcmUserTokensRequestParams) SetLimit(limit int64) {
+func (params *ListUserFcmTokensRequestParams) SetLimit(limit int64) {
 	params.Limit = &limit
 }
-func (params *GetMobilePushFcmUserTokensRequestParams) SetStartingAfter(startingAfter string) {
+func (params *ListUserFcmTokensRequestParams) SetStartingAfter(startingAfter string) {
 	params.StartingAfter = &startingAfter
 }
-func (params *GetMobilePushFcmUserTokensRequestParams) SetEndingBefore(endingBefore string) {
+func (params *ListUserFcmTokensRequestParams) SetEndingBefore(endingBefore string) {
 	params.EndingBefore = &endingBefore
 }
 
-type GetSlackUserTokensRequestParams struct {
+type ListUserSlackTokensRequestParams struct {
 	Limit         *int64  `explode:"true" serializationStyle:"form" queryParam:"limit"`
 	StartingAfter *string `explode:"true" serializationStyle:"form" queryParam:"starting_after"`
 	EndingBefore  *string `explode:"true" serializationStyle:"form" queryParam:"ending_before"`
 }
 
-func (params *GetSlackUserTokensRequestParams) SetLimit(limit int64) {
+func (params *ListUserSlackTokensRequestParams) SetLimit(limit int64) {
 	params.Limit = &limit
 }
-func (params *GetSlackUserTokensRequestParams) SetStartingAfter(startingAfter string) {
+func (params *ListUserSlackTokensRequestParams) SetStartingAfter(startingAfter string) {
 	params.StartingAfter = &startingAfter
 }
-func (params *GetSlackUserTokensRequestParams) SetEndingBefore(endingBefore string) {
+func (params *ListUserSlackTokensRequestParams) SetEndingBefore(endingBefore string) {
 	params.EndingBefore = &endingBefore
 }
 
-type GetTeamsUserTokensRequestParams struct {
+type ListUserTeamsTokensRequestParams struct {
 	Limit         *int64  `explode:"true" serializationStyle:"form" queryParam:"limit"`
 	StartingAfter *string `explode:"true" serializationStyle:"form" queryParam:"starting_after"`
 	EndingBefore  *string `explode:"true" serializationStyle:"form" queryParam:"ending_before"`
 }
 
-func (params *GetTeamsUserTokensRequestParams) SetLimit(limit int64) {
+func (params *ListUserTeamsTokensRequestParams) SetLimit(limit int64) {
 	params.Limit = &limit
 }
-func (params *GetTeamsUserTokensRequestParams) SetStartingAfter(startingAfter string) {
+func (params *ListUserTeamsTokensRequestParams) SetStartingAfter(startingAfter string) {
 	params.StartingAfter = &startingAfter
 }
-func (params *GetTeamsUserTokensRequestParams) SetEndingBefore(endingBefore string) {
+func (params *ListUserTeamsTokensRequestParams) SetEndingBefore(endingBefore string) {
 	params.EndingBefore = &endingBefore
 }
 
-type GetWebPushUserTokensRequestParams struct {
+type ListUserWebPushTokensRequestParams struct {
 	Limit         *int64  `explode:"true" serializationStyle:"form" queryParam:"limit"`
 	StartingAfter *string `explode:"true" serializationStyle:"form" queryParam:"starting_after"`
 	EndingBefore  *string `explode:"true" serializationStyle:"form" queryParam:"ending_before"`
 }
 
-func (params *GetWebPushUserTokensRequestParams) SetLimit(limit int64) {
+func (params *ListUserWebPushTokensRequestParams) SetLimit(limit int64) {
 	params.Limit = &limit
 }
-func (params *GetWebPushUserTokensRequestParams) SetStartingAfter(startingAfter string) {
+func (params *ListUserWebPushTokensRequestParams) SetStartingAfter(startingAfter string) {
 	params.StartingAfter = &startingAfter
 }
-func (params *GetWebPushUserTokensRequestParams) SetEndingBefore(endingBefore string) {
+func (params *ListUserWebPushTokensRequestParams) SetEndingBefore(endingBefore string) {
 	params.EndingBefore = &endingBefore
 }

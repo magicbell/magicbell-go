@@ -2,7 +2,7 @@
 
 **Properties**
 
-| Name  | Type         | Required | Description |
-| :---- | :----------- | :------- | :---------- |
-| Data  | []users.User | ❌       |             |
-| Links | shared.Links | ❌       |             |
+| Name  | Type          | Required | Description |
+| :---- | :------------ | :------- | :---------- |
+| Data  | []shared.User | ❌       |             |
+| Links | shared.Links  | ❌       |             |

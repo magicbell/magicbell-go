@@ -44,6 +44,7 @@ func (api *UsersService) SetAccessToken(accessToken string) {
 	config.SetAccessToken(accessToken)
 }
 
+// Lists all users in the project.
 func (api *UsersService) ListUsers(ctx context.Context, params ListUsersRequestParams) (*shared.ClientResponse[UserCollection], *shared.ClientError) {
 	config := *api.getConfig()
 
@@ -65,12 +66,12 @@ func (api *UsersService) ListUsers(ctx context.Context, params ListUsersRequestP
 	return shared.NewClientResponse[UserCollection](resp), nil
 }
 
-// Creates a user with the provided details. The user will be associated with the project specified in the request context.
-func (api *UsersService) CreateUser(ctx context.Context, user User) (*shared.ClientResponse[User], *shared.ClientError) {
+// Creates or updates a user with the provided details. The user will be associated with the project specified in the request context.
+func (api *UsersService) SaveUser(ctx context.Context, user shared.User) (*shared.ClientResponse[shared.User], *shared.ClientError) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
-		WithMethod("POST").
+		WithMethod("PUT").
 		WithPath("/users").
 		WithConfig(config).
 		WithBody(user).
@@ -79,15 +80,16 @@ func (api *UsersService) CreateUser(ctx context.Context, user User) (*shared.Cli
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[User](config)
+	client := restClient.NewRestClient[shared.User](config)
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[User](err)
+		return nil, shared.NewClientError[shared.User](err)
 	}
 
-	return shared.NewClientResponse[User](resp), nil
+	return shared.NewClientResponse[shared.User](resp), nil
 }
 
+// Removes a user and all associated data from the project.
 func (api *UsersService) DeleteUser(ctx context.Context, userId string) (*shared.ClientResponse[any], *shared.ClientError) {
 	config := *api.getConfig()
 

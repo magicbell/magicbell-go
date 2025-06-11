@@ -2,6 +2,7 @@ package integrations
 
 import (
 	"encoding/json"
+	"github.com/magicbell/magicbell-go/pkg/project-client/internal/unmarshal"
 	"github.com/magicbell/magicbell-go/pkg/project-client/util"
 )
 
@@ -94,6 +95,10 @@ func (s SendgridConfigPayloadFrom) String() string {
 	return string(jsonData)
 }
 
+func (s *SendgridConfigPayloadFrom) UnmarshalJSON(data []byte) error {
+	return unmarshal.UnmarshalNullable(data, s)
+}
+
 type ReplyTo struct {
 	// The email address to reply to
 	Email *string `json:"email,omitempty" required:"true"`
@@ -133,4 +138,8 @@ func (r ReplyTo) String() string {
 		return "error converting struct: ReplyTo to string"
 	}
 	return string(jsonData)
+}
+
+func (r *ReplyTo) UnmarshalJSON(data []byte) error {
+	return unmarshal.UnmarshalNullable(data, r)
 }

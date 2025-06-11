@@ -2,6 +2,7 @@ package channels
 
 import (
 	"encoding/json"
+	"github.com/magicbell/magicbell-go/pkg/project-client/internal/unmarshal"
 	"github.com/magicbell/magicbell-go/pkg/project-client/util"
 )
 
@@ -95,6 +96,10 @@ func (s SlackToken) String() string {
 		return "error converting struct: SlackToken to string"
 	}
 	return string(jsonData)
+}
+
+func (s *SlackToken) UnmarshalJSON(data []byte) error {
+	return unmarshal.UnmarshalNullable(data, s)
 }
 
 type Oauth struct {

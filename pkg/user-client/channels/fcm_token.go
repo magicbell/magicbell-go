@@ -2,6 +2,7 @@ package channels
 
 import (
 	"encoding/json"
+	"github.com/magicbell/magicbell-go/pkg/user-client/internal/unmarshal"
 	"github.com/magicbell/magicbell-go/pkg/user-client/util"
 )
 
@@ -94,6 +95,10 @@ func (f FcmToken) String() string {
 		return "error converting struct: FcmToken to string"
 	}
 	return string(jsonData)
+}
+
+func (f *FcmToken) UnmarshalJSON(data []byte) error {
+	return unmarshal.UnmarshalNullable(data, f)
 }
 
 type FcmTokenInstallationId string

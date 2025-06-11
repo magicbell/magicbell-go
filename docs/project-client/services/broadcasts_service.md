@@ -5,7 +5,7 @@ A list of all methods in the `BroadcastsService` service. Click on the method na
 | Methods                             | Description                                                                                                                                      |
 | :---------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------- |
 | [ListBroadcasts](#listbroadcasts)   | Retrieves a paginated list of broadcasts for the project. Returns basic information about each broadcast including its creation time and status. |
-| [CreateBroadcast](#createbroadcast) | Creates a new broadcast message. When a broadcast is created, it generates individual notifications for relevant users within the project.       |
+| [CreateBroadcast](#createbroadcast) | Creates a new broadcast. When a broadcast is created, it generates individual notifications for relevant users within the project.               |
 | [FetchBroadcast](#fetchbroadcast)   | Retrieves detailed information about a specific broadcast by its ID. Includes the broadcast's configuration and current status.                  |
 
 ## ListBroadcasts
@@ -56,7 +56,7 @@ fmt.Println(response)
 
 ## CreateBroadcast
 
-Creates a new broadcast message. When a broadcast is created, it generates individual notifications for relevant users within the project.
+Creates a new broadcast. When a broadcast is created, it generates individual notifications for relevant users within the project.
 
 - HTTP Method: `POST`
 - Endpoint: `/broadcasts`
@@ -109,21 +109,7 @@ mobilePush := broadcasts.MobilePush{
 }
 
 
-slack := broadcasts.Slack{
-  ActionUrl: util.ToPointer(util.Nullable[string]{ Value: "ActionUrl" }),
-  Content: util.ToPointer("Content"),
-  Title: util.ToPointer("Title"),
-}
-
-
 sms := broadcasts.Sms{
-  ActionUrl: util.ToPointer(util.Nullable[string]{ Value: "ActionUrl" }),
-  Content: util.ToPointer("Content"),
-  Title: util.ToPointer("Title"),
-}
-
-
-webPush := broadcasts.WebPush{
   ActionUrl: util.ToPointer(util.Nullable[string]{ Value: "ActionUrl" }),
   Content: util.ToPointer("Content"),
   Title: util.ToPointer("Title"),
@@ -133,25 +119,40 @@ overridesChannels := broadcasts.OverridesChannels{
   Email: &email,
   InApp: &inApp,
   MobilePush: &mobilePush,
-  Slack: &slack,
   Sms: &sms,
-  WebPush: &webPush,
 }
 
 
 providers := broadcasts.Providers{
-  AmazonSes: []byte{},
-  Android: []byte{},
-  Ios: []byte{},
+  Apns: []byte{},
+  Expo: []byte{},
+  Fcm: []byte{},
   Mailgun: []byte{},
-  Postmark: []byte{},
   Sendgrid: []byte{},
+  Ses: []byte{},
   Slack: []byte{},
+  Teams: []byte{},
+  Twilio: []byte{},
+  WebPush: []byte{},
 }
 
 overrides := broadcasts.Overrides{
   Channels: &overridesChannels,
   Providers: &providers,
+}
+
+
+user := shared.User{
+  CreatedAt: util.ToPointer(util.Nullable[string]{ Value: "CreatedAt" }),
+  CustomAttributes: []byte{},
+  Email: util.ToPointer(util.Nullable[string]{ Value: "Email" }),
+  ExternalId: util.ToPointer(util.Nullable[string]{ Value: "ExternalId" }),
+  FirstName: util.ToPointer(util.Nullable[string]{ Value: "FirstName" }),
+  Id: util.ToPointer("Id"),
+  LastName: util.ToPointer(util.Nullable[string]{ Value: "LastName" }),
+  LastNotifiedAt: util.ToPointer(util.Nullable[string]{ Value: "LastNotifiedAt" }),
+  LastSeenAt: util.ToPointer(util.Nullable[string]{ Value: "LastSeenAt" }),
+  UpdatedAt: util.ToPointer(util.Nullable[string]{ Value: "UpdatedAt" }),
 }
 
 
@@ -181,7 +182,7 @@ request := broadcasts.Broadcast{
   CustomAttributes: []byte{},
   Id: util.ToPointer("Id"),
   Overrides: &overrides,
-  Recipients: []any{},
+  Recipients: []shared.User{user},
   Status: &broadcastStatus,
   Title: util.ToPointer("Title"),
   Topic: util.ToPointer(util.Nullable[string]{ Value: "Topic" }),

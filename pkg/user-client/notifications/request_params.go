@@ -5,6 +5,7 @@ type ListNotificationsRequestParams struct {
 	StartingAfter *string `explode:"true" serializationStyle:"form" queryParam:"starting_after"`
 	EndingBefore  *string `explode:"true" serializationStyle:"form" queryParam:"ending_before"`
 	Status        *string `explode:"true" serializationStyle:"form" queryParam:"status"`
+	Category      *string `explode:"true" serializationStyle:"form" queryParam:"category"`
 	Topic         *string `explode:"true" serializationStyle:"form" queryParam:"topic"`
 }
 
@@ -20,6 +21,33 @@ func (params *ListNotificationsRequestParams) SetEndingBefore(endingBefore strin
 func (params *ListNotificationsRequestParams) SetStatus(status string) {
 	params.Status = &status
 }
+func (params *ListNotificationsRequestParams) SetCategory(category string) {
+	params.Category = &category
+}
 func (params *ListNotificationsRequestParams) SetTopic(topic string) {
+	params.Topic = &topic
+}
+
+type ArchiveAllNotificationsRequestParams struct {
+	Category *string `explode:"true" serializationStyle:"form" queryParam:"category"`
+	Topic    *string `explode:"true" serializationStyle:"form" queryParam:"topic"`
+}
+
+func (params *ArchiveAllNotificationsRequestParams) SetCategory(category string) {
+	params.Category = &category
+}
+func (params *ArchiveAllNotificationsRequestParams) SetTopic(topic string) {
+	params.Topic = &topic
+}
+
+type MarkAllNotificationsReadRequestParams struct {
+	Category *string `explode:"true" serializationStyle:"form" queryParam:"category"`
+	Topic    *string `explode:"true" serializationStyle:"form" queryParam:"topic"`
+}
+
+func (params *MarkAllNotificationsReadRequestParams) SetCategory(category string) {
+	params.Category = &category
+}
+func (params *MarkAllNotificationsReadRequestParams) SetTopic(topic string) {
 	params.Topic = &topic
 }

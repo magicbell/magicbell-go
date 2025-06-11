@@ -66,15 +66,15 @@ func (api *EventsService) ListEvents(ctx context.Context, params ListEventsReque
 	return shared.NewClientResponse[EventCollection](resp), nil
 }
 
-// Retrieves a project event by its ID.
-func (api *EventsService) GetEvent(ctx context.Context, id string) (*shared.ClientResponse[Event], *shared.ClientError) {
+// Fetches a project event by its ID.
+func (api *EventsService) FetchEvent(ctx context.Context, eventId string) (*shared.ClientResponse[Event], *shared.ClientError) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
 		WithMethod("GET").
-		WithPath("/events/{id}").
+		WithPath("/events/{event_id}").
 		WithConfig(config).
-		AddPathParam("id", id).
+		AddPathParam("event_id", eventId).
 		WithContentType(httptransport.ContentTypeJson).
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()

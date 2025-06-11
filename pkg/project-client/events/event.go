@@ -2,6 +2,7 @@ package events
 
 import (
 	"encoding/json"
+	"github.com/magicbell/magicbell-go/pkg/project-client/internal/unmarshal"
 	"github.com/magicbell/magicbell-go/pkg/project-client/util"
 )
 
@@ -106,4 +107,8 @@ func (e Event) String() string {
 		return "error converting struct: Event to string"
 	}
 	return string(jsonData)
+}
+
+func (e *Event) UnmarshalJSON(data []byte) error {
+	return unmarshal.UnmarshalNullable(data, e)
 }

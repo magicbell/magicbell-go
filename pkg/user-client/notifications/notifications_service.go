@@ -66,7 +66,73 @@ func (api *NotificationsService) ListNotifications(ctx context.Context, params L
 	return shared.NewClientResponse[NotificationCollection](resp), nil
 }
 
-// Archives a notification.
+// Archive all notifications.
+func (api *NotificationsService) ArchiveAllNotifications(ctx context.Context, params ArchiveAllNotificationsRequestParams) (*shared.ClientResponse[any], *shared.ClientError) {
+	config := *api.getConfig()
+
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("POST").
+		WithPath("/notifications/archive").
+		WithConfig(config).
+		WithOptions(params).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
+	client := restClient.NewRestClient[any](config)
+	resp, err := client.Call(*request)
+	if err != nil {
+		return nil, shared.NewClientError[any](err)
+	}
+
+	return shared.NewClientResponse[any](resp), nil
+}
+
+// Marks all notifications as read.
+func (api *NotificationsService) MarkAllNotificationsRead(ctx context.Context, params MarkAllNotificationsReadRequestParams) (*shared.ClientResponse[any], *shared.ClientError) {
+	config := *api.getConfig()
+
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("POST").
+		WithPath("/notifications/read").
+		WithConfig(config).
+		WithOptions(params).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
+	client := restClient.NewRestClient[any](config)
+	resp, err := client.Call(*request)
+	if err != nil {
+		return nil, shared.NewClientError[any](err)
+	}
+
+	return shared.NewClientResponse[any](resp), nil
+}
+
+// Gets a notification by ID.
+func (api *NotificationsService) FetchNotification(ctx context.Context, notificationId string) (*shared.ClientResponse[Notification], *shared.ClientError) {
+	config := *api.getConfig()
+
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("GET").
+		WithPath("/notifications/{notification_id}").
+		WithConfig(config).
+		AddPathParam("notification_id", notificationId).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
+	client := restClient.NewRestClient[Notification](config)
+	resp, err := client.Call(*request)
+	if err != nil {
+		return nil, shared.NewClientError[Notification](err)
+	}
+
+	return shared.NewClientResponse[Notification](resp), nil
+}
+
+// Archive a notification.
 func (api *NotificationsService) ArchiveNotification(ctx context.Context, notificationId string) (*shared.ClientResponse[any], *shared.ClientError) {
 	config := *api.getConfig()
 

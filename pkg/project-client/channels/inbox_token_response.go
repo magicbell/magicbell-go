@@ -2,6 +2,7 @@ package channels
 
 import (
 	"encoding/json"
+	"github.com/magicbell/magicbell-go/pkg/project-client/internal/unmarshal"
 	"github.com/magicbell/magicbell-go/pkg/project-client/util"
 )
 
@@ -98,4 +99,8 @@ func (i InboxTokenResponse) String() string {
 		return "error converting struct: InboxTokenResponse to string"
 	}
 	return string(jsonData)
+}
+
+func (i *InboxTokenResponse) UnmarshalJSON(data []byte) error {
+	return unmarshal.UnmarshalNullable(data, i)
 }

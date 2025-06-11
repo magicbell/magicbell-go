@@ -2,6 +2,7 @@ package integrations
 
 import (
 	"encoding/json"
+	"github.com/magicbell/magicbell-go/pkg/project-client/internal/unmarshal"
 	"github.com/magicbell/magicbell-go/pkg/project-client/util"
 )
 
@@ -106,4 +107,8 @@ func (s SesConfigPayloadFrom) String() string {
 		return "error converting struct: SesConfigPayloadFrom to string"
 	}
 	return string(jsonData)
+}
+
+func (s *SesConfigPayloadFrom) UnmarshalJSON(data []byte) error {
+	return unmarshal.UnmarshalNullable(data, s)
 }

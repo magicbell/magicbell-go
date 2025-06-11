@@ -136,10 +136,9 @@ The SDK includes several models that represent the data structures used in API r
 | [SlackFinishInstallResponse](models/slack_finish_install_response.md)              |             |
 | [SlackStartInstall](models/slack_start_install.md)                                 |             |
 | [SlackStartInstallResponseContent](models/slack_start_install_response_content.md) |             |
-| [TemplatesInstallation](models/templates_installation.md)                          |             |
 | [WebPushStartInstallationResponse](models/web_push_start_installation_response.md) |             |
 | [NotificationCollection](models/notification_collection.md)                        |             |
-| [Links](models/links.md)                                                           |             |
 | [Notification](models/notification.md)                                             |             |
+| [Links](models/links.md)                                                           |             |
 
 </details>
