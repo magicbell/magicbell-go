@@ -100,6 +100,11 @@ async function build(options: typeof args) {
   const openapiJSON = await readFile(options.spec);
   await writeJSON(liblabConfig.specFilePath, openapiJSON);
 
+
+  console.log(`SHOULD RUN: npx -y liblab@latest build --skip-validation --approve-docs --liblab-config=${liblabCfgFile}`);
+  console.log('but lets abort for ssh access');
+  return;
+
   // validate to unblock build 🤦‍♂️
   // run(`npx -y liblab@latest validate --nonInteractive --liblab-config=${liblabCfgFile}`);
   run(`npx -y liblab@latest build --skip-validation --approve-docs --liblab-config=${liblabCfgFile}`);
