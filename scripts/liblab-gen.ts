@@ -101,7 +101,7 @@ async function build(options: typeof args) {
   await writeJSON(liblabConfig.specFilePath, openapiJSON);
 
   // validate to unblock build 🤦‍♂️
-  run(`npx -y liblab@latest validate --nonInteractive --liblab-config=${liblabCfgFile}`);
+  // run(`npx -y liblab@latest validate --nonInteractive --liblab-config=${liblabCfgFile}`);
   run(`npx -y liblab@latest build --skip-validation --approve-docs --liblab-config=${liblabCfgFile}`);
   await fs.rm(liblabConfig.specFilePath);
 
