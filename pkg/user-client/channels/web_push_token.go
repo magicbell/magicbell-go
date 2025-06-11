@@ -2,6 +2,7 @@ package channels
 
 import (
 	"encoding/json"
+	"github.com/magicbell/magicbell-go/pkg/user-client/internal/unmarshal"
 	"github.com/magicbell/magicbell-go/pkg/user-client/util"
 )
 
@@ -96,6 +97,10 @@ func (w WebPushToken) String() string {
 		return "error converting struct: WebPushToken to string"
 	}
 	return string(jsonData)
+}
+
+func (w *WebPushToken) UnmarshalJSON(data []byte) error {
+	return unmarshal.UnmarshalNullable(data, w)
 }
 
 // The encryption keys from the PushSubscription.getKey() method, needed to encrypt push messages for this subscription.

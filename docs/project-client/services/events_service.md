@@ -5,7 +5,7 @@ A list of all methods in the `EventsService` service. Click on the method name t
 | Methods                   | Description                                           |
 | :------------------------ | :---------------------------------------------------- |
 | [ListEvents](#listevents) | Retrieves a paginated list of events for the project. |
-| [GetEvent](#getevent)     | Retrieves a project event by its ID.                  |
+| [FetchEvent](#fetchevent) | Fetches a project event by its ID.                    |
 
 ## ListEvents
 
@@ -53,19 +53,19 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## GetEvent
+## FetchEvent
 
-Retrieves a project event by its ID.
+Fetches a project event by its ID.
 
 - HTTP Method: `GET`
-- Endpoint: `/events/{id}`
+- Endpoint: `/events/{event_id}`
 
 **Parameters**
 
-| Name | Type    | Required | Description                 |
-| :--- | :------ | :------- | :-------------------------- |
-| ctx  | Context | ✅       | Default go language context |
-| id   | string  | ✅       |                             |
+| Name    | Type    | Required | Description                 |
+| :------ | :------ | :------- | :-------------------------- |
+| ctx     | Context | ✅       | Default go language context |
+| eventId | string  | ✅       |                             |
 
 **Return Type**
 
@@ -85,7 +85,7 @@ import (
 config := clientconfig.NewConfig()
 client := client.NewClient(config)
 
-response, err := client.Events.GetEvent(context.Background(), "id")
+response, err := client.Events.FetchEvent(context.Background(), "eventId")
 if err != nil {
   panic(err)
 }

@@ -2,80 +2,38 @@
 
 A list of all methods in the `ChannelsService` service. Click on the method name to view detailed information about that method.
 
-| Methods                                                           | Description                                                                                                                                                                                                                                                        |
-| :---------------------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [GetDeliveryconfig](#getdeliveryconfig)                           |                                                                                                                                                                                                                                                                    |
-| [SaveDeliveryconfig](#savedeliveryconfig)                         |                                                                                                                                                                                                                                                                    |
-| [GetInAppInboxUserTokens](#getinappinboxusertokens)               | Lists all in_app tokens associated with a specific user. This endpoint is available to project administrators and returns a paginated list of tokens, including both active and revoked tokens.                                                                    |
-| [GetInAppInboxUserToken](#getinappinboxusertoken)                 | Retrieves a specific in_app token by its ID for a given user. This endpoint is available to project administrators and requires project-level authentication. Use this to inspect token details including its status, creation date, and associated metadata.      |
-| [DiscardInAppInboxUserToken](#discardinappinboxusertoken)         | Revokes a specific user's in_app token. This endpoint is available to project administrators and permanently invalidates the specified token. Once revoked, the token can no longer be used to access channel features. This action cannot be undone.              |
-| [GetMobilePushApnsUserTokens](#getmobilepushapnsusertokens)       | Lists all mobile_push tokens associated with a specific user. This endpoint is available to project administrators and returns a paginated list of tokens, including both active and revoked tokens.                                                               |
-| [GetMobilePushApnsUserToken](#getmobilepushapnsusertoken)         | Retrieves a specific mobile_push token by its ID for a given user. This endpoint is available to project administrators and requires project-level authentication. Use this to inspect token details including its status, creation date, and associated metadata. |
-| [DiscardMobilePushApnsUserToken](#discardmobilepushapnsusertoken) | Revokes a specific user's mobile_push token. This endpoint is available to project administrators and permanently invalidates the specified token. Once revoked, the token can no longer be used to access channel features. This action cannot be undone.         |
-| [GetMobilePushExpoUserTokens](#getmobilepushexpousertokens)       | Lists all mobile_push tokens associated with a specific user. This endpoint is available to project administrators and returns a paginated list of tokens, including both active and revoked tokens.                                                               |
-| [GetMobilePushExpoUserToken](#getmobilepushexpousertoken)         | Retrieves a specific mobile_push token by its ID for a given user. This endpoint is available to project administrators and requires project-level authentication. Use this to inspect token details including its status, creation date, and associated metadata. |
-| [DiscardMobilePushExpoUserToken](#discardmobilepushexpousertoken) | Revokes a specific user's mobile_push token. This endpoint is available to project administrators and permanently invalidates the specified token. Once revoked, the token can no longer be used to access channel features. This action cannot be undone.         |
-| [GetMobilePushFcmUserTokens](#getmobilepushfcmusertokens)         | Lists all mobile_push tokens associated with a specific user. This endpoint is available to project administrators and returns a paginated list of tokens, including both active and revoked tokens.                                                               |
-| [GetMobilePushFcmUserToken](#getmobilepushfcmusertoken)           | Retrieves a specific mobile_push token by its ID for a given user. This endpoint is available to project administrators and requires project-level authentication. Use this to inspect token details including its status, creation date, and associated metadata. |
-| [DiscardMobilePushFcmUserToken](#discardmobilepushfcmusertoken)   | Revokes a specific user's mobile_push token. This endpoint is available to project administrators and permanently invalidates the specified token. Once revoked, the token can no longer be used to access channel features. This action cannot be undone.         |
-| [GetSlackUserTokens](#getslackusertokens)                         | Lists all slack tokens associated with a specific user. This endpoint is available to project administrators and returns a paginated list of tokens, including both active and revoked tokens.                                                                     |
-| [GetSlackUserToken](#getslackusertoken)                           | Retrieves a specific slack token by its ID for a given user. This endpoint is available to project administrators and requires project-level authentication. Use this to inspect token details including its status, creation date, and associated metadata.       |
-| [DiscardSlackUserToken](#discardslackusertoken)                   | Revokes a specific user's slack token. This endpoint is available to project administrators and permanently invalidates the specified token. Once revoked, the token can no longer be used to access channel features. This action cannot be undone.               |
-| [GetTeamsUserTokens](#getteamsusertokens)                         | Lists all teams tokens associated with a specific user. This endpoint is available to project administrators and returns a paginated list of tokens, including both active and revoked tokens.                                                                     |
-| [GetTeamsUserToken](#getteamsusertoken)                           | Retrieves a specific teams token by its ID for a given user. This endpoint is available to project administrators and requires project-level authentication. Use this to inspect token details including its status, creation date, and associated metadata.       |
-| [DiscardTeamsUserToken](#discardteamsusertoken)                   | Revokes a specific user's teams token. This endpoint is available to project administrators and permanently invalidates the specified token. Once revoked, the token can no longer be used to access channel features. This action cannot be undone.               |
-| [GetWebPushUserTokens](#getwebpushusertokens)                     | Lists all web_push tokens associated with a specific user. This endpoint is available to project administrators and returns a paginated list of tokens, including both active and revoked tokens.                                                                  |
-| [GetWebPushUserToken](#getwebpushusertoken)                       | Retrieves a specific web_push token by its ID for a given user. This endpoint is available to project administrators and requires project-level authentication. Use this to inspect token details including its status, creation date, and associated metadata.    |
-| [DiscardWebPushUserToken](#discardwebpushusertoken)               | Revokes a specific user's web_push token. This endpoint is available to project administrators and permanently invalidates the specified token. Once revoked, the token can no longer be used to access channel features. This action cannot be undone.            |
+| Methods                                           | Description                                                                                                                                                                                                                                                   |
+| :------------------------------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| [SaveChannelsConfig](#savechannelsconfig)         | Save the channels configuration for a given key.                                                                                                                                                                                                              |
+| [FetchChannelsConfig](#fetchchannelsconfig)       | Fetches the channels config for a given key.                                                                                                                                                                                                                  |
+| [ListUserInboxTokens](#listuserinboxtokens)       | Lists all Inbox tokens associated with a specific user. This endpoint is available to project administrators and returns a paginated list of tokens, including both active and revoked tokens.                                                                |
+| [FetchUserInboxToken](#fetchuserinboxtoken)       | Fetches a specific Inbox token by its ID for a given user. This endpoint is available to project administrators and requires project-level authentication. Use this to inspect token details including its status, creation date, and associated metadata.    |
+| [DeleteUserInboxToken](#deleteuserinboxtoken)     | Deletes a specific user's Inbox token. This endpoint is available to project administrators and permanently invalidates the specified token. Once revoked, the token can no longer be used to access channel features. This action cannot be undone.          |
+| [ListUserApnsTokens](#listuserapnstokens)         | Lists all APNs tokens associated with a specific user. This endpoint is available to project administrators and returns a paginated list of tokens, including both active and revoked tokens.                                                                 |
+| [FetchUserApnsToken](#fetchuserapnstoken)         | Fetches a specific APNs token by its ID for a given user. This endpoint is available to project administrators and requires project-level authentication. Use this to inspect token details including its status, creation date, and associated metadata.     |
+| [DeleteUserApnsToken](#deleteuserapnstoken)       | Deletes a specific user's APNs token. This endpoint is available to project administrators and permanently invalidates the specified token. Once revoked, the token can no longer be used to access channel features. This action cannot be undone.           |
+| [ListUserExpoTokens](#listuserexpotokens)         | Lists all Expo tokens associated with a specific user. This endpoint is available to project administrators and returns a paginated list of tokens, including both active and revoked tokens.                                                                 |
+| [FetchUserExpoToken](#fetchuserexpotoken)         | Fetches a specific Expo token by its ID for a given user. This endpoint is available to project administrators and requires project-level authentication. Use this to inspect token details including its status, creation date, and associated metadata.     |
+| [DeleteUserExpoToken](#deleteuserexpotoken)       | Deletes a specific user's Expo token. This endpoint is available to project administrators and permanently invalidates the specified token. Once revoked, the token can no longer be used to access channel features. This action cannot be undone.           |
+| [ListUserFcmTokens](#listuserfcmtokens)           | Lists all FCM tokens associated with a specific user. This endpoint is available to project administrators and returns a paginated list of tokens, including both active and revoked tokens.                                                                  |
+| [FetchUserFcmToken](#fetchuserfcmtoken)           | Fetches a specific FCM token by its ID for a given user. This endpoint is available to project administrators and requires project-level authentication. Use this to inspect token details including its status, creation date, and associated metadata.      |
+| [DeleteUserFcmToken](#deleteuserfcmtoken)         | Deletes a specific user's FCM token. This endpoint is available to project administrators and permanently invalidates the specified token. Once revoked, the token can no longer be used to access channel features. This action cannot be undone.            |
+| [ListUserSlackTokens](#listuserslacktokens)       | Lists all Slack tokens associated with a specific user. This endpoint is available to project administrators and returns a paginated list of tokens, including both active and revoked tokens.                                                                |
+| [FetchUserSlackToken](#fetchuserslacktoken)       | Fetches a specific Slack token by its ID for a given user. This endpoint is available to project administrators and requires project-level authentication. Use this to inspect token details including its status, creation date, and associated metadata.    |
+| [DeleteUserSlackToken](#deleteuserslacktoken)     | Deletes a specific user's Slack token. This endpoint is available to project administrators and permanently invalidates the specified token. Once revoked, the token can no longer be used to access channel features. This action cannot be undone.          |
+| [ListUserTeamsTokens](#listuserteamstokens)       | Lists all Teams tokens associated with a specific user. This endpoint is available to project administrators and returns a paginated list of tokens, including both active and revoked tokens.                                                                |
+| [FetchUserTeamsToken](#fetchuserteamstoken)       | Fetches a specific Teams token by its ID for a given user. This endpoint is available to project administrators and requires project-level authentication. Use this to inspect token details including its status, creation date, and associated metadata.    |
+| [DeleteUserTeamsToken](#deleteuserteamstoken)     | Deletes a specific user's Teams token. This endpoint is available to project administrators and permanently invalidates the specified token. Once revoked, the token can no longer be used to access channel features. This action cannot be undone.          |
+| [ListUserWebPushTokens](#listuserwebpushtokens)   | Lists all Web Push tokens associated with a specific user. This endpoint is available to project administrators and returns a paginated list of tokens, including both active and revoked tokens.                                                             |
+| [FetchUserWebPushToken](#fetchuserwebpushtoken)   | Fetches a specific Web Push token by its ID for a given user. This endpoint is available to project administrators and requires project-level authentication. Use this to inspect token details including its status, creation date, and associated metadata. |
+| [DeleteUserWebPushToken](#deleteuserwebpushtoken) | Deletes a specific user's Web Push token. This endpoint is available to project administrators and permanently invalidates the specified token. Once revoked, the token can no longer be used to access channel features. This action cannot be undone.       |
 
-## GetDeliveryconfig
+## SaveChannelsConfig
 
-- HTTP Method: `GET`
-- Endpoint: `/channels/deliveryconfig`
-
-**Parameters**
-
-| Name   | Type                           | Required | Description                   |
-| :----- | :----------------------------- | :------- | :---------------------------- |
-| ctx    | Context                        | ✅       | Default go language context   |
-| params | GetDeliveryconfigRequestParams | ✅       | Additional request parameters |
-
-**Return Type**
-
-`CategoryDeliveryConfig`
-
-**Example Usage Code Snippet**
-
-```go
-import (
-  "fmt"
-  "encoding/json"
-  "github.com/magicbell/magicbell-go/pkg/project-client/clientconfig"
-  "github.com/magicbell/magicbell-go/pkg/project-client/client"
-
-  "github.com/magicbell/magicbell-go/pkg/project-client/channels"
-)
-
-config := clientconfig.NewConfig()
-client := client.NewClient(config)
-
-
-params := channels.GetDeliveryconfigRequestParams{
-
-}
-
-response, err := client.Channels.GetDeliveryconfig(context.Background(), params)
-if err != nil {
-  panic(err)
-}
-
-fmt.Println(response)
-```
-
-## SaveDeliveryconfig
+Save the channels configuration for a given key.
 
 - HTTP Method: `PUT`
-- Endpoint: `/channels/deliveryconfig`
+- Endpoint: `/channels`
 
 **Parameters**
 
@@ -117,7 +75,7 @@ request := channels.CategoryDeliveryConfig{
   Key: util.ToPointer("Key"),
 }
 
-response, err := client.Channels.SaveDeliveryconfig(context.Background(), request)
+response, err := client.Channels.SaveChannelsConfig(context.Background(), request)
 if err != nil {
   panic(err)
 }
@@ -125,20 +83,60 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## GetInAppInboxUserTokens
+## FetchChannelsConfig
 
-Lists all in_app tokens associated with a specific user. This endpoint is available to project administrators and returns a paginated list of tokens, including both active and revoked tokens.
+Fetches the channels config for a given key.
+
+- HTTP Method: `GET`
+- Endpoint: `/channels/{key}`
+
+**Parameters**
+
+| Name | Type    | Required | Description                 |
+| :--- | :------ | :------- | :-------------------------- |
+| ctx  | Context | ✅       | Default go language context |
+| key  | string  | ✅       |                             |
+
+**Return Type**
+
+`CategoryDeliveryConfig`
+
+**Example Usage Code Snippet**
+
+```go
+import (
+  "fmt"
+  "encoding/json"
+  "github.com/magicbell/magicbell-go/pkg/project-client/clientconfig"
+  "github.com/magicbell/magicbell-go/pkg/project-client/client"
+
+)
+
+config := clientconfig.NewConfig()
+client := client.NewClient(config)
+
+response, err := client.Channels.FetchChannelsConfig(context.Background(), "key")
+if err != nil {
+  panic(err)
+}
+
+fmt.Println(response)
+```
+
+## ListUserInboxTokens
+
+Lists all Inbox tokens associated with a specific user. This endpoint is available to project administrators and returns a paginated list of tokens, including both active and revoked tokens.
 
 - HTTP Method: `GET`
 - Endpoint: `/users/{user_id}/channels/in_app/inbox/tokens`
 
 **Parameters**
 
-| Name   | Type                                 | Required | Description                   |
-| :----- | :----------------------------------- | :------- | :---------------------------- |
-| ctx    | Context                              | ✅       | Default go language context   |
-| userId | string                               | ✅       |                               |
-| params | GetInAppInboxUserTokensRequestParams | ✅       | Additional request parameters |
+| Name   | Type                             | Required | Description                   |
+| :----- | :------------------------------- | :------- | :---------------------------- |
+| ctx    | Context                          | ✅       | Default go language context   |
+| userId | string                           | ✅       |                               |
+| params | ListUserInboxTokensRequestParams | ✅       | Additional request parameters |
 
 **Return Type**
 
@@ -160,11 +158,11 @@ config := clientconfig.NewConfig()
 client := client.NewClient(config)
 
 
-params := channels.GetInAppInboxUserTokensRequestParams{
+params := channels.ListUserInboxTokensRequestParams{
 
 }
 
-response, err := client.Channels.GetInAppInboxUserTokens(context.Background(), "userId", params)
+response, err := client.Channels.ListUserInboxTokens(context.Background(), "userId", params)
 if err != nil {
   panic(err)
 }
@@ -172,9 +170,9 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## GetInAppInboxUserToken
+## FetchUserInboxToken
 
-Retrieves a specific in_app token by its ID for a given user. This endpoint is available to project administrators and requires project-level authentication. Use this to inspect token details including its status, creation date, and associated metadata.
+Fetches a specific Inbox token by its ID for a given user. This endpoint is available to project administrators and requires project-level authentication. Use this to inspect token details including its status, creation date, and associated metadata.
 
 - HTTP Method: `GET`
 - Endpoint: `/users/{user_id}/channels/in_app/inbox/tokens/{token_id}`
@@ -205,7 +203,7 @@ import (
 config := clientconfig.NewConfig()
 client := client.NewClient(config)
 
-response, err := client.Channels.GetInAppInboxUserToken(context.Background(), "userId", "tokenId")
+response, err := client.Channels.FetchUserInboxToken(context.Background(), "userId", "tokenId")
 if err != nil {
   panic(err)
 }
@@ -213,9 +211,9 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## DiscardInAppInboxUserToken
+## DeleteUserInboxToken
 
-Revokes a specific user's in_app token. This endpoint is available to project administrators and permanently invalidates the specified token. Once revoked, the token can no longer be used to access channel features. This action cannot be undone.
+Deletes a specific user's Inbox token. This endpoint is available to project administrators and permanently invalidates the specified token. Once revoked, the token can no longer be used to access channel features. This action cannot be undone.
 
 - HTTP Method: `DELETE`
 - Endpoint: `/users/{user_id}/channels/in_app/inbox/tokens/{token_id}`
@@ -246,7 +244,7 @@ import (
 config := clientconfig.NewConfig()
 client := client.NewClient(config)
 
-response, err := client.Channels.DiscardInAppInboxUserToken(context.Background(), "userId", "tokenId")
+response, err := client.Channels.DeleteUserInboxToken(context.Background(), "userId", "tokenId")
 if err != nil {
   panic(err)
 }
@@ -254,20 +252,20 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## GetMobilePushApnsUserTokens
+## ListUserApnsTokens
 
-Lists all mobile_push tokens associated with a specific user. This endpoint is available to project administrators and returns a paginated list of tokens, including both active and revoked tokens.
+Lists all APNs tokens associated with a specific user. This endpoint is available to project administrators and returns a paginated list of tokens, including both active and revoked tokens.
 
 - HTTP Method: `GET`
 - Endpoint: `/users/{user_id}/channels/mobile_push/apns/tokens`
 
 **Parameters**
 
-| Name   | Type                                     | Required | Description                   |
-| :----- | :--------------------------------------- | :------- | :---------------------------- |
-| ctx    | Context                                  | ✅       | Default go language context   |
-| userId | string                                   | ✅       |                               |
-| params | GetMobilePushApnsUserTokensRequestParams | ✅       | Additional request parameters |
+| Name   | Type                            | Required | Description                   |
+| :----- | :------------------------------ | :------- | :---------------------------- |
+| ctx    | Context                         | ✅       | Default go language context   |
+| userId | string                          | ✅       |                               |
+| params | ListUserApnsTokensRequestParams | ✅       | Additional request parameters |
 
 **Return Type**
 
@@ -289,11 +287,11 @@ config := clientconfig.NewConfig()
 client := client.NewClient(config)
 
 
-params := channels.GetMobilePushApnsUserTokensRequestParams{
+params := channels.ListUserApnsTokensRequestParams{
 
 }
 
-response, err := client.Channels.GetMobilePushApnsUserTokens(context.Background(), "userId", params)
+response, err := client.Channels.ListUserApnsTokens(context.Background(), "userId", params)
 if err != nil {
   panic(err)
 }
@@ -301,9 +299,9 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## GetMobilePushApnsUserToken
+## FetchUserApnsToken
 
-Retrieves a specific mobile_push token by its ID for a given user. This endpoint is available to project administrators and requires project-level authentication. Use this to inspect token details including its status, creation date, and associated metadata.
+Fetches a specific APNs token by its ID for a given user. This endpoint is available to project administrators and requires project-level authentication. Use this to inspect token details including its status, creation date, and associated metadata.
 
 - HTTP Method: `GET`
 - Endpoint: `/users/{user_id}/channels/mobile_push/apns/tokens/{token_id}`
@@ -334,7 +332,7 @@ import (
 config := clientconfig.NewConfig()
 client := client.NewClient(config)
 
-response, err := client.Channels.GetMobilePushApnsUserToken(context.Background(), "userId", "tokenId")
+response, err := client.Channels.FetchUserApnsToken(context.Background(), "userId", "tokenId")
 if err != nil {
   panic(err)
 }
@@ -342,9 +340,9 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## DiscardMobilePushApnsUserToken
+## DeleteUserApnsToken
 
-Revokes a specific user's mobile_push token. This endpoint is available to project administrators and permanently invalidates the specified token. Once revoked, the token can no longer be used to access channel features. This action cannot be undone.
+Deletes a specific user's APNs token. This endpoint is available to project administrators and permanently invalidates the specified token. Once revoked, the token can no longer be used to access channel features. This action cannot be undone.
 
 - HTTP Method: `DELETE`
 - Endpoint: `/users/{user_id}/channels/mobile_push/apns/tokens/{token_id}`
@@ -375,7 +373,7 @@ import (
 config := clientconfig.NewConfig()
 client := client.NewClient(config)
 
-response, err := client.Channels.DiscardMobilePushApnsUserToken(context.Background(), "userId", "tokenId")
+response, err := client.Channels.DeleteUserApnsToken(context.Background(), "userId", "tokenId")
 if err != nil {
   panic(err)
 }
@@ -383,20 +381,20 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## GetMobilePushExpoUserTokens
+## ListUserExpoTokens
 
-Lists all mobile_push tokens associated with a specific user. This endpoint is available to project administrators and returns a paginated list of tokens, including both active and revoked tokens.
+Lists all Expo tokens associated with a specific user. This endpoint is available to project administrators and returns a paginated list of tokens, including both active and revoked tokens.
 
 - HTTP Method: `GET`
 - Endpoint: `/users/{user_id}/channels/mobile_push/expo/tokens`
 
 **Parameters**
 
-| Name   | Type                                     | Required | Description                   |
-| :----- | :--------------------------------------- | :------- | :---------------------------- |
-| ctx    | Context                                  | ✅       | Default go language context   |
-| userId | string                                   | ✅       |                               |
-| params | GetMobilePushExpoUserTokensRequestParams | ✅       | Additional request parameters |
+| Name   | Type                            | Required | Description                   |
+| :----- | :------------------------------ | :------- | :---------------------------- |
+| ctx    | Context                         | ✅       | Default go language context   |
+| userId | string                          | ✅       |                               |
+| params | ListUserExpoTokensRequestParams | ✅       | Additional request parameters |
 
 **Return Type**
 
@@ -418,11 +416,11 @@ config := clientconfig.NewConfig()
 client := client.NewClient(config)
 
 
-params := channels.GetMobilePushExpoUserTokensRequestParams{
+params := channels.ListUserExpoTokensRequestParams{
 
 }
 
-response, err := client.Channels.GetMobilePushExpoUserTokens(context.Background(), "userId", params)
+response, err := client.Channels.ListUserExpoTokens(context.Background(), "userId", params)
 if err != nil {
   panic(err)
 }
@@ -430,9 +428,9 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## GetMobilePushExpoUserToken
+## FetchUserExpoToken
 
-Retrieves a specific mobile_push token by its ID for a given user. This endpoint is available to project administrators and requires project-level authentication. Use this to inspect token details including its status, creation date, and associated metadata.
+Fetches a specific Expo token by its ID for a given user. This endpoint is available to project administrators and requires project-level authentication. Use this to inspect token details including its status, creation date, and associated metadata.
 
 - HTTP Method: `GET`
 - Endpoint: `/users/{user_id}/channels/mobile_push/expo/tokens/{token_id}`
@@ -463,7 +461,7 @@ import (
 config := clientconfig.NewConfig()
 client := client.NewClient(config)
 
-response, err := client.Channels.GetMobilePushExpoUserToken(context.Background(), "userId", "tokenId")
+response, err := client.Channels.FetchUserExpoToken(context.Background(), "userId", "tokenId")
 if err != nil {
   panic(err)
 }
@@ -471,9 +469,9 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## DiscardMobilePushExpoUserToken
+## DeleteUserExpoToken
 
-Revokes a specific user's mobile_push token. This endpoint is available to project administrators and permanently invalidates the specified token. Once revoked, the token can no longer be used to access channel features. This action cannot be undone.
+Deletes a specific user's Expo token. This endpoint is available to project administrators and permanently invalidates the specified token. Once revoked, the token can no longer be used to access channel features. This action cannot be undone.
 
 - HTTP Method: `DELETE`
 - Endpoint: `/users/{user_id}/channels/mobile_push/expo/tokens/{token_id}`
@@ -504,7 +502,7 @@ import (
 config := clientconfig.NewConfig()
 client := client.NewClient(config)
 
-response, err := client.Channels.DiscardMobilePushExpoUserToken(context.Background(), "userId", "tokenId")
+response, err := client.Channels.DeleteUserExpoToken(context.Background(), "userId", "tokenId")
 if err != nil {
   panic(err)
 }
@@ -512,20 +510,20 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## GetMobilePushFcmUserTokens
+## ListUserFcmTokens
 
-Lists all mobile_push tokens associated with a specific user. This endpoint is available to project administrators and returns a paginated list of tokens, including both active and revoked tokens.
+Lists all FCM tokens associated with a specific user. This endpoint is available to project administrators and returns a paginated list of tokens, including both active and revoked tokens.
 
 - HTTP Method: `GET`
 - Endpoint: `/users/{user_id}/channels/mobile_push/fcm/tokens`
 
 **Parameters**
 
-| Name   | Type                                    | Required | Description                   |
-| :----- | :-------------------------------------- | :------- | :---------------------------- |
-| ctx    | Context                                 | ✅       | Default go language context   |
-| userId | string                                  | ✅       |                               |
-| params | GetMobilePushFcmUserTokensRequestParams | ✅       | Additional request parameters |
+| Name   | Type                           | Required | Description                   |
+| :----- | :----------------------------- | :------- | :---------------------------- |
+| ctx    | Context                        | ✅       | Default go language context   |
+| userId | string                         | ✅       |                               |
+| params | ListUserFcmTokensRequestParams | ✅       | Additional request parameters |
 
 **Return Type**
 
@@ -547,11 +545,11 @@ config := clientconfig.NewConfig()
 client := client.NewClient(config)
 
 
-params := channels.GetMobilePushFcmUserTokensRequestParams{
+params := channels.ListUserFcmTokensRequestParams{
 
 }
 
-response, err := client.Channels.GetMobilePushFcmUserTokens(context.Background(), "userId", params)
+response, err := client.Channels.ListUserFcmTokens(context.Background(), "userId", params)
 if err != nil {
   panic(err)
 }
@@ -559,9 +557,9 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## GetMobilePushFcmUserToken
+## FetchUserFcmToken
 
-Retrieves a specific mobile_push token by its ID for a given user. This endpoint is available to project administrators and requires project-level authentication. Use this to inspect token details including its status, creation date, and associated metadata.
+Fetches a specific FCM token by its ID for a given user. This endpoint is available to project administrators and requires project-level authentication. Use this to inspect token details including its status, creation date, and associated metadata.
 
 - HTTP Method: `GET`
 - Endpoint: `/users/{user_id}/channels/mobile_push/fcm/tokens/{token_id}`
@@ -592,7 +590,7 @@ import (
 config := clientconfig.NewConfig()
 client := client.NewClient(config)
 
-response, err := client.Channels.GetMobilePushFcmUserToken(context.Background(), "userId", "tokenId")
+response, err := client.Channels.FetchUserFcmToken(context.Background(), "userId", "tokenId")
 if err != nil {
   panic(err)
 }
@@ -600,9 +598,9 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## DiscardMobilePushFcmUserToken
+## DeleteUserFcmToken
 
-Revokes a specific user's mobile_push token. This endpoint is available to project administrators and permanently invalidates the specified token. Once revoked, the token can no longer be used to access channel features. This action cannot be undone.
+Deletes a specific user's FCM token. This endpoint is available to project administrators and permanently invalidates the specified token. Once revoked, the token can no longer be used to access channel features. This action cannot be undone.
 
 - HTTP Method: `DELETE`
 - Endpoint: `/users/{user_id}/channels/mobile_push/fcm/tokens/{token_id}`
@@ -633,7 +631,7 @@ import (
 config := clientconfig.NewConfig()
 client := client.NewClient(config)
 
-response, err := client.Channels.DiscardMobilePushFcmUserToken(context.Background(), "userId", "tokenId")
+response, err := client.Channels.DeleteUserFcmToken(context.Background(), "userId", "tokenId")
 if err != nil {
   panic(err)
 }
@@ -641,20 +639,20 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## GetSlackUserTokens
+## ListUserSlackTokens
 
-Lists all slack tokens associated with a specific user. This endpoint is available to project administrators and returns a paginated list of tokens, including both active and revoked tokens.
+Lists all Slack tokens associated with a specific user. This endpoint is available to project administrators and returns a paginated list of tokens, including both active and revoked tokens.
 
 - HTTP Method: `GET`
 - Endpoint: `/users/{user_id}/channels/slack/tokens`
 
 **Parameters**
 
-| Name   | Type                            | Required | Description                   |
-| :----- | :------------------------------ | :------- | :---------------------------- |
-| ctx    | Context                         | ✅       | Default go language context   |
-| userId | string                          | ✅       |                               |
-| params | GetSlackUserTokensRequestParams | ✅       | Additional request parameters |
+| Name   | Type                             | Required | Description                   |
+| :----- | :------------------------------- | :------- | :---------------------------- |
+| ctx    | Context                          | ✅       | Default go language context   |
+| userId | string                           | ✅       |                               |
+| params | ListUserSlackTokensRequestParams | ✅       | Additional request parameters |
 
 **Return Type**
 
@@ -676,11 +674,11 @@ config := clientconfig.NewConfig()
 client := client.NewClient(config)
 
 
-params := channels.GetSlackUserTokensRequestParams{
+params := channels.ListUserSlackTokensRequestParams{
 
 }
 
-response, err := client.Channels.GetSlackUserTokens(context.Background(), "userId", params)
+response, err := client.Channels.ListUserSlackTokens(context.Background(), "userId", params)
 if err != nil {
   panic(err)
 }
@@ -688,9 +686,9 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## GetSlackUserToken
+## FetchUserSlackToken
 
-Retrieves a specific slack token by its ID for a given user. This endpoint is available to project administrators and requires project-level authentication. Use this to inspect token details including its status, creation date, and associated metadata.
+Fetches a specific Slack token by its ID for a given user. This endpoint is available to project administrators and requires project-level authentication. Use this to inspect token details including its status, creation date, and associated metadata.
 
 - HTTP Method: `GET`
 - Endpoint: `/users/{user_id}/channels/slack/tokens/{token_id}`
@@ -721,7 +719,7 @@ import (
 config := clientconfig.NewConfig()
 client := client.NewClient(config)
 
-response, err := client.Channels.GetSlackUserToken(context.Background(), "userId", "tokenId")
+response, err := client.Channels.FetchUserSlackToken(context.Background(), "userId", "tokenId")
 if err != nil {
   panic(err)
 }
@@ -729,9 +727,9 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## DiscardSlackUserToken
+## DeleteUserSlackToken
 
-Revokes a specific user's slack token. This endpoint is available to project administrators and permanently invalidates the specified token. Once revoked, the token can no longer be used to access channel features. This action cannot be undone.
+Deletes a specific user's Slack token. This endpoint is available to project administrators and permanently invalidates the specified token. Once revoked, the token can no longer be used to access channel features. This action cannot be undone.
 
 - HTTP Method: `DELETE`
 - Endpoint: `/users/{user_id}/channels/slack/tokens/{token_id}`
@@ -762,7 +760,7 @@ import (
 config := clientconfig.NewConfig()
 client := client.NewClient(config)
 
-response, err := client.Channels.DiscardSlackUserToken(context.Background(), "userId", "tokenId")
+response, err := client.Channels.DeleteUserSlackToken(context.Background(), "userId", "tokenId")
 if err != nil {
   panic(err)
 }
@@ -770,20 +768,20 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## GetTeamsUserTokens
+## ListUserTeamsTokens
 
-Lists all teams tokens associated with a specific user. This endpoint is available to project administrators and returns a paginated list of tokens, including both active and revoked tokens.
+Lists all Teams tokens associated with a specific user. This endpoint is available to project administrators and returns a paginated list of tokens, including both active and revoked tokens.
 
 - HTTP Method: `GET`
 - Endpoint: `/users/{user_id}/channels/teams/tokens`
 
 **Parameters**
 
-| Name   | Type                            | Required | Description                   |
-| :----- | :------------------------------ | :------- | :---------------------------- |
-| ctx    | Context                         | ✅       | Default go language context   |
-| userId | string                          | ✅       |                               |
-| params | GetTeamsUserTokensRequestParams | ✅       | Additional request parameters |
+| Name   | Type                             | Required | Description                   |
+| :----- | :------------------------------- | :------- | :---------------------------- |
+| ctx    | Context                          | ✅       | Default go language context   |
+| userId | string                           | ✅       |                               |
+| params | ListUserTeamsTokensRequestParams | ✅       | Additional request parameters |
 
 **Return Type**
 
@@ -805,11 +803,11 @@ config := clientconfig.NewConfig()
 client := client.NewClient(config)
 
 
-params := channels.GetTeamsUserTokensRequestParams{
+params := channels.ListUserTeamsTokensRequestParams{
 
 }
 
-response, err := client.Channels.GetTeamsUserTokens(context.Background(), "userId", params)
+response, err := client.Channels.ListUserTeamsTokens(context.Background(), "userId", params)
 if err != nil {
   panic(err)
 }
@@ -817,9 +815,9 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## GetTeamsUserToken
+## FetchUserTeamsToken
 
-Retrieves a specific teams token by its ID for a given user. This endpoint is available to project administrators and requires project-level authentication. Use this to inspect token details including its status, creation date, and associated metadata.
+Fetches a specific Teams token by its ID for a given user. This endpoint is available to project administrators and requires project-level authentication. Use this to inspect token details including its status, creation date, and associated metadata.
 
 - HTTP Method: `GET`
 - Endpoint: `/users/{user_id}/channels/teams/tokens/{token_id}`
@@ -850,7 +848,7 @@ import (
 config := clientconfig.NewConfig()
 client := client.NewClient(config)
 
-response, err := client.Channels.GetTeamsUserToken(context.Background(), "userId", "tokenId")
+response, err := client.Channels.FetchUserTeamsToken(context.Background(), "userId", "tokenId")
 if err != nil {
   panic(err)
 }
@@ -858,9 +856,9 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## DiscardTeamsUserToken
+## DeleteUserTeamsToken
 
-Revokes a specific user's teams token. This endpoint is available to project administrators and permanently invalidates the specified token. Once revoked, the token can no longer be used to access channel features. This action cannot be undone.
+Deletes a specific user's Teams token. This endpoint is available to project administrators and permanently invalidates the specified token. Once revoked, the token can no longer be used to access channel features. This action cannot be undone.
 
 - HTTP Method: `DELETE`
 - Endpoint: `/users/{user_id}/channels/teams/tokens/{token_id}`
@@ -891,7 +889,7 @@ import (
 config := clientconfig.NewConfig()
 client := client.NewClient(config)
 
-response, err := client.Channels.DiscardTeamsUserToken(context.Background(), "userId", "tokenId")
+response, err := client.Channels.DeleteUserTeamsToken(context.Background(), "userId", "tokenId")
 if err != nil {
   panic(err)
 }
@@ -899,20 +897,20 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## GetWebPushUserTokens
+## ListUserWebPushTokens
 
-Lists all web_push tokens associated with a specific user. This endpoint is available to project administrators and returns a paginated list of tokens, including both active and revoked tokens.
+Lists all Web Push tokens associated with a specific user. This endpoint is available to project administrators and returns a paginated list of tokens, including both active and revoked tokens.
 
 - HTTP Method: `GET`
 - Endpoint: `/users/{user_id}/channels/web_push/tokens`
 
 **Parameters**
 
-| Name   | Type                              | Required | Description                   |
-| :----- | :-------------------------------- | :------- | :---------------------------- |
-| ctx    | Context                           | ✅       | Default go language context   |
-| userId | string                            | ✅       |                               |
-| params | GetWebPushUserTokensRequestParams | ✅       | Additional request parameters |
+| Name   | Type                               | Required | Description                   |
+| :----- | :--------------------------------- | :------- | :---------------------------- |
+| ctx    | Context                            | ✅       | Default go language context   |
+| userId | string                             | ✅       |                               |
+| params | ListUserWebPushTokensRequestParams | ✅       | Additional request parameters |
 
 **Return Type**
 
@@ -934,11 +932,11 @@ config := clientconfig.NewConfig()
 client := client.NewClient(config)
 
 
-params := channels.GetWebPushUserTokensRequestParams{
+params := channels.ListUserWebPushTokensRequestParams{
 
 }
 
-response, err := client.Channels.GetWebPushUserTokens(context.Background(), "userId", params)
+response, err := client.Channels.ListUserWebPushTokens(context.Background(), "userId", params)
 if err != nil {
   panic(err)
 }
@@ -946,9 +944,9 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## GetWebPushUserToken
+## FetchUserWebPushToken
 
-Retrieves a specific web_push token by its ID for a given user. This endpoint is available to project administrators and requires project-level authentication. Use this to inspect token details including its status, creation date, and associated metadata.
+Fetches a specific Web Push token by its ID for a given user. This endpoint is available to project administrators and requires project-level authentication. Use this to inspect token details including its status, creation date, and associated metadata.
 
 - HTTP Method: `GET`
 - Endpoint: `/users/{user_id}/channels/web_push/tokens/{token_id}`
@@ -979,7 +977,7 @@ import (
 config := clientconfig.NewConfig()
 client := client.NewClient(config)
 
-response, err := client.Channels.GetWebPushUserToken(context.Background(), "userId", "tokenId")
+response, err := client.Channels.FetchUserWebPushToken(context.Background(), "userId", "tokenId")
 if err != nil {
   panic(err)
 }
@@ -987,9 +985,9 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## DiscardWebPushUserToken
+## DeleteUserWebPushToken
 
-Revokes a specific user's web_push token. This endpoint is available to project administrators and permanently invalidates the specified token. Once revoked, the token can no longer be used to access channel features. This action cannot be undone.
+Deletes a specific user's Web Push token. This endpoint is available to project administrators and permanently invalidates the specified token. Once revoked, the token can no longer be used to access channel features. This action cannot be undone.
 
 - HTTP Method: `DELETE`
 - Endpoint: `/users/{user_id}/channels/web_push/tokens/{token_id}`
@@ -1020,7 +1018,7 @@ import (
 config := clientconfig.NewConfig()
 client := client.NewClient(config)
 
-response, err := client.Channels.DiscardWebPushUserToken(context.Background(), "userId", "tokenId")
+response, err := client.Channels.DeleteUserWebPushToken(context.Background(), "userId", "tokenId")
 if err != nil {
   panic(err)
 }

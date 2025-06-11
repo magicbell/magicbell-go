@@ -2,6 +2,7 @@ package channels
 
 import (
 	"encoding/json"
+	"github.com/magicbell/magicbell-go/pkg/user-client/internal/unmarshal"
 	"github.com/magicbell/magicbell-go/pkg/user-client/util"
 )
 
@@ -108,6 +109,10 @@ func (a ApnsToken) String() string {
 		return "error converting struct: ApnsToken to string"
 	}
 	return string(jsonData)
+}
+
+func (a *ApnsToken) UnmarshalJSON(data []byte) error {
+	return unmarshal.UnmarshalNullable(data, a)
 }
 
 // (Optional) The APNs environment the token is registered for. If none is provided we assume the token is used in `production`.

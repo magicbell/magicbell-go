@@ -66,7 +66,7 @@ func (api *BroadcastsService) ListBroadcasts(ctx context.Context, params ListBro
 	return shared.NewClientResponse[BroadcastCollection](resp), nil
 }
 
-// Creates a new broadcast message. When a broadcast is created, it generates individual notifications for relevant users within the project.
+// Creates a new broadcast. When a broadcast is created, it generates individual notifications for relevant users within the project.
 func (api *BroadcastsService) CreateBroadcast(ctx context.Context, broadcast Broadcast) (*shared.ClientResponse[Broadcast], *shared.ClientError) {
 	config := *api.getConfig()
 

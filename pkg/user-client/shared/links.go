@@ -2,6 +2,7 @@ package shared
 
 import (
 	"encoding/json"
+	"github.com/magicbell/magicbell-go/pkg/user-client/internal/unmarshal"
 	"github.com/magicbell/magicbell-go/pkg/user-client/util"
 )
 
@@ -58,4 +59,8 @@ func (l Links) String() string {
 		return "error converting struct: Links to string"
 	}
 	return string(jsonData)
+}
+
+func (l *Links) UnmarshalJSON(data []byte) error {
+	return unmarshal.UnmarshalNullable(data, l)
 }

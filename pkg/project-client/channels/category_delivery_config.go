@@ -2,6 +2,7 @@ package channels
 
 import (
 	"encoding/json"
+	"github.com/magicbell/magicbell-go/pkg/project-client/internal/unmarshal"
 	"github.com/magicbell/magicbell-go/pkg/project-client/util"
 )
 
@@ -101,6 +102,10 @@ func (c CategoryDeliveryConfigChannels) String() string {
 		return "error converting struct: CategoryDeliveryConfigChannels to string"
 	}
 	return string(jsonData)
+}
+
+func (c *CategoryDeliveryConfigChannels) UnmarshalJSON(data []byte) error {
+	return unmarshal.UnmarshalNullable(data, c)
 }
 
 type Channel string

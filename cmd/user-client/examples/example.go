@@ -19,9 +19,9 @@ func main() {
 	config := clientconfig.NewConfig()
 	client := client.NewClient(config)
 
-	params := channels.GetInAppInboxTokensRequestParams{}
+	params := channels.ListInboxTokensRequestParams{}
 
-	response, err := client.Channels.GetInAppInboxTokens(context.Background(), params)
+	response, err := client.Channels.ListInboxTokens(context.Background(), params)
 	if err != nil {
 		panic(err)
 	}

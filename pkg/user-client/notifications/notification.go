@@ -2,6 +2,7 @@ package notifications
 
 import (
 	"encoding/json"
+	"github.com/magicbell/magicbell-go/pkg/user-client/internal/unmarshal"
 	"github.com/magicbell/magicbell-go/pkg/user-client/util"
 )
 
@@ -234,4 +235,8 @@ func (n Notification) String() string {
 		return "error converting struct: Notification to string"
 	}
 	return string(jsonData)
+}
+
+func (n *Notification) UnmarshalJSON(data []byte) error {
+	return unmarshal.UnmarshalNullable(data, n)
 }

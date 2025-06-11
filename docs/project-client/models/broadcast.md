@@ -4,7 +4,7 @@
 
 | Name             | Type                       | Required | Description                                   |
 | :--------------- | :------------------------- | :------- | :-------------------------------------------- |
-| Recipients       | []any                      | ✅       |                                               |
+| Recipients       | []shared.User              | ✅       |                                               |
 | Title            | string                     | ✅       |                                               |
 | ActionUrl        | string                     | ❌       |                                               |
 | Category         | string                     | ❌       |                                               |
@@ -34,9 +34,7 @@
 | Email      | broadcasts.Email      | ❌       |             |
 | InApp      | broadcasts.InApp      | ❌       |             |
 | MobilePush | broadcasts.MobilePush | ❌       |             |
-| Slack      | broadcasts.Slack      | ❌       |             |
 | Sms        | broadcasts.Sms        | ❌       |             |
-| WebPush    | broadcasts.WebPush    | ❌       |             |
 
 # Email
 
@@ -68,27 +66,7 @@
 | Content   | string | ❌       |             |
 | Title     | string | ❌       |             |
 
-# Slack
-
-**Properties**
-
-| Name      | Type   | Required | Description |
-| :-------- | :----- | :------- | :---------- |
-| ActionUrl | string | ❌       |             |
-| Content   | string | ❌       |             |
-| Title     | string | ❌       |             |
-
 # Sms
-
-**Properties**
-
-| Name      | Type   | Required | Description |
-| :-------- | :----- | :------- | :---------- |
-| ActionUrl | string | ❌       |             |
-| Content   | string | ❌       |             |
-| Title     | string | ❌       |             |
-
-# WebPush
 
 **Properties**
 
@@ -102,15 +80,18 @@
 
 **Properties**
 
-| Name      | Type | Required | Description |
-| :-------- | :--- | :------- | :---------- |
-| AmazonSes | any  | ❌       |             |
-| Android   | any  | ❌       |             |
-| Ios       | any  | ❌       |             |
-| Mailgun   | any  | ❌       |             |
-| Postmark  | any  | ❌       |             |
-| Sendgrid  | any  | ❌       |             |
-| Slack     | any  | ❌       |             |
+| Name     | Type | Required | Description |
+| :------- | :--- | :------- | :---------- |
+| Apns     | any  | ❌       |             |
+| Expo     | any  | ❌       |             |
+| Fcm      | any  | ❌       |             |
+| Mailgun  | any  | ❌       |             |
+| Sendgrid | any  | ❌       |             |
+| Ses      | any  | ❌       |             |
+| Slack    | any  | ❌       |             |
+| Teams    | any  | ❌       |             |
+| Twilio   | any  | ❌       |             |
+| WebPush  | any  | ❌       |             |
 
 # BroadcastStatus
 

@@ -2,50 +2,50 @@
 
 A list of all methods in the `ChannelsService` service. Click on the method name to view detailed information about that method.
 
-| Methods                                                   | Description                                                                                                                                                                                                                                                      |
-| :-------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [GetInAppInboxTokens](#getinappinboxtokens)               | Lists all in_app tokens belonging to the authenticated user. Returns a paginated list of tokens, including their status, creation dates, and associated metadata.                                                                                                |
-| [SaveInAppInboxToken](#saveinappinboxtoken)               | Saves a in_app token for the authenticated user. This token serves as a credential for accessing channel-specific functionality. Each token is unique to the user and channel combination, allowing for direct communication with the user via the channel.      |
-| [GetInAppInboxToken](#getinappinboxtoken)                 | Retrieves details of a specific in_app token belonging to the authenticated user. Returns information about the token's status, creation date, and any associated metadata. Users can only access their own tokens.                                              |
-| [DiscardInAppInboxToken](#discardinappinboxtoken)         | Revokes one of the authenticated user's in_app tokens. This permanently invalidates the specified token, preventing it from being used for future channel access. This action cannot be undone. Users can only revoke their own tokens.                          |
-| [GetMobilePushApnsTokens](#getmobilepushapnstokens)       | Lists all mobile_push tokens belonging to the authenticated user. Returns a paginated list of tokens, including their status, creation dates, and associated metadata.                                                                                           |
-| [SaveMobilePushApnsToken](#savemobilepushapnstoken)       | Saves a mobile_push token for the authenticated user. This token serves as a credential for accessing channel-specific functionality. Each token is unique to the user and channel combination, allowing for direct communication with the user via the channel. |
-| [GetMobilePushApnsToken](#getmobilepushapnstoken)         | Retrieves details of a specific mobile_push token belonging to the authenticated user. Returns information about the token's status, creation date, and any associated metadata. Users can only access their own tokens.                                         |
-| [DiscardMobilePushApnsToken](#discardmobilepushapnstoken) | Revokes one of the authenticated user's mobile_push tokens. This permanently invalidates the specified token, preventing it from being used for future channel access. This action cannot be undone. Users can only revoke their own tokens.                     |
-| [GetMobilePushExpoTokens](#getmobilepushexpotokens)       | Lists all mobile_push tokens belonging to the authenticated user. Returns a paginated list of tokens, including their status, creation dates, and associated metadata.                                                                                           |
-| [SaveMobilePushExpoToken](#savemobilepushexpotoken)       | Saves a mobile_push token for the authenticated user. This token serves as a credential for accessing channel-specific functionality. Each token is unique to the user and channel combination, allowing for direct communication with the user via the channel. |
-| [GetMobilePushExpoToken](#getmobilepushexpotoken)         | Retrieves details of a specific mobile_push token belonging to the authenticated user. Returns information about the token's status, creation date, and any associated metadata. Users can only access their own tokens.                                         |
-| [DiscardMobilePushExpoToken](#discardmobilepushexpotoken) | Revokes one of the authenticated user's mobile_push tokens. This permanently invalidates the specified token, preventing it from being used for future channel access. This action cannot be undone. Users can only revoke their own tokens.                     |
-| [GetMobilePushFcmTokens](#getmobilepushfcmtokens)         | Lists all mobile_push tokens belonging to the authenticated user. Returns a paginated list of tokens, including their status, creation dates, and associated metadata.                                                                                           |
-| [SaveMobilePushFcmToken](#savemobilepushfcmtoken)         | Saves a mobile_push token for the authenticated user. This token serves as a credential for accessing channel-specific functionality. Each token is unique to the user and channel combination, allowing for direct communication with the user via the channel. |
-| [GetMobilePushFcmToken](#getmobilepushfcmtoken)           | Retrieves details of a specific mobile_push token belonging to the authenticated user. Returns information about the token's status, creation date, and any associated metadata. Users can only access their own tokens.                                         |
-| [DiscardMobilePushFcmToken](#discardmobilepushfcmtoken)   | Revokes one of the authenticated user's mobile_push tokens. This permanently invalidates the specified token, preventing it from being used for future channel access. This action cannot be undone. Users can only revoke their own tokens.                     |
-| [GetSlackTokens](#getslacktokens)                         | Lists all slack tokens belonging to the authenticated user. Returns a paginated list of tokens, including their status, creation dates, and associated metadata.                                                                                                 |
-| [SaveSlackToken](#saveslacktoken)                         | Saves a slack token for the authenticated user. This token serves as a credential for accessing channel-specific functionality. Each token is unique to the user and channel combination, allowing for direct communication with the user via the channel.       |
-| [GetSlackToken](#getslacktoken)                           | Retrieves details of a specific slack token belonging to the authenticated user. Returns information about the token's status, creation date, and any associated metadata. Users can only access their own tokens.                                               |
-| [DiscardSlackToken](#discardslacktoken)                   | Revokes one of the authenticated user's slack tokens. This permanently invalidates the specified token, preventing it from being used for future channel access. This action cannot be undone. Users can only revoke their own tokens.                           |
-| [GetTeamsTokens](#getteamstokens)                         | Lists all teams tokens belonging to the authenticated user. Returns a paginated list of tokens, including their status, creation dates, and associated metadata.                                                                                                 |
-| [SaveTeamsToken](#saveteamstoken)                         | Saves a teams token for the authenticated user. This token serves as a credential for accessing channel-specific functionality. Each token is unique to the user and channel combination, allowing for direct communication with the user via the channel.       |
-| [GetTeamsToken](#getteamstoken)                           | Retrieves details of a specific teams token belonging to the authenticated user. Returns information about the token's status, creation date, and any associated metadata. Users can only access their own tokens.                                               |
-| [DiscardTeamsToken](#discardteamstoken)                   | Revokes one of the authenticated user's teams tokens. This permanently invalidates the specified token, preventing it from being used for future channel access. This action cannot be undone. Users can only revoke their own tokens.                           |
-| [GetWebPushTokens](#getwebpushtokens)                     | Lists all web_push tokens belonging to the authenticated user. Returns a paginated list of tokens, including their status, creation dates, and associated metadata.                                                                                              |
-| [SaveWebPushToken](#savewebpushtoken)                     | Saves a web_push token for the authenticated user. This token serves as a credential for accessing channel-specific functionality. Each token is unique to the user and channel combination, allowing for direct communication with the user via the channel.    |
-| [GetWebPushToken](#getwebpushtoken)                       | Retrieves details of a specific web_push token belonging to the authenticated user. Returns information about the token's status, creation date, and any associated metadata. Users can only access their own tokens.                                            |
-| [DiscardWebPushToken](#discardwebpushtoken)               | Revokes one of the authenticated user's web_push tokens. This permanently invalidates the specified token, preventing it from being used for future channel access. This action cannot be undone. Users can only revoke their own tokens.                        |
+| Methods                                   | Description                                                                                                                                                                                                                                                     |
+| :---------------------------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [ListInboxTokens](#listinboxtokens)       | Lists all Inbox tokens belonging to the authenticated user. Returns a paginated list of tokens, including their status, creation dates, and associated metadata.                                                                                                |
+| [SaveInboxToken](#saveinboxtoken)         | Saves the Inbox token for the authenticated user. This token serves as a credential for accessing channel-specific functionality. Each token is unique to the user and channel combination, allowing for direct communication with the user via the channel.    |
+| [FetchInboxToken](#fetchinboxtoken)       | Fetches details of a specific Inbox token belonging to the authenticated user. Returns information about the token's status, creation date, and any associated metadata. Users can only access their own tokens.                                                |
+| [DeleteInboxToken](#deleteinboxtoken)     | Deletes one of the authenticated user's Inbox tokens. This permanently invalidates the specified token, preventing it from being used for future channel access. This action cannot be undone. Users can only revoke their own tokens.                          |
+| [ListApnsTokens](#listapnstokens)         | Lists all APNs tokens belonging to the authenticated user. Returns a paginated list of tokens, including their status, creation dates, and associated metadata.                                                                                                 |
+| [SaveApnsToken](#saveapnstoken)           | Saves the APNs token for the authenticated user. This token serves as a credential for accessing channel-specific functionality. Each token is unique to the user and channel combination, allowing for direct communication with the user via the channel.     |
+| [FetchApnsToken](#fetchapnstoken)         | Fetches details of a specific APNs token belonging to the authenticated user. Returns information about the token's status, creation date, and any associated metadata. Users can only access their own tokens.                                                 |
+| [DeleteApnsToken](#deleteapnstoken)       | Deletes one of the authenticated user's APNs tokens. This permanently invalidates the specified token, preventing it from being used for future channel access. This action cannot be undone. Users can only revoke their own tokens.                           |
+| [ListExpoTokens](#listexpotokens)         | Lists all Expo tokens belonging to the authenticated user. Returns a paginated list of tokens, including their status, creation dates, and associated metadata.                                                                                                 |
+| [SaveExpoToken](#saveexpotoken)           | Saves the Expo token for the authenticated user. This token serves as a credential for accessing channel-specific functionality. Each token is unique to the user and channel combination, allowing for direct communication with the user via the channel.     |
+| [FetchExpoToken](#fetchexpotoken)         | Fetches details of a specific Expo token belonging to the authenticated user. Returns information about the token's status, creation date, and any associated metadata. Users can only access their own tokens.                                                 |
+| [DeleteExpoToken](#deleteexpotoken)       | Deletes one of the authenticated user's Expo tokens. This permanently invalidates the specified token, preventing it from being used for future channel access. This action cannot be undone. Users can only revoke their own tokens.                           |
+| [ListFcmTokens](#listfcmtokens)           | Lists all FCM tokens belonging to the authenticated user. Returns a paginated list of tokens, including their status, creation dates, and associated metadata.                                                                                                  |
+| [SaveFcmToken](#savefcmtoken)             | Saves the FCM token for the authenticated user. This token serves as a credential for accessing channel-specific functionality. Each token is unique to the user and channel combination, allowing for direct communication with the user via the channel.      |
+| [FetchFcmToken](#fetchfcmtoken)           | Fetches details of a specific FCM token belonging to the authenticated user. Returns information about the token's status, creation date, and any associated metadata. Users can only access their own tokens.                                                  |
+| [DeleteFcmToken](#deletefcmtoken)         | Deletes one of the authenticated user's FCM tokens. This permanently invalidates the specified token, preventing it from being used for future channel access. This action cannot be undone. Users can only revoke their own tokens.                            |
+| [ListSlackTokens](#listslacktokens)       | Lists all Slack tokens belonging to the authenticated user. Returns a paginated list of tokens, including their status, creation dates, and associated metadata.                                                                                                |
+| [SaveSlackToken](#saveslacktoken)         | Saves the Slack token for the authenticated user. This token serves as a credential for accessing channel-specific functionality. Each token is unique to the user and channel combination, allowing for direct communication with the user via the channel.    |
+| [FetchSlackToken](#fetchslacktoken)       | Fetches details of a specific Slack token belonging to the authenticated user. Returns information about the token's status, creation date, and any associated metadata. Users can only access their own tokens.                                                |
+| [DeleteSlackToken](#deleteslacktoken)     | Deletes one of the authenticated user's Slack tokens. This permanently invalidates the specified token, preventing it from being used for future channel access. This action cannot be undone. Users can only revoke their own tokens.                          |
+| [ListTeamsTokens](#listteamstokens)       | Lists all Teams tokens belonging to the authenticated user. Returns a paginated list of tokens, including their status, creation dates, and associated metadata.                                                                                                |
+| [SaveTeamsToken](#saveteamstoken)         | Saves the Teams token for the authenticated user. This token serves as a credential for accessing channel-specific functionality. Each token is unique to the user and channel combination, allowing for direct communication with the user via the channel.    |
+| [FetchTeamsToken](#fetchteamstoken)       | Fetches details of a specific Teams token belonging to the authenticated user. Returns information about the token's status, creation date, and any associated metadata. Users can only access their own tokens.                                                |
+| [DeleteTeamsToken](#deleteteamstoken)     | Deletes one of the authenticated user's Teams tokens. This permanently invalidates the specified token, preventing it from being used for future channel access. This action cannot be undone. Users can only revoke their own tokens.                          |
+| [ListWebPushTokens](#listwebpushtokens)   | Lists all Web Push tokens belonging to the authenticated user. Returns a paginated list of tokens, including their status, creation dates, and associated metadata.                                                                                             |
+| [SaveWebPushToken](#savewebpushtoken)     | Saves the Web Push token for the authenticated user. This token serves as a credential for accessing channel-specific functionality. Each token is unique to the user and channel combination, allowing for direct communication with the user via the channel. |
+| [FetchWebPushToken](#fetchwebpushtoken)   | Fetches details of a specific Web Push token belonging to the authenticated user. Returns information about the token's status, creation date, and any associated metadata. Users can only access their own tokens.                                             |
+| [DeleteWebPushToken](#deletewebpushtoken) | Deletes one of the authenticated user's Web Push tokens. This permanently invalidates the specified token, preventing it from being used for future channel access. This action cannot be undone. Users can only revoke their own tokens.                       |
 
-## GetInAppInboxTokens
+## ListInboxTokens
 
-Lists all in_app tokens belonging to the authenticated user. Returns a paginated list of tokens, including their status, creation dates, and associated metadata.
+Lists all Inbox tokens belonging to the authenticated user. Returns a paginated list of tokens, including their status, creation dates, and associated metadata.
 
 - HTTP Method: `GET`
 - Endpoint: `/channels/in_app/inbox/tokens`
 
 **Parameters**
 
-| Name   | Type                             | Required | Description                   |
-| :----- | :------------------------------- | :------- | :---------------------------- |
-| ctx    | Context                          | ✅       | Default go language context   |
-| params | GetInAppInboxTokensRequestParams | ✅       | Additional request parameters |
+| Name   | Type                         | Required | Description                   |
+| :----- | :--------------------------- | :------- | :---------------------------- |
+| ctx    | Context                      | ✅       | Default go language context   |
+| params | ListInboxTokensRequestParams | ✅       | Additional request parameters |
 
 **Return Type**
 
@@ -67,11 +67,11 @@ config := clientconfig.NewConfig()
 client := client.NewClient(config)
 
 
-params := channels.GetInAppInboxTokensRequestParams{
+params := channels.ListInboxTokensRequestParams{
 
 }
 
-response, err := client.Channels.GetInAppInboxTokens(context.Background(), params)
+response, err := client.Channels.ListInboxTokens(context.Background(), params)
 if err != nil {
   panic(err)
 }
@@ -79,11 +79,11 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## SaveInAppInboxToken
+## SaveInboxToken
 
-Saves a in_app token for the authenticated user. This token serves as a credential for accessing channel-specific functionality. Each token is unique to the user and channel combination, allowing for direct communication with the user via the channel.
+Saves the Inbox token for the authenticated user. This token serves as a credential for accessing channel-specific functionality. Each token is unique to the user and channel combination, allowing for direct communication with the user via the channel.
 
-- HTTP Method: `POST`
+- HTTP Method: `PUT`
 - Endpoint: `/channels/in_app/inbox/tokens`
 
 **Parameters**
@@ -118,7 +118,7 @@ request := channels.InboxToken{
   Token: util.ToPointer("Token"),
 }
 
-response, err := client.Channels.SaveInAppInboxToken(context.Background(), request)
+response, err := client.Channels.SaveInboxToken(context.Background(), request)
 if err != nil {
   panic(err)
 }
@@ -126,9 +126,9 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## GetInAppInboxToken
+## FetchInboxToken
 
-Retrieves details of a specific in_app token belonging to the authenticated user. Returns information about the token's status, creation date, and any associated metadata. Users can only access their own tokens.
+Fetches details of a specific Inbox token belonging to the authenticated user. Returns information about the token's status, creation date, and any associated metadata. Users can only access their own tokens.
 
 - HTTP Method: `GET`
 - Endpoint: `/channels/in_app/inbox/tokens/{token_id}`
@@ -158,7 +158,7 @@ import (
 config := clientconfig.NewConfig()
 client := client.NewClient(config)
 
-response, err := client.Channels.GetInAppInboxToken(context.Background(), "tokenId")
+response, err := client.Channels.FetchInboxToken(context.Background(), "tokenId")
 if err != nil {
   panic(err)
 }
@@ -166,9 +166,9 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## DiscardInAppInboxToken
+## DeleteInboxToken
 
-Revokes one of the authenticated user's in_app tokens. This permanently invalidates the specified token, preventing it from being used for future channel access. This action cannot be undone. Users can only revoke their own tokens.
+Deletes one of the authenticated user's Inbox tokens. This permanently invalidates the specified token, preventing it from being used for future channel access. This action cannot be undone. Users can only revoke their own tokens.
 
 - HTTP Method: `DELETE`
 - Endpoint: `/channels/in_app/inbox/tokens/{token_id}`
@@ -198,7 +198,7 @@ import (
 config := clientconfig.NewConfig()
 client := client.NewClient(config)
 
-response, err := client.Channels.DiscardInAppInboxToken(context.Background(), "tokenId")
+response, err := client.Channels.DeleteInboxToken(context.Background(), "tokenId")
 if err != nil {
   panic(err)
 }
@@ -206,19 +206,19 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## GetMobilePushApnsTokens
+## ListApnsTokens
 
-Lists all mobile_push tokens belonging to the authenticated user. Returns a paginated list of tokens, including their status, creation dates, and associated metadata.
+Lists all APNs tokens belonging to the authenticated user. Returns a paginated list of tokens, including their status, creation dates, and associated metadata.
 
 - HTTP Method: `GET`
 - Endpoint: `/channels/mobile_push/apns/tokens`
 
 **Parameters**
 
-| Name   | Type                                 | Required | Description                   |
-| :----- | :----------------------------------- | :------- | :---------------------------- |
-| ctx    | Context                              | ✅       | Default go language context   |
-| params | GetMobilePushApnsTokensRequestParams | ✅       | Additional request parameters |
+| Name   | Type                        | Required | Description                   |
+| :----- | :-------------------------- | :------- | :---------------------------- |
+| ctx    | Context                     | ✅       | Default go language context   |
+| params | ListApnsTokensRequestParams | ✅       | Additional request parameters |
 
 **Return Type**
 
@@ -240,11 +240,11 @@ config := clientconfig.NewConfig()
 client := client.NewClient(config)
 
 
-params := channels.GetMobilePushApnsTokensRequestParams{
+params := channels.ListApnsTokensRequestParams{
 
 }
 
-response, err := client.Channels.GetMobilePushApnsTokens(context.Background(), params)
+response, err := client.Channels.ListApnsTokens(context.Background(), params)
 if err != nil {
   panic(err)
 }
@@ -252,11 +252,11 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## SaveMobilePushApnsToken
+## SaveApnsToken
 
-Saves a mobile_push token for the authenticated user. This token serves as a credential for accessing channel-specific functionality. Each token is unique to the user and channel combination, allowing for direct communication with the user via the channel.
+Saves the APNs token for the authenticated user. This token serves as a credential for accessing channel-specific functionality. Each token is unique to the user and channel combination, allowing for direct communication with the user via the channel.
 
-- HTTP Method: `POST`
+- HTTP Method: `PUT`
 - Endpoint: `/channels/mobile_push/apns/tokens`
 
 **Parameters**
@@ -293,7 +293,7 @@ request := channels.ApnsTokenPayload{
   InstallationId: &apnsTokenPayloadInstallationId,
 }
 
-response, err := client.Channels.SaveMobilePushApnsToken(context.Background(), request)
+response, err := client.Channels.SaveApnsToken(context.Background(), request)
 if err != nil {
   panic(err)
 }
@@ -301,9 +301,9 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## GetMobilePushApnsToken
+## FetchApnsToken
 
-Retrieves details of a specific mobile_push token belonging to the authenticated user. Returns information about the token's status, creation date, and any associated metadata. Users can only access their own tokens.
+Fetches details of a specific APNs token belonging to the authenticated user. Returns information about the token's status, creation date, and any associated metadata. Users can only access their own tokens.
 
 - HTTP Method: `GET`
 - Endpoint: `/channels/mobile_push/apns/tokens/{token_id}`
@@ -333,7 +333,7 @@ import (
 config := clientconfig.NewConfig()
 client := client.NewClient(config)
 
-response, err := client.Channels.GetMobilePushApnsToken(context.Background(), "tokenId")
+response, err := client.Channels.FetchApnsToken(context.Background(), "tokenId")
 if err != nil {
   panic(err)
 }
@@ -341,9 +341,9 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## DiscardMobilePushApnsToken
+## DeleteApnsToken
 
-Revokes one of the authenticated user's mobile_push tokens. This permanently invalidates the specified token, preventing it from being used for future channel access. This action cannot be undone. Users can only revoke their own tokens.
+Deletes one of the authenticated user's APNs tokens. This permanently invalidates the specified token, preventing it from being used for future channel access. This action cannot be undone. Users can only revoke their own tokens.
 
 - HTTP Method: `DELETE`
 - Endpoint: `/channels/mobile_push/apns/tokens/{token_id}`
@@ -373,7 +373,7 @@ import (
 config := clientconfig.NewConfig()
 client := client.NewClient(config)
 
-response, err := client.Channels.DiscardMobilePushApnsToken(context.Background(), "tokenId")
+response, err := client.Channels.DeleteApnsToken(context.Background(), "tokenId")
 if err != nil {
   panic(err)
 }
@@ -381,19 +381,19 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## GetMobilePushExpoTokens
+## ListExpoTokens
 
-Lists all mobile_push tokens belonging to the authenticated user. Returns a paginated list of tokens, including their status, creation dates, and associated metadata.
+Lists all Expo tokens belonging to the authenticated user. Returns a paginated list of tokens, including their status, creation dates, and associated metadata.
 
 - HTTP Method: `GET`
 - Endpoint: `/channels/mobile_push/expo/tokens`
 
 **Parameters**
 
-| Name   | Type                                 | Required | Description                   |
-| :----- | :----------------------------------- | :------- | :---------------------------- |
-| ctx    | Context                              | ✅       | Default go language context   |
-| params | GetMobilePushExpoTokensRequestParams | ✅       | Additional request parameters |
+| Name   | Type                        | Required | Description                   |
+| :----- | :-------------------------- | :------- | :---------------------------- |
+| ctx    | Context                     | ✅       | Default go language context   |
+| params | ListExpoTokensRequestParams | ✅       | Additional request parameters |
 
 **Return Type**
 
@@ -415,11 +415,11 @@ config := clientconfig.NewConfig()
 client := client.NewClient(config)
 
 
-params := channels.GetMobilePushExpoTokensRequestParams{
+params := channels.ListExpoTokensRequestParams{
 
 }
 
-response, err := client.Channels.GetMobilePushExpoTokens(context.Background(), params)
+response, err := client.Channels.ListExpoTokens(context.Background(), params)
 if err != nil {
   panic(err)
 }
@@ -427,11 +427,11 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## SaveMobilePushExpoToken
+## SaveExpoToken
 
-Saves a mobile_push token for the authenticated user. This token serves as a credential for accessing channel-specific functionality. Each token is unique to the user and channel combination, allowing for direct communication with the user via the channel.
+Saves the Expo token for the authenticated user. This token serves as a credential for accessing channel-specific functionality. Each token is unique to the user and channel combination, allowing for direct communication with the user via the channel.
 
-- HTTP Method: `POST`
+- HTTP Method: `PUT`
 - Endpoint: `/channels/mobile_push/expo/tokens`
 
 **Parameters**
@@ -465,7 +465,7 @@ request := channels.ExpoTokenPayload{
   DeviceToken: util.ToPointer("DeviceToken"),
 }
 
-response, err := client.Channels.SaveMobilePushExpoToken(context.Background(), request)
+response, err := client.Channels.SaveExpoToken(context.Background(), request)
 if err != nil {
   panic(err)
 }
@@ -473,9 +473,9 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## GetMobilePushExpoToken
+## FetchExpoToken
 
-Retrieves details of a specific mobile_push token belonging to the authenticated user. Returns information about the token's status, creation date, and any associated metadata. Users can only access their own tokens.
+Fetches details of a specific Expo token belonging to the authenticated user. Returns information about the token's status, creation date, and any associated metadata. Users can only access their own tokens.
 
 - HTTP Method: `GET`
 - Endpoint: `/channels/mobile_push/expo/tokens/{token_id}`
@@ -505,7 +505,7 @@ import (
 config := clientconfig.NewConfig()
 client := client.NewClient(config)
 
-response, err := client.Channels.GetMobilePushExpoToken(context.Background(), "tokenId")
+response, err := client.Channels.FetchExpoToken(context.Background(), "tokenId")
 if err != nil {
   panic(err)
 }
@@ -513,9 +513,9 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## DiscardMobilePushExpoToken
+## DeleteExpoToken
 
-Revokes one of the authenticated user's mobile_push tokens. This permanently invalidates the specified token, preventing it from being used for future channel access. This action cannot be undone. Users can only revoke their own tokens.
+Deletes one of the authenticated user's Expo tokens. This permanently invalidates the specified token, preventing it from being used for future channel access. This action cannot be undone. Users can only revoke their own tokens.
 
 - HTTP Method: `DELETE`
 - Endpoint: `/channels/mobile_push/expo/tokens/{token_id}`
@@ -545,7 +545,7 @@ import (
 config := clientconfig.NewConfig()
 client := client.NewClient(config)
 
-response, err := client.Channels.DiscardMobilePushExpoToken(context.Background(), "tokenId")
+response, err := client.Channels.DeleteExpoToken(context.Background(), "tokenId")
 if err != nil {
   panic(err)
 }
@@ -553,19 +553,19 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## GetMobilePushFcmTokens
+## ListFcmTokens
 
-Lists all mobile_push tokens belonging to the authenticated user. Returns a paginated list of tokens, including their status, creation dates, and associated metadata.
+Lists all FCM tokens belonging to the authenticated user. Returns a paginated list of tokens, including their status, creation dates, and associated metadata.
 
 - HTTP Method: `GET`
 - Endpoint: `/channels/mobile_push/fcm/tokens`
 
 **Parameters**
 
-| Name   | Type                                | Required | Description                   |
-| :----- | :---------------------------------- | :------- | :---------------------------- |
-| ctx    | Context                             | ✅       | Default go language context   |
-| params | GetMobilePushFcmTokensRequestParams | ✅       | Additional request parameters |
+| Name   | Type                       | Required | Description                   |
+| :----- | :------------------------- | :------- | :---------------------------- |
+| ctx    | Context                    | ✅       | Default go language context   |
+| params | ListFcmTokensRequestParams | ✅       | Additional request parameters |
 
 **Return Type**
 
@@ -587,11 +587,11 @@ config := clientconfig.NewConfig()
 client := client.NewClient(config)
 
 
-params := channels.GetMobilePushFcmTokensRequestParams{
+params := channels.ListFcmTokensRequestParams{
 
 }
 
-response, err := client.Channels.GetMobilePushFcmTokens(context.Background(), params)
+response, err := client.Channels.ListFcmTokens(context.Background(), params)
 if err != nil {
   panic(err)
 }
@@ -599,11 +599,11 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## SaveMobilePushFcmToken
+## SaveFcmToken
 
-Saves a mobile_push token for the authenticated user. This token serves as a credential for accessing channel-specific functionality. Each token is unique to the user and channel combination, allowing for direct communication with the user via the channel.
+Saves the FCM token for the authenticated user. This token serves as a credential for accessing channel-specific functionality. Each token is unique to the user and channel combination, allowing for direct communication with the user via the channel.
 
-- HTTP Method: `POST`
+- HTTP Method: `PUT`
 - Endpoint: `/channels/mobile_push/fcm/tokens`
 
 **Parameters**
@@ -639,7 +639,7 @@ request := channels.FcmTokenPayload{
   InstallationId: &fcmTokenPayloadInstallationId,
 }
 
-response, err := client.Channels.SaveMobilePushFcmToken(context.Background(), request)
+response, err := client.Channels.SaveFcmToken(context.Background(), request)
 if err != nil {
   panic(err)
 }
@@ -647,9 +647,9 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## GetMobilePushFcmToken
+## FetchFcmToken
 
-Retrieves details of a specific mobile_push token belonging to the authenticated user. Returns information about the token's status, creation date, and any associated metadata. Users can only access their own tokens.
+Fetches details of a specific FCM token belonging to the authenticated user. Returns information about the token's status, creation date, and any associated metadata. Users can only access their own tokens.
 
 - HTTP Method: `GET`
 - Endpoint: `/channels/mobile_push/fcm/tokens/{token_id}`
@@ -679,7 +679,7 @@ import (
 config := clientconfig.NewConfig()
 client := client.NewClient(config)
 
-response, err := client.Channels.GetMobilePushFcmToken(context.Background(), "tokenId")
+response, err := client.Channels.FetchFcmToken(context.Background(), "tokenId")
 if err != nil {
   panic(err)
 }
@@ -687,9 +687,9 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## DiscardMobilePushFcmToken
+## DeleteFcmToken
 
-Revokes one of the authenticated user's mobile_push tokens. This permanently invalidates the specified token, preventing it from being used for future channel access. This action cannot be undone. Users can only revoke their own tokens.
+Deletes one of the authenticated user's FCM tokens. This permanently invalidates the specified token, preventing it from being used for future channel access. This action cannot be undone. Users can only revoke their own tokens.
 
 - HTTP Method: `DELETE`
 - Endpoint: `/channels/mobile_push/fcm/tokens/{token_id}`
@@ -719,7 +719,7 @@ import (
 config := clientconfig.NewConfig()
 client := client.NewClient(config)
 
-response, err := client.Channels.DiscardMobilePushFcmToken(context.Background(), "tokenId")
+response, err := client.Channels.DeleteFcmToken(context.Background(), "tokenId")
 if err != nil {
   panic(err)
 }
@@ -727,19 +727,19 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## GetSlackTokens
+## ListSlackTokens
 
-Lists all slack tokens belonging to the authenticated user. Returns a paginated list of tokens, including their status, creation dates, and associated metadata.
+Lists all Slack tokens belonging to the authenticated user. Returns a paginated list of tokens, including their status, creation dates, and associated metadata.
 
 - HTTP Method: `GET`
 - Endpoint: `/channels/slack/tokens`
 
 **Parameters**
 
-| Name   | Type                        | Required | Description                   |
-| :----- | :-------------------------- | :------- | :---------------------------- |
-| ctx    | Context                     | ✅       | Default go language context   |
-| params | GetSlackTokensRequestParams | ✅       | Additional request parameters |
+| Name   | Type                         | Required | Description                   |
+| :----- | :--------------------------- | :------- | :---------------------------- |
+| ctx    | Context                      | ✅       | Default go language context   |
+| params | ListSlackTokensRequestParams | ✅       | Additional request parameters |
 
 **Return Type**
 
@@ -761,11 +761,11 @@ config := clientconfig.NewConfig()
 client := client.NewClient(config)
 
 
-params := channels.GetSlackTokensRequestParams{
+params := channels.ListSlackTokensRequestParams{
 
 }
 
-response, err := client.Channels.GetSlackTokens(context.Background(), params)
+response, err := client.Channels.ListSlackTokens(context.Background(), params)
 if err != nil {
   panic(err)
 }
@@ -775,9 +775,9 @@ fmt.Println(response)
 
 ## SaveSlackToken
 
-Saves a slack token for the authenticated user. This token serves as a credential for accessing channel-specific functionality. Each token is unique to the user and channel combination, allowing for direct communication with the user via the channel.
+Saves the Slack token for the authenticated user. This token serves as a credential for accessing channel-specific functionality. Each token is unique to the user and channel combination, allowing for direct communication with the user via the channel.
 
-- HTTP Method: `POST`
+- HTTP Method: `PUT`
 - Endpoint: `/channels/slack/tokens`
 
 **Parameters**
@@ -831,9 +831,9 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## GetSlackToken
+## FetchSlackToken
 
-Retrieves details of a specific slack token belonging to the authenticated user. Returns information about the token's status, creation date, and any associated metadata. Users can only access their own tokens.
+Fetches details of a specific Slack token belonging to the authenticated user. Returns information about the token's status, creation date, and any associated metadata. Users can only access their own tokens.
 
 - HTTP Method: `GET`
 - Endpoint: `/channels/slack/tokens/{token_id}`
@@ -863,7 +863,7 @@ import (
 config := clientconfig.NewConfig()
 client := client.NewClient(config)
 
-response, err := client.Channels.GetSlackToken(context.Background(), "tokenId")
+response, err := client.Channels.FetchSlackToken(context.Background(), "tokenId")
 if err != nil {
   panic(err)
 }
@@ -871,9 +871,9 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## DiscardSlackToken
+## DeleteSlackToken
 
-Revokes one of the authenticated user's slack tokens. This permanently invalidates the specified token, preventing it from being used for future channel access. This action cannot be undone. Users can only revoke their own tokens.
+Deletes one of the authenticated user's Slack tokens. This permanently invalidates the specified token, preventing it from being used for future channel access. This action cannot be undone. Users can only revoke their own tokens.
 
 - HTTP Method: `DELETE`
 - Endpoint: `/channels/slack/tokens/{token_id}`
@@ -903,7 +903,7 @@ import (
 config := clientconfig.NewConfig()
 client := client.NewClient(config)
 
-response, err := client.Channels.DiscardSlackToken(context.Background(), "tokenId")
+response, err := client.Channels.DeleteSlackToken(context.Background(), "tokenId")
 if err != nil {
   panic(err)
 }
@@ -911,19 +911,19 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## GetTeamsTokens
+## ListTeamsTokens
 
-Lists all teams tokens belonging to the authenticated user. Returns a paginated list of tokens, including their status, creation dates, and associated metadata.
+Lists all Teams tokens belonging to the authenticated user. Returns a paginated list of tokens, including their status, creation dates, and associated metadata.
 
 - HTTP Method: `GET`
 - Endpoint: `/channels/teams/tokens`
 
 **Parameters**
 
-| Name   | Type                        | Required | Description                   |
-| :----- | :-------------------------- | :------- | :---------------------------- |
-| ctx    | Context                     | ✅       | Default go language context   |
-| params | GetTeamsTokensRequestParams | ✅       | Additional request parameters |
+| Name   | Type                         | Required | Description                   |
+| :----- | :--------------------------- | :------- | :---------------------------- |
+| ctx    | Context                      | ✅       | Default go language context   |
+| params | ListTeamsTokensRequestParams | ✅       | Additional request parameters |
 
 **Return Type**
 
@@ -945,11 +945,11 @@ config := clientconfig.NewConfig()
 client := client.NewClient(config)
 
 
-params := channels.GetTeamsTokensRequestParams{
+params := channels.ListTeamsTokensRequestParams{
 
 }
 
-response, err := client.Channels.GetTeamsTokens(context.Background(), params)
+response, err := client.Channels.ListTeamsTokens(context.Background(), params)
 if err != nil {
   panic(err)
 }
@@ -959,9 +959,9 @@ fmt.Println(response)
 
 ## SaveTeamsToken
 
-Saves a teams token for the authenticated user. This token serves as a credential for accessing channel-specific functionality. Each token is unique to the user and channel combination, allowing for direct communication with the user via the channel.
+Saves the Teams token for the authenticated user. This token serves as a credential for accessing channel-specific functionality. Each token is unique to the user and channel combination, allowing for direct communication with the user via the channel.
 
-- HTTP Method: `POST`
+- HTTP Method: `PUT`
 - Endpoint: `/channels/teams/tokens`
 
 **Parameters**
@@ -1007,9 +1007,9 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## GetTeamsToken
+## FetchTeamsToken
 
-Retrieves details of a specific teams token belonging to the authenticated user. Returns information about the token's status, creation date, and any associated metadata. Users can only access their own tokens.
+Fetches details of a specific Teams token belonging to the authenticated user. Returns information about the token's status, creation date, and any associated metadata. Users can only access their own tokens.
 
 - HTTP Method: `GET`
 - Endpoint: `/channels/teams/tokens/{token_id}`
@@ -1039,7 +1039,7 @@ import (
 config := clientconfig.NewConfig()
 client := client.NewClient(config)
 
-response, err := client.Channels.GetTeamsToken(context.Background(), "tokenId")
+response, err := client.Channels.FetchTeamsToken(context.Background(), "tokenId")
 if err != nil {
   panic(err)
 }
@@ -1047,9 +1047,9 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## DiscardTeamsToken
+## DeleteTeamsToken
 
-Revokes one of the authenticated user's teams tokens. This permanently invalidates the specified token, preventing it from being used for future channel access. This action cannot be undone. Users can only revoke their own tokens.
+Deletes one of the authenticated user's Teams tokens. This permanently invalidates the specified token, preventing it from being used for future channel access. This action cannot be undone. Users can only revoke their own tokens.
 
 - HTTP Method: `DELETE`
 - Endpoint: `/channels/teams/tokens/{token_id}`
@@ -1079,7 +1079,7 @@ import (
 config := clientconfig.NewConfig()
 client := client.NewClient(config)
 
-response, err := client.Channels.DiscardTeamsToken(context.Background(), "tokenId")
+response, err := client.Channels.DeleteTeamsToken(context.Background(), "tokenId")
 if err != nil {
   panic(err)
 }
@@ -1087,19 +1087,19 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## GetWebPushTokens
+## ListWebPushTokens
 
-Lists all web_push tokens belonging to the authenticated user. Returns a paginated list of tokens, including their status, creation dates, and associated metadata.
+Lists all Web Push tokens belonging to the authenticated user. Returns a paginated list of tokens, including their status, creation dates, and associated metadata.
 
 - HTTP Method: `GET`
 - Endpoint: `/channels/web_push/tokens`
 
 **Parameters**
 
-| Name   | Type                          | Required | Description                   |
-| :----- | :---------------------------- | :------- | :---------------------------- |
-| ctx    | Context                       | ✅       | Default go language context   |
-| params | GetWebPushTokensRequestParams | ✅       | Additional request parameters |
+| Name   | Type                           | Required | Description                   |
+| :----- | :----------------------------- | :------- | :---------------------------- |
+| ctx    | Context                        | ✅       | Default go language context   |
+| params | ListWebPushTokensRequestParams | ✅       | Additional request parameters |
 
 **Return Type**
 
@@ -1121,11 +1121,11 @@ config := clientconfig.NewConfig()
 client := client.NewClient(config)
 
 
-params := channels.GetWebPushTokensRequestParams{
+params := channels.ListWebPushTokensRequestParams{
 
 }
 
-response, err := client.Channels.GetWebPushTokens(context.Background(), params)
+response, err := client.Channels.ListWebPushTokens(context.Background(), params)
 if err != nil {
   panic(err)
 }
@@ -1135,9 +1135,9 @@ fmt.Println(response)
 
 ## SaveWebPushToken
 
-Saves a web_push token for the authenticated user. This token serves as a credential for accessing channel-specific functionality. Each token is unique to the user and channel combination, allowing for direct communication with the user via the channel.
+Saves the Web Push token for the authenticated user. This token serves as a credential for accessing channel-specific functionality. Each token is unique to the user and channel combination, allowing for direct communication with the user via the channel.
 
-- HTTP Method: `POST`
+- HTTP Method: `PUT`
 - Endpoint: `/channels/web_push/tokens`
 
 **Parameters**
@@ -1185,9 +1185,9 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## GetWebPushToken
+## FetchWebPushToken
 
-Retrieves details of a specific web_push token belonging to the authenticated user. Returns information about the token's status, creation date, and any associated metadata. Users can only access their own tokens.
+Fetches details of a specific Web Push token belonging to the authenticated user. Returns information about the token's status, creation date, and any associated metadata. Users can only access their own tokens.
 
 - HTTP Method: `GET`
 - Endpoint: `/channels/web_push/tokens/{token_id}`
@@ -1217,7 +1217,7 @@ import (
 config := clientconfig.NewConfig()
 client := client.NewClient(config)
 
-response, err := client.Channels.GetWebPushToken(context.Background(), "tokenId")
+response, err := client.Channels.FetchWebPushToken(context.Background(), "tokenId")
 if err != nil {
   panic(err)
 }
@@ -1225,9 +1225,9 @@ if err != nil {
 fmt.Println(response)
 ```
 
-## DiscardWebPushToken
+## DeleteWebPushToken
 
-Revokes one of the authenticated user's web_push tokens. This permanently invalidates the specified token, preventing it from being used for future channel access. This action cannot be undone. Users can only revoke their own tokens.
+Deletes one of the authenticated user's Web Push tokens. This permanently invalidates the specified token, preventing it from being used for future channel access. This action cannot be undone. Users can only revoke their own tokens.
 
 - HTTP Method: `DELETE`
 - Endpoint: `/channels/web_push/tokens/{token_id}`
@@ -1257,7 +1257,7 @@ import (
 config := clientconfig.NewConfig()
 client := client.NewClient(config)
 
-response, err := client.Channels.DiscardWebPushToken(context.Background(), "tokenId")
+response, err := client.Channels.DeleteWebPushToken(context.Background(), "tokenId")
 if err != nil {
   panic(err)
 }
