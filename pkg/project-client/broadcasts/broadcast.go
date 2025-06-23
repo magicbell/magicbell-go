@@ -15,12 +15,12 @@ type Broadcast struct {
 	CreatedAt        *string             `json:"created_at,omitempty"`
 	CustomAttributes *util.Nullable[any] `json:"custom_attributes,omitempty"`
 	// The unique id for this broadcast.
-	Id         *string                   `json:"id,omitempty"`
-	Overrides  *util.Nullable[Overrides] `json:"overrides,omitempty"`
-	Recipients []shared.User             `json:"recipients,omitempty" required:"true" minItems:"1" maxItems:"1000"`
-	Status     *BroadcastStatus          `json:"status,omitempty"`
-	Title      *string                   `json:"title,omitempty" required:"true" maxLength:"255" minLength:"1"`
-	Topic      *util.Nullable[string]    `json:"topic,omitempty" maxLength:"255" pattern:"^[A-Za-z0-9_\.\-/:]+$"`
+	Id         *string                       `json:"id,omitempty"`
+	Overrides  *util.Nullable[Overrides]     `json:"overrides,omitempty"`
+	Recipients *util.Nullable[[]shared.User] `json:"recipients,omitempty" required:"true" minItems:"1" maxItems:"1000"`
+	Status     *BroadcastStatus              `json:"status,omitempty"`
+	Title      *string                       `json:"title,omitempty" required:"true" maxLength:"255" minLength:"1"`
+	Topic      *util.Nullable[string]        `json:"topic,omitempty" maxLength:"255" pattern:"^[A-Za-z0-9_\.\-/:]+$"`
 }
 
 func (b *Broadcast) GetActionUrl() *util.Nullable[string] {
@@ -120,15 +120,19 @@ func (b *Broadcast) SetOverridesNull() {
 	b.Overrides = &util.Nullable[Overrides]{IsNull: true}
 }
 
-func (b *Broadcast) GetRecipients() []shared.User {
+func (b *Broadcast) GetRecipients() *util.Nullable[[]shared.User] {
 	if b == nil {
 		return nil
 	}
 	return b.Recipients
 }
 
-func (b *Broadcast) SetRecipients(recipients []shared.User) {
-	b.Recipients = recipients
+func (b *Broadcast) SetRecipients(recipients util.Nullable[[]shared.User]) {
+	b.Recipients = &recipients
+}
+
+func (b *Broadcast) SetRecipientsNull() {
+	b.Recipients = &util.Nullable[[]shared.User]{IsNull: true}
 }
 
 func (b *Broadcast) GetStatus() *BroadcastStatus {
