@@ -39,7 +39,7 @@ md.reIndentHeadings(readmeAst, 1);
 md.mapLinks(readmeAst, rewriteHref);
 md.insertFrontMatter(readmeAst, { title: "GO SDK" });
 md.remove(readmeAst, removeFirstHeading())
-await md.write(readmeAst, path.join(outdir, 'index.mdx'));
+await md.write(readmeAst, path.join(outdir, 'README.md'));
 
 // copy snippets
 await fs.copyFile(
