@@ -37,7 +37,7 @@ const [readme] = glob.sync('README.md', { cwd: root });
 const readmeAst = await md.read(readme);
 md.reIndentHeadings(readmeAst, 1);
 md.mapLinks(readmeAst, rewriteHref);
-md.insertFrontMatter(readmeAst, { title: "MagicBell GO SDK" });
+md.insertFrontMatter(readmeAst, { title: "GO SDK" });
 md.remove(readmeAst, removeFirstHeading())
 await md.write(readmeAst, path.join(outdir, 'index.mdx'));
 
