@@ -40,6 +40,14 @@ func (params *DeleteFcmIntegrationRequestParams) SetId(id string) {
 	params.Id = &id
 }
 
+type DeleteGithubIntegrationRequestParams struct {
+	Id *string `explode:"true" serializationStyle:"form" queryParam:"id"`
+}
+
+func (params *DeleteGithubIntegrationRequestParams) SetId(id string) {
+	params.Id = &id
+}
+
 type DeleteInboxIntegrationRequestParams struct {
 	Id *string `explode:"true" serializationStyle:"form" queryParam:"id"`
 }
@@ -85,6 +93,14 @@ type DeleteSlackIntegrationRequestParams struct {
 }
 
 func (params *DeleteSlackIntegrationRequestParams) SetId(id string) {
+	params.Id = &id
+}
+
+type DeleteStripeIntegrationRequestParams struct {
+	Id *string `explode:"true" serializationStyle:"form" queryParam:"id"`
+}
+
+func (params *DeleteStripeIntegrationRequestParams) SetId(id string) {
 	params.Id = &id
 }
 

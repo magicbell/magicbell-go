@@ -138,6 +138,8 @@ The SDK includes several models that represent the data structures used in API r
 | [ExpoConfigPayload](models/expo_config_payload.md)                        |             |
 | [FcmConfigCollection](models/fcm_config_collection.md)                    |             |
 | [FcmConfigPayload](models/fcm_config_payload.md)                          |             |
+| [GithubConfigCollection](models/github_config_collection.md)              |             |
+| [GithubConfigPayload](models/github_config_payload.md)                    |             |
 | [InboxConfigCollection](models/inbox_config_collection.md)                |             |
 | [InboxConfigPayload](models/inbox_config_payload.md)                      |             |
 | [MailgunConfigCollection](models/mailgun_config_collection.md)            |             |
@@ -150,6 +152,8 @@ The SDK includes several models that represent the data structures used in API r
 | [SesConfigPayload](models/ses_config_payload.md)                          |             |
 | [SlackConfigCollection](models/slack_config_collection.md)                |             |
 | [SlackConfigPayload](models/slack_config_payload.md)                      |             |
+| [StripeConfigCollection](models/stripe_config_collection.md)              |             |
+| [StripeConfigPayload](models/stripe_config_payload.md)                    |             |
 | [TwilioConfigCollection](models/twilio_config_collection.md)              |             |
 | [TwilioConfigPayload](models/twilio_config_payload.md)                    |             |
 | [WebpushConfigCollection](models/webpush_config_collection.md)            |             |
@@ -161,12 +165,14 @@ The SDK includes several models that represent the data structures used in API r
 | [ApnsConfig](models/apns_config.md)                                       |             |
 | [ExpoConfig](models/expo_config.md)                                       |             |
 | [FcmConfig](models/fcm_config.md)                                         |             |
+| [GithubConfig](models/github_config.md)                                   |             |
 | [InboxConfig](models/inbox_config.md)                                     |             |
 | [MailgunConfig](models/mailgun_config.md)                                 |             |
 | [PingConfig](models/ping_config.md)                                       |             |
 | [SendgridConfig](models/sendgrid_config.md)                               |             |
 | [SesConfig](models/ses_config.md)                                         |             |
 | [SlackConfig](models/slack_config.md)                                     |             |
+| [StripeConfig](models/stripe_config.md)                                   |             |
 | [TwilioConfig](models/twilio_config.md)                                   |             |
 | [WebpushConfig](models/webpush_config.md)                                 |             |
 

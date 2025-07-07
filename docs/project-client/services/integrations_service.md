@@ -14,6 +14,9 @@ A list of all methods in the `IntegrationsService` service. Click on the method 
 | [ListFcmIntegrations](#listfcmintegrations)               | Retrieves the current FCM integration configurations for a specific integration type in the project. Returns configuration details and status information.              |
 | [SaveFcmIntegration](#savefcmintegration)                 | Updates or creates the FCM integration for the project.                                                                                                                 |
 | [DeleteFcmIntegration](#deletefcmintegration)             | Deletes the FCM integration configuration from the project. This will disable the integration's functionality within the project.                                       |
+| [ListGithubIntegrations](#listgithubintegrations)         | Retrieves the current GitHub integration configurations for a specific integration type in the project. Returns configuration details and status information.           |
+| [SaveGithubIntegration](#savegithubintegration)           | Updates or creates the GitHub integration for the project.                                                                                                              |
+| [DeleteGithubIntegration](#deletegithubintegration)       | Deletes the GitHub integration configuration from the project. This will disable the integration's functionality within the project.                                    |
 | [ListInboxIntegrations](#listinboxintegrations)           | Retrieves the current Inbox integration configurations for a specific integration type in the project. Returns configuration details and status information.            |
 | [SaveInboxIntegration](#saveinboxintegration)             | Updates or creates the Inbox integration for the project.                                                                                                               |
 | [DeleteInboxIntegration](#deleteinboxintegration)         | Deletes the Inbox integration configuration from the project. This will disable the integration's functionality within the project.                                     |
@@ -32,6 +35,9 @@ A list of all methods in the `IntegrationsService` service. Click on the method 
 | [ListSlackIntegrations](#listslackintegrations)           | Retrieves the current Slack integration configurations for a specific integration type in the project. Returns configuration details and status information.            |
 | [SaveSlackIntegration](#saveslackintegration)             | Updates or creates the Slack integration for the project.                                                                                                               |
 | [DeleteSlackIntegration](#deleteslackintegration)         | Deletes the Slack integration configuration from the project. This will disable the integration's functionality within the project.                                     |
+| [ListStripeIntegrations](#liststripeintegrations)         | Retrieves the current Stripe integration configurations for a specific integration type in the project. Returns configuration details and status information.           |
+| [SaveStripeIntegration](#savestripeintegration)           | Updates or creates the Stripe integration for the project.                                                                                                              |
+| [DeleteStripeIntegration](#deletestripeintegration)       | Deletes the Stripe integration configuration from the project. This will disable the integration's functionality within the project.                                    |
 | [ListTwilioIntegrations](#listtwiliointegrations)         | Retrieves the current Twilio integration configurations for a specific integration type in the project. Returns configuration details and status information.           |
 | [SaveTwilioIntegration](#savetwiliointegration)           | Updates or creates the Twilio integration for the project.                                                                                                              |
 | [DeleteTwilioIntegration](#deletetwiliointegration)       | Deletes the Twilio integration configuration from the project. This will disable the integration's functionality within the project.                                    |
@@ -490,6 +496,137 @@ params := integrations.DeleteFcmIntegrationRequestParams{
 }
 
 response, err := client.Integrations.DeleteFcmIntegration(context.Background(), params)
+if err != nil {
+  panic(err)
+}
+
+fmt.Println(response)
+```
+
+## ListGithubIntegrations
+
+Retrieves the current GitHub integration configurations for a specific integration type in the project. Returns configuration details and status information.
+
+- HTTP Method: `GET`
+- Endpoint: `/integrations/github`
+
+**Parameters**
+
+| Name | Type    | Required | Description                 |
+| :--- | :------ | :------- | :-------------------------- |
+| ctx  | Context | ✅       | Default go language context |
+
+**Return Type**
+
+`GithubConfigCollection`
+
+**Example Usage Code Snippet**
+
+```go
+import (
+  "fmt"
+  "encoding/json"
+  "github.com/magicbell/magicbell-go/pkg/project-client/clientconfig"
+  "github.com/magicbell/magicbell-go/pkg/project-client/client"
+
+)
+
+config := clientconfig.NewConfig()
+client := client.NewClient(config)
+
+response, err := client.Integrations.ListGithubIntegrations(context.Background())
+if err != nil {
+  panic(err)
+}
+
+fmt.Println(response)
+```
+
+## SaveGithubIntegration
+
+Updates or creates the GitHub integration for the project.
+
+- HTTP Method: `PUT`
+- Endpoint: `/integrations/github`
+
+**Parameters**
+
+| Name                | Type                | Required | Description                 |
+| :------------------ | :------------------ | :------- | :-------------------------- |
+| ctx                 | Context             | ✅       | Default go language context |
+| githubConfigPayload | GithubConfigPayload | ✅       |                             |
+
+**Return Type**
+
+`GithubConfigPayload`
+
+**Example Usage Code Snippet**
+
+```go
+import (
+  "fmt"
+  "encoding/json"
+  "github.com/magicbell/magicbell-go/pkg/project-client/clientconfig"
+  "github.com/magicbell/magicbell-go/pkg/project-client/client"
+  "github.com/magicbell/magicbell-go/pkg/project-client/util"
+  "github.com/magicbell/magicbell-go/pkg/project-client/integrations"
+)
+
+config := clientconfig.NewConfig()
+client := client.NewClient(config)
+
+
+request := integrations.GithubConfigPayload{
+  WebhookSigningSecret: util.ToPointer("WebhookSigningSecret"),
+}
+
+response, err := client.Integrations.SaveGithubIntegration(context.Background(), request)
+if err != nil {
+  panic(err)
+}
+
+fmt.Println(response)
+```
+
+## DeleteGithubIntegration
+
+Deletes the GitHub integration configuration from the project. This will disable the integration's functionality within the project.
+
+- HTTP Method: `DELETE`
+- Endpoint: `/integrations/github`
+
+**Parameters**
+
+| Name   | Type                                 | Required | Description                   |
+| :----- | :----------------------------------- | :------- | :---------------------------- |
+| ctx    | Context                              | ✅       | Default go language context   |
+| params | DeleteGithubIntegrationRequestParams | ✅       | Additional request parameters |
+
+**Return Type**
+
+`any`
+
+**Example Usage Code Snippet**
+
+```go
+import (
+  "fmt"
+  "encoding/json"
+  "github.com/magicbell/magicbell-go/pkg/project-client/clientconfig"
+  "github.com/magicbell/magicbell-go/pkg/project-client/client"
+
+  "github.com/magicbell/magicbell-go/pkg/project-client/integrations"
+)
+
+config := clientconfig.NewConfig()
+client := client.NewClient(config)
+
+
+params := integrations.DeleteGithubIntegrationRequestParams{
+
+}
+
+response, err := client.Integrations.DeleteGithubIntegration(context.Background(), params)
 if err != nil {
   panic(err)
 }
@@ -1430,6 +1567,137 @@ params := integrations.DeleteSlackIntegrationRequestParams{
 }
 
 response, err := client.Integrations.DeleteSlackIntegration(context.Background(), params)
+if err != nil {
+  panic(err)
+}
+
+fmt.Println(response)
+```
+
+## ListStripeIntegrations
+
+Retrieves the current Stripe integration configurations for a specific integration type in the project. Returns configuration details and status information.
+
+- HTTP Method: `GET`
+- Endpoint: `/integrations/stripe`
+
+**Parameters**
+
+| Name | Type    | Required | Description                 |
+| :--- | :------ | :------- | :-------------------------- |
+| ctx  | Context | ✅       | Default go language context |
+
+**Return Type**
+
+`StripeConfigCollection`
+
+**Example Usage Code Snippet**
+
+```go
+import (
+  "fmt"
+  "encoding/json"
+  "github.com/magicbell/magicbell-go/pkg/project-client/clientconfig"
+  "github.com/magicbell/magicbell-go/pkg/project-client/client"
+
+)
+
+config := clientconfig.NewConfig()
+client := client.NewClient(config)
+
+response, err := client.Integrations.ListStripeIntegrations(context.Background())
+if err != nil {
+  panic(err)
+}
+
+fmt.Println(response)
+```
+
+## SaveStripeIntegration
+
+Updates or creates the Stripe integration for the project.
+
+- HTTP Method: `PUT`
+- Endpoint: `/integrations/stripe`
+
+**Parameters**
+
+| Name                | Type                | Required | Description                 |
+| :------------------ | :------------------ | :------- | :-------------------------- |
+| ctx                 | Context             | ✅       | Default go language context |
+| stripeConfigPayload | StripeConfigPayload | ✅       |                             |
+
+**Return Type**
+
+`StripeConfigPayload`
+
+**Example Usage Code Snippet**
+
+```go
+import (
+  "fmt"
+  "encoding/json"
+  "github.com/magicbell/magicbell-go/pkg/project-client/clientconfig"
+  "github.com/magicbell/magicbell-go/pkg/project-client/client"
+  "github.com/magicbell/magicbell-go/pkg/project-client/util"
+  "github.com/magicbell/magicbell-go/pkg/project-client/integrations"
+)
+
+config := clientconfig.NewConfig()
+client := client.NewClient(config)
+
+
+request := integrations.StripeConfigPayload{
+  WebhookSigningSecret: util.ToPointer("WebhookSigningSecret"),
+}
+
+response, err := client.Integrations.SaveStripeIntegration(context.Background(), request)
+if err != nil {
+  panic(err)
+}
+
+fmt.Println(response)
+```
+
+## DeleteStripeIntegration
+
+Deletes the Stripe integration configuration from the project. This will disable the integration's functionality within the project.
+
+- HTTP Method: `DELETE`
+- Endpoint: `/integrations/stripe`
+
+**Parameters**
+
+| Name   | Type                                 | Required | Description                   |
+| :----- | :----------------------------------- | :------- | :---------------------------- |
+| ctx    | Context                              | ✅       | Default go language context   |
+| params | DeleteStripeIntegrationRequestParams | ✅       | Additional request parameters |
+
+**Return Type**
+
+`any`
+
+**Example Usage Code Snippet**
+
+```go
+import (
+  "fmt"
+  "encoding/json"
+  "github.com/magicbell/magicbell-go/pkg/project-client/clientconfig"
+  "github.com/magicbell/magicbell-go/pkg/project-client/client"
+
+  "github.com/magicbell/magicbell-go/pkg/project-client/integrations"
+)
+
+config := clientconfig.NewConfig()
+client := client.NewClient(config)
+
+
+params := integrations.DeleteStripeIntegrationRequestParams{
+
+}
+
+response, err := client.Integrations.DeleteStripeIntegration(context.Background(), params)
 if err != nil {
   panic(err)
 }
