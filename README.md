@@ -2,6 +2,10 @@
 
 Welcome to the MagiBell GO SDK documentation. This guide will help you get started with integrating and using the MagicBell GO SDK in your project.
 
+## Authentication
+
+Both the ProjectClient and the UserClient require authentication. Please read more about authentication and generation of tokens in our [Authentication docs](https://www.magicbell.com/docs/api/authentication).
+
 # ProjectClient
 
 <!-- AUTO-GENERATED-CONTENT:START (project-client) -->
