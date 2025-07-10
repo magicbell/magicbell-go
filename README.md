@@ -140,6 +140,8 @@ The SDK includes several models that represent the data structures used in API r
 | [ExpoConfigPayload](docs/project-client/models/expo_config_payload.md)                        |             |
 | [FcmConfigCollection](docs/project-client/models/fcm_config_collection.md)                    |             |
 | [FcmConfigPayload](docs/project-client/models/fcm_config_payload.md)                          |             |
+| [GithubConfigCollection](docs/project-client/models/github_config_collection.md)              |             |
+| [GithubConfigPayload](docs/project-client/models/github_config_payload.md)                    |             |
 | [InboxConfigCollection](docs/project-client/models/inbox_config_collection.md)                |             |
 | [InboxConfigPayload](docs/project-client/models/inbox_config_payload.md)                      |             |
 | [MailgunConfigCollection](docs/project-client/models/mailgun_config_collection.md)            |             |
@@ -152,6 +154,8 @@ The SDK includes several models that represent the data structures used in API r
 | [SesConfigPayload](docs/project-client/models/ses_config_payload.md)                          |             |
 | [SlackConfigCollection](docs/project-client/models/slack_config_collection.md)                |             |
 | [SlackConfigPayload](docs/project-client/models/slack_config_payload.md)                      |             |
+| [StripeConfigCollection](docs/project-client/models/stripe_config_collection.md)              |             |
+| [StripeConfigPayload](docs/project-client/models/stripe_config_payload.md)                    |             |
 | [TwilioConfigCollection](docs/project-client/models/twilio_config_collection.md)              |             |
 | [TwilioConfigPayload](docs/project-client/models/twilio_config_payload.md)                    |             |
 | [WebpushConfigCollection](docs/project-client/models/webpush_config_collection.md)            |             |
@@ -163,12 +167,14 @@ The SDK includes several models that represent the data structures used in API r
 | [ApnsConfig](docs/project-client/models/apns_config.md)                                       |             |
 | [ExpoConfig](docs/project-client/models/expo_config.md)                                       |             |
 | [FcmConfig](docs/project-client/models/fcm_config.md)                                         |             |
+| [GithubConfig](docs/project-client/models/github_config.md)                                   |             |
 | [InboxConfig](docs/project-client/models/inbox_config.md)                                     |             |
 | [MailgunConfig](docs/project-client/models/mailgun_config.md)                                 |             |
 | [PingConfig](docs/project-client/models/ping_config.md)                                       |             |
 | [SendgridConfig](docs/project-client/models/sendgrid_config.md)                               |             |
 | [SesConfig](docs/project-client/models/ses_config.md)                                         |             |
 | [SlackConfig](docs/project-client/models/slack_config.md)                                     |             |
+| [StripeConfig](docs/project-client/models/stripe_config.md)                                   |             |
 | [TwilioConfig](docs/project-client/models/twilio_config.md)                                   |             |
 | [WebpushConfig](docs/project-client/models/webpush_config.md)                                 |             |
 

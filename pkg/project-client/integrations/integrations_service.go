@@ -264,6 +264,72 @@ func (api *IntegrationsService) DeleteFcmIntegration(ctx context.Context, params
 	return shared.NewClientResponse[any](resp), nil
 }
 
+// Retrieves the current GitHub integration configurations for a specific integration type in the project. Returns configuration details and status information.
+func (api *IntegrationsService) ListGithubIntegrations(ctx context.Context) (*shared.ClientResponse[GithubConfigCollection], *shared.ClientError) {
+	config := *api.getConfig()
+
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("GET").
+		WithPath("/integrations/github").
+		WithConfig(config).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
+	client := restClient.NewRestClient[GithubConfigCollection](config)
+	resp, err := client.Call(*request)
+	if err != nil {
+		return nil, shared.NewClientError[GithubConfigCollection](err)
+	}
+
+	return shared.NewClientResponse[GithubConfigCollection](resp), nil
+}
+
+// Updates or creates the GitHub integration for the project.
+func (api *IntegrationsService) SaveGithubIntegration(ctx context.Context, githubConfigPayload GithubConfigPayload) (*shared.ClientResponse[GithubConfigPayload], *shared.ClientError) {
+	config := *api.getConfig()
+
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("PUT").
+		WithPath("/integrations/github").
+		WithConfig(config).
+		WithBody(githubConfigPayload).
+		AddHeader("CONTENT-TYPE", "application/json").
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
+	client := restClient.NewRestClient[GithubConfigPayload](config)
+	resp, err := client.Call(*request)
+	if err != nil {
+		return nil, shared.NewClientError[GithubConfigPayload](err)
+	}
+
+	return shared.NewClientResponse[GithubConfigPayload](resp), nil
+}
+
+// Deletes the GitHub integration configuration from the project. This will disable the integration's functionality within the project.
+func (api *IntegrationsService) DeleteGithubIntegration(ctx context.Context, params DeleteGithubIntegrationRequestParams) (*shared.ClientResponse[any], *shared.ClientError) {
+	config := *api.getConfig()
+
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("DELETE").
+		WithPath("/integrations/github").
+		WithConfig(config).
+		WithOptions(params).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
+	client := restClient.NewRestClient[any](config)
+	resp, err := client.Call(*request)
+	if err != nil {
+		return nil, shared.NewClientError[any](err)
+	}
+
+	return shared.NewClientResponse[any](resp), nil
+}
+
 // Retrieves the current Inbox integration configurations for a specific integration type in the project. Returns configuration details and status information.
 func (api *IntegrationsService) ListInboxIntegrations(ctx context.Context) (*shared.ClientResponse[InboxConfigCollection], *shared.ClientError) {
 	config := *api.getConfig()
@@ -645,6 +711,72 @@ func (api *IntegrationsService) DeleteSlackIntegration(ctx context.Context, para
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
 		WithMethod("DELETE").
 		WithPath("/integrations/slack").
+		WithConfig(config).
+		WithOptions(params).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
+	client := restClient.NewRestClient[any](config)
+	resp, err := client.Call(*request)
+	if err != nil {
+		return nil, shared.NewClientError[any](err)
+	}
+
+	return shared.NewClientResponse[any](resp), nil
+}
+
+// Retrieves the current Stripe integration configurations for a specific integration type in the project. Returns configuration details and status information.
+func (api *IntegrationsService) ListStripeIntegrations(ctx context.Context) (*shared.ClientResponse[StripeConfigCollection], *shared.ClientError) {
+	config := *api.getConfig()
+
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("GET").
+		WithPath("/integrations/stripe").
+		WithConfig(config).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
+	client := restClient.NewRestClient[StripeConfigCollection](config)
+	resp, err := client.Call(*request)
+	if err != nil {
+		return nil, shared.NewClientError[StripeConfigCollection](err)
+	}
+
+	return shared.NewClientResponse[StripeConfigCollection](resp), nil
+}
+
+// Updates or creates the Stripe integration for the project.
+func (api *IntegrationsService) SaveStripeIntegration(ctx context.Context, stripeConfigPayload StripeConfigPayload) (*shared.ClientResponse[StripeConfigPayload], *shared.ClientError) {
+	config := *api.getConfig()
+
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("PUT").
+		WithPath("/integrations/stripe").
+		WithConfig(config).
+		WithBody(stripeConfigPayload).
+		AddHeader("CONTENT-TYPE", "application/json").
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
+	client := restClient.NewRestClient[StripeConfigPayload](config)
+	resp, err := client.Call(*request)
+	if err != nil {
+		return nil, shared.NewClientError[StripeConfigPayload](err)
+	}
+
+	return shared.NewClientResponse[StripeConfigPayload](resp), nil
+}
+
+// Deletes the Stripe integration configuration from the project. This will disable the integration's functionality within the project.
+func (api *IntegrationsService) DeleteStripeIntegration(ctx context.Context, params DeleteStripeIntegrationRequestParams) (*shared.ClientResponse[any], *shared.ClientError) {
+	config := *api.getConfig()
+
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("DELETE").
+		WithPath("/integrations/stripe").
 		WithConfig(config).
 		WithOptions(params).
 		WithContentType(httptransport.ContentTypeJson).
