@@ -2,8 +2,8 @@
 
 **Properties**
 
-| Name   | Type                          | Required | Description |
-| :----- | :---------------------------- | :------- | :---------- |
-| Config | integrations.SesConfigPayload | ✅       |             |
-| Id     | string                        | ✅       |             |
-| Name   | string                        | ✅       |             |
+| Name   | Type                                                   | Required | Description |
+| :----- | :----------------------------------------------------- | :------- | :---------- |
+| Config | [integrations.SesConfigPayload](ses_config_payload.md) | ✅       |             |
+| Id     | string                                                 | ✅       |             |
+| Name   | string                                                 | ✅       |             |

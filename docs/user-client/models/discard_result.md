@@ -2,7 +2,7 @@
 
 **Properties**
 
-| Name        | Type   | Required | Description |
-| :---------- | :----- | :------- | :---------- |
-| DiscardedAt | string | ❌       |             |
-| Id          | string | ❌       |             |
+| Name        | Type   | Required | Description                                    |
+| :---------- | :----- | :------- | :--------------------------------------------- |
+| DiscardedAt | string | ❌       | The timestamp when the token was discarded.    |
+| Id          | string | ❌       | The unique identifier for the discarded token. |

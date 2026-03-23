@@ -32,18 +32,22 @@ Retrieves a paginated list of broadcasts for the project. Returns basic informat
 import (
   "fmt"
   "encoding/json"
+  "context"
   "github.com/magicbell/magicbell-go/pkg/project-client/clientconfig"
   "github.com/magicbell/magicbell-go/pkg/project-client/client"
-
+  "github.com/magicbell/magicbell-go/pkg/project-client/util"
   "github.com/magicbell/magicbell-go/pkg/project-client/broadcasts"
 )
 
 config := clientconfig.NewConfig()
+config.SetAccessToken("ACCESS_TOKEN")
 client := client.NewClient(config)
 
 
 params := broadcasts.ListBroadcastsRequestParams{
-
+  Limit: util.ToPointer(int64(0)),
+  StartingAfter: util.ToPointer("starting_after"),
+  EndingBefore: util.ToPointer("ending_before"),
 }
 
 response, err := client.Broadcasts.ListBroadcasts(context.Background(), params)
@@ -78,6 +82,7 @@ Creates a new broadcast. When a broadcast is created, it generates individual no
 import (
   "fmt"
   "encoding/json"
+  "context"
   "github.com/magicbell/magicbell-go/pkg/project-client/clientconfig"
   "github.com/magicbell/magicbell-go/pkg/project-client/client"
   "github.com/magicbell/magicbell-go/pkg/project-client/util"
@@ -85,34 +90,35 @@ import (
 )
 
 config := clientconfig.NewConfig()
+config.SetAccessToken("ACCESS_TOKEN")
 client := client.NewClient(config)
 
 
 email := broadcasts.Email{
-  ActionUrl: util.ToPointer(util.Nullable[string]{ Value: "ActionUrl" }),
-  Content: util.ToPointer("Content"),
-  Title: util.ToPointer("Title"),
+  ActionUrl: util.ToPointer(util.Nullable[string]{ Value: "action_url" }),
+  Content: util.ToPointer("content"),
+  Title: util.ToPointer("title"),
 }
 
 
 inApp := broadcasts.InApp{
-  ActionUrl: util.ToPointer(util.Nullable[string]{ Value: "ActionUrl" }),
-  Content: util.ToPointer("Content"),
-  Title: util.ToPointer("Title"),
+  ActionUrl: util.ToPointer(util.Nullable[string]{ Value: "action_url" }),
+  Content: util.ToPointer("content"),
+  Title: util.ToPointer("title"),
 }
 
 
 mobilePush := broadcasts.MobilePush{
-  ActionUrl: util.ToPointer(util.Nullable[string]{ Value: "ActionUrl" }),
-  Content: util.ToPointer("Content"),
-  Title: util.ToPointer("Title"),
+  ActionUrl: util.ToPointer(util.Nullable[string]{ Value: "action_url" }),
+  Content: util.ToPointer("content"),
+  Title: util.ToPointer("title"),
 }
 
 
 sms := broadcasts.Sms{
-  ActionUrl: util.ToPointer(util.Nullable[string]{ Value: "ActionUrl" }),
-  Content: util.ToPointer("Content"),
-  Title: util.ToPointer("Title"),
+  ActionUrl: util.ToPointer(util.Nullable[string]{ Value: "action_url" }),
+  Content: util.ToPointer("content"),
+  Title: util.ToPointer("title"),
 }
 
 overridesChannels := broadcasts.OverridesChannels{
@@ -143,29 +149,29 @@ overrides := broadcasts.Overrides{
 
 
 user := shared.User{
-  CreatedAt: util.ToPointer(util.Nullable[string]{ Value: "CreatedAt" }),
+  CreatedAt: util.ToPointer(util.Nullable[string]{ Value: "created_at" }),
   CustomAttributes: []byte{},
-  Email: util.ToPointer(util.Nullable[string]{ Value: "Email" }),
-  ExternalId: util.ToPointer(util.Nullable[string]{ Value: "ExternalId" }),
-  FirstName: util.ToPointer(util.Nullable[string]{ Value: "FirstName" }),
-  Id: util.ToPointer("Id"),
-  LastName: util.ToPointer(util.Nullable[string]{ Value: "LastName" }),
-  LastNotifiedAt: util.ToPointer(util.Nullable[string]{ Value: "LastNotifiedAt" }),
-  LastSeenAt: util.ToPointer(util.Nullable[string]{ Value: "LastSeenAt" }),
-  UpdatedAt: util.ToPointer(util.Nullable[string]{ Value: "UpdatedAt" }),
+  Email: util.ToPointer(util.Nullable[string]{ Value: "email" }),
+  ExternalId: util.ToPointer(util.Nullable[string]{ Value: "external_id" }),
+  FirstName: util.ToPointer(util.Nullable[string]{ Value: "first_name" }),
+  Id: util.ToPointer("id"),
+  LastName: util.ToPointer(util.Nullable[string]{ Value: "last_name" }),
+  LastNotifiedAt: util.ToPointer(util.Nullable[string]{ Value: "last_notified_at" }),
+  LastSeenAt: util.ToPointer(util.Nullable[string]{ Value: "last_seen_at" }),
+  UpdatedAt: util.ToPointer(util.Nullable[string]{ Value: "updated_at" }),
 }
 
 
 errors := broadcasts.Errors{
-  Message: util.ToPointer("Message"),
+  Message: util.ToPointer("message"),
 }
 
 statusStatus := broadcasts.STATUS_STATUS_ENQUEUED
 
 
 summary := broadcasts.Summary{
-  Failures: util.ToPointer(int64(123)),
-  Total: util.ToPointer(int64(123)),
+  Failures: util.ToPointer(int64(8)),
+  Total: util.ToPointer(int64(8)),
 }
 
 broadcastStatus := broadcasts.BroadcastStatus{
@@ -175,17 +181,17 @@ broadcastStatus := broadcasts.BroadcastStatus{
 }
 
 request := broadcasts.Broadcast{
-  ActionUrl: util.ToPointer(util.Nullable[string]{ Value: "ActionUrl" }),
-  Category: util.ToPointer(util.Nullable[string]{ Value: "Category" }),
-  Content: util.ToPointer(util.Nullable[string]{ Value: "Content" }),
-  CreatedAt: util.ToPointer("CreatedAt"),
+  ActionUrl: util.ToPointer(util.Nullable[string]{ Value: "action_url" }),
+  Category: util.ToPointer(util.Nullable[string]{ Value: "category" }),
+  Content: util.ToPointer(util.Nullable[string]{ Value: "content" }),
+  CreatedAt: util.ToPointer("created_at"),
   CustomAttributes: []byte{},
-  Id: util.ToPointer("Id"),
+  Id: util.ToPointer("id"),
   Overrides: &overrides,
   Recipients: []shared.User{user},
   Status: &broadcastStatus,
-  Title: util.ToPointer("Title"),
-  Topic: util.ToPointer(util.Nullable[string]{ Value: "Topic" }),
+  Title: util.ToPointer("title"),
+  Topic: util.ToPointer(util.Nullable[string]{ Value: "topic" }),
 }
 
 response, err := client.Broadcasts.CreateBroadcast(context.Background(), request)
@@ -220,15 +226,17 @@ Retrieves detailed information about a specific broadcast by its ID. Includes th
 import (
   "fmt"
   "encoding/json"
+  "context"
   "github.com/magicbell/magicbell-go/pkg/project-client/clientconfig"
   "github.com/magicbell/magicbell-go/pkg/project-client/client"
 
 )
 
 config := clientconfig.NewConfig()
+config.SetAccessToken("ACCESS_TOKEN")
 client := client.NewClient(config)
 
-response, err := client.Broadcasts.FetchBroadcast(context.Background(), "broadcastId")
+response, err := client.Broadcasts.FetchBroadcast(context.Background(), "broadcast_id")
 if err != nil {
   panic(err)
 }

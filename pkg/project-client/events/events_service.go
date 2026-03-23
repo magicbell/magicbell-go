@@ -3,6 +3,7 @@ package events
 import (
 	"context"
 	restClient "github.com/magicbell/magicbell-go/pkg/project-client/internal/clients/rest"
+	"github.com/magicbell/magicbell-go/pkg/project-client/internal/clients/rest/hooks"
 	"github.com/magicbell/magicbell-go/pkg/project-client/internal/clients/rest/httptransport"
 	"github.com/magicbell/magicbell-go/pkg/project-client/internal/configmanager"
 	"github.com/magicbell/magicbell-go/pkg/project-client/clientconfig"
@@ -10,8 +11,11 @@ import (
 	"time"
 )
 
+// EventsService provides methods to interact with EventsService-related API endpoints.
+// It uses a configuration manager for settings and supports custom hooks for request/response interception.
 type EventsService struct {
 	manager *configmanager.ConfigManager
+	hook    hooks.Hook
 }
 
 func NewEventsService() *EventsService {
@@ -20,13 +24,26 @@ func NewEventsService() *EventsService {
 	}
 }
 
+// WithConfigManager sets the configuration manager for this service.
+// Returns the service instance for method chaining.
 func (api *EventsService) WithConfigManager(manager *configmanager.ConfigManager) *EventsService {
 	api.manager = manager
 	return api
 }
 
+// WithHook sets a custom hook for request/response interception.
+// Returns the service instance for method chaining.
+func (api *EventsService) WithHook(hook hooks.Hook) *EventsService {
+	api.hook = hook
+	return api
+}
+
 func (api *EventsService) getConfig() *clientconfig.Config {
 	return api.manager.GetEvents()
+}
+
+func (api *EventsService) getHook() hooks.Hook {
+	return api.hook
 }
 
 func (api *EventsService) SetBaseUrl(baseUrl string) {
@@ -45,7 +62,7 @@ func (api *EventsService) SetAccessToken(accessToken string) {
 }
 
 // Retrieves a paginated list of events for the project.
-func (api *EventsService) ListEvents(ctx context.Context, params ListEventsRequestParams) (*shared.ClientResponse[EventCollection], *shared.ClientError) {
+func (api *EventsService) ListEvents(ctx context.Context, params ListEventsRequestParams) (*shared.ClientResponse[EventCollection], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -57,17 +74,17 @@ func (api *EventsService) ListEvents(ctx context.Context, params ListEventsReque
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[EventCollection](config)
+	client := restClient.NewRestClient[EventCollection, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[EventCollection](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[EventCollection](resp), nil
 }
 
 // Fetches a project event by its ID.
-func (api *EventsService) FetchEvent(ctx context.Context, eventId string) (*shared.ClientResponse[Event], *shared.ClientError) {
+func (api *EventsService) FetchEvent(ctx context.Context, eventId string) (*shared.ClientResponse[Event], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -79,10 +96,10 @@ func (api *EventsService) FetchEvent(ctx context.Context, eventId string) (*shar
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[Event](config)
+	client := restClient.NewRestClient[Event, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[Event](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[Event](resp), nil

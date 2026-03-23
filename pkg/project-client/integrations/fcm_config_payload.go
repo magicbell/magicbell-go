@@ -3,17 +3,28 @@ package integrations
 import "encoding/json"
 
 type FcmConfigPayload struct {
+	// URL for Google's OAuth provider x509 certificates used to validate tokens.
 	AuthProviderX509CertUrl *string `json:"auth_provider_x509_cert_url,omitempty" required:"true"`
-	AuthUri                 *string `json:"auth_uri,omitempty" required:"true"`
-	ClientEmail             *string `json:"client_email,omitempty" required:"true"`
-	ClientId                *string `json:"client_id,omitempty" required:"true"`
-	ClientX509CertUrl       *string `json:"client_x509_cert_url,omitempty" required:"true"`
-	PrivateKey              *string `json:"private_key,omitempty" required:"true" pattern:"^-+?\s?BEGIN[A-Z ]+-+\n([A-Za-z0-9+/\r\n]+={0,2})\n-+\s?END[A-Z ]+-+\n?$"`
-	PrivateKeyId            *string `json:"private_key_id,omitempty" required:"true"`
-	ProjectId               *string `json:"project_id,omitempty" required:"true"`
-	TokenUri                *string `json:"token_uri,omitempty" required:"true"`
-	Type_                   *Type_  `json:"type,omitempty" required:"true"`
-	UniverseDomain          *string `json:"universe_domain,omitempty" required:"true"`
+	// OAuth authorization endpoint used when exchanging Firebase credentials.
+	AuthUri *string `json:"auth_uri,omitempty" required:"true"`
+	// The client email address from the Firebase service account.
+	ClientEmail *string `json:"client_email,omitempty" required:"true"`
+	// The numeric client identifier for the Firebase service account.
+	ClientId *string `json:"client_id,omitempty" required:"true"`
+	// URL to the public x509 certificate for this service account.
+	ClientX509CertUrl *string `json:"client_x509_cert_url,omitempty" required:"true"`
+	// The PEM encoded service account private key used to sign Firebase credentials.
+	PrivateKey *string `json:"private_key,omitempty" required:"true" pattern:"^-+?\s?BEGIN[A-Z ]+-+\n([A-Za-z0-9+/\r\n]+={0,2})\n-+\s?END[A-Z ]+-+\n?$"`
+	// Identifier of the private key inside the downloaded service account JSON.
+	PrivateKeyId *string `json:"private_key_id,omitempty" required:"true"`
+	// The Firebase project ID associated with this service account.
+	ProjectId *string `json:"project_id,omitempty" required:"true"`
+	// OAuth token endpoint used to mint access tokens for FCM.
+	TokenUri *string `json:"token_uri,omitempty" required:"true"`
+	// Indicates the kind of Google credential. Service accounts always use the `service_account` type.
+	Type_ *Type_ `json:"type,omitempty" required:"true"`
+	// The Google Cloud universe domain hosting the Firebase APIs.
+	UniverseDomain *string `json:"universe_domain,omitempty" required:"true"`
 }
 
 func (f *FcmConfigPayload) GetAuthProviderX509CertUrl() *string {
@@ -144,9 +155,3 @@ func (f FcmConfigPayload) String() string {
 	}
 	return string(jsonData)
 }
-
-type Type_ string
-
-const (
-	TYPE_SERVICE_ACCOUNT Type_ = "service_account"
-)

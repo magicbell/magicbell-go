@@ -1,0 +1,74 @@
+package workflows
+
+import "encoding/json"
+
+type GetRunResponse struct {
+	CreatedAt   *string               `json:"created_at,omitempty"`
+	Id          *string               `json:"id,omitempty"`
+	Input       any                   `json:"input,omitempty"`
+	Status      *GetRunResponseStatus `json:"status,omitempty"`
+	WorkflowKey *string               `json:"workflow_key,omitempty"`
+}
+
+func (g *GetRunResponse) GetCreatedAt() *string {
+	if g == nil {
+		return nil
+	}
+	return g.CreatedAt
+}
+
+func (g *GetRunResponse) SetCreatedAt(createdAt string) {
+	g.CreatedAt = &createdAt
+}
+
+func (g *GetRunResponse) GetId() *string {
+	if g == nil {
+		return nil
+	}
+	return g.Id
+}
+
+func (g *GetRunResponse) SetId(id string) {
+	g.Id = &id
+}
+
+func (g *GetRunResponse) GetInput() any {
+	if g == nil {
+		return nil
+	}
+	return g.Input
+}
+
+func (g *GetRunResponse) SetInput(input any) {
+	g.Input = &input
+}
+
+func (g *GetRunResponse) GetStatus() *GetRunResponseStatus {
+	if g == nil {
+		return nil
+	}
+	return g.Status
+}
+
+func (g *GetRunResponse) SetStatus(status GetRunResponseStatus) {
+	g.Status = &status
+}
+
+func (g *GetRunResponse) GetWorkflowKey() *string {
+	if g == nil {
+		return nil
+	}
+	return g.WorkflowKey
+}
+
+func (g *GetRunResponse) SetWorkflowKey(workflowKey string) {
+	g.WorkflowKey = &workflowKey
+}
+
+func (g GetRunResponse) String() string {
+	jsonData, err := json.MarshalIndent(g, "", "  ")
+	if err != nil {
+		return "error converting struct: GetRunResponse to string"
+	}
+	return string(jsonData)
+}

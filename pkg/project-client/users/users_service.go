@@ -3,6 +3,7 @@ package users
 import (
 	"context"
 	restClient "github.com/magicbell/magicbell-go/pkg/project-client/internal/clients/rest"
+	"github.com/magicbell/magicbell-go/pkg/project-client/internal/clients/rest/hooks"
 	"github.com/magicbell/magicbell-go/pkg/project-client/internal/clients/rest/httptransport"
 	"github.com/magicbell/magicbell-go/pkg/project-client/internal/configmanager"
 	"github.com/magicbell/magicbell-go/pkg/project-client/clientconfig"
@@ -10,8 +11,11 @@ import (
 	"time"
 )
 
+// UsersService provides methods to interact with UsersService-related API endpoints.
+// It uses a configuration manager for settings and supports custom hooks for request/response interception.
 type UsersService struct {
 	manager *configmanager.ConfigManager
+	hook    hooks.Hook
 }
 
 func NewUsersService() *UsersService {
@@ -20,13 +24,26 @@ func NewUsersService() *UsersService {
 	}
 }
 
+// WithConfigManager sets the configuration manager for this service.
+// Returns the service instance for method chaining.
 func (api *UsersService) WithConfigManager(manager *configmanager.ConfigManager) *UsersService {
 	api.manager = manager
 	return api
 }
 
+// WithHook sets a custom hook for request/response interception.
+// Returns the service instance for method chaining.
+func (api *UsersService) WithHook(hook hooks.Hook) *UsersService {
+	api.hook = hook
+	return api
+}
+
 func (api *UsersService) getConfig() *clientconfig.Config {
 	return api.manager.GetUsers()
+}
+
+func (api *UsersService) getHook() hooks.Hook {
+	return api.hook
 }
 
 func (api *UsersService) SetBaseUrl(baseUrl string) {
@@ -45,7 +62,7 @@ func (api *UsersService) SetAccessToken(accessToken string) {
 }
 
 // Lists all users in the project.
-func (api *UsersService) ListUsers(ctx context.Context, params ListUsersRequestParams) (*shared.ClientResponse[UserCollection], *shared.ClientError) {
+func (api *UsersService) ListUsers(ctx context.Context, params ListUsersRequestParams) (*shared.ClientResponse[UserCollection], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -57,17 +74,17 @@ func (api *UsersService) ListUsers(ctx context.Context, params ListUsersRequestP
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[UserCollection](config)
+	client := restClient.NewRestClient[UserCollection, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[UserCollection](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[UserCollection](resp), nil
 }
 
 // Creates or updates a user with the provided details. The user will be associated with the project specified in the request context.
-func (api *UsersService) SaveUser(ctx context.Context, user shared.User) (*shared.ClientResponse[shared.User], *shared.ClientError) {
+func (api *UsersService) SaveUser(ctx context.Context, user shared.User) (*shared.ClientResponse[shared.User], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -80,17 +97,17 @@ func (api *UsersService) SaveUser(ctx context.Context, user shared.User) (*share
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[shared.User](config)
+	client := restClient.NewRestClient[shared.User, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[shared.User](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[shared.User](resp), nil
 }
 
 // Removes a user and all associated data from the project.
-func (api *UsersService) DeleteUser(ctx context.Context, userId string) (*shared.ClientResponse[any], *shared.ClientError) {
+func (api *UsersService) DeleteUser(ctx context.Context, userId string) (*shared.ClientResponse[any], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -102,10 +119,10 @@ func (api *UsersService) DeleteUser(ctx context.Context, userId string) (*shared
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[any](config)
+	client := restClient.NewRestClient[any, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[any](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[any](resp), nil

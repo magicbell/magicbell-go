@@ -2,15 +2,15 @@ package main
 
 import (
 	"bufio"
-	"context"
 	"fmt"
 	"os"
 	"strings"
 
+	"context"
+	"github.com/magicbell/magicbell-go/pkg/user-client/channels"
 	"github.com/magicbell/magicbell-go/pkg/user-client/client"
 	"github.com/magicbell/magicbell-go/pkg/user-client/clientconfig"
-
-	"github.com/magicbell/magicbell-go/pkg/user-client/channels"
+	"github.com/magicbell/magicbell-go/pkg/user-client/util"
 )
 
 func main() {
@@ -19,7 +19,11 @@ func main() {
 	config := clientconfig.NewConfig()
 	client := client.NewClient(config)
 
-	params := channels.ListInboxTokensRequestParams{}
+	params := channels.ListInboxTokensRequestParams{
+		Limit:         util.ToPointer(int64(8)),
+		StartingAfter: util.ToPointer("starting_after"),
+		EndingBefore:  util.ToPointer("ending_before"),
+	}
 
 	response, err := client.Channels.ListInboxTokens(context.Background(), params)
 	if err != nil {

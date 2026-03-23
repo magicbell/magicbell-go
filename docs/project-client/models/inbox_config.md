@@ -2,8 +2,8 @@
 
 **Properties**
 
-| Name   | Type                            | Required | Description |
-| :----- | :------------------------------ | :------- | :---------- |
-| Config | integrations.InboxConfigPayload | ✅       |             |
-| Id     | string                          | ✅       |             |
-| Name   | string                          | ✅       |             |
+| Name   | Type                                                       | Required | Description |
+| :----- | :--------------------------------------------------------- | :------- | :---------- |
+| Config | [integrations.InboxConfigPayload](inbox_config_payload.md) | ✅       |             |
+| Id     | string                                                     | ✅       |             |
+| Name   | string                                                     | ✅       |             |

@@ -1,6 +1,7 @@
 package client
 
 import (
+	"github.com/magicbell/magicbell-go/pkg/user-client/internal/clients/rest/hooks"
 	"github.com/magicbell/magicbell-go/pkg/user-client/internal/configmanager"
 	"github.com/magicbell/magicbell-go/pkg/user-client/channels"
 	"github.com/magicbell/magicbell-go/pkg/user-client/clientconfig"
@@ -9,6 +10,8 @@ import (
 	"time"
 )
 
+// Client is the main SDK client that provides access to all service endpoints.
+// It manages configuration, authentication, and service instances with centralized settings.
 type Client struct {
 	Channels      *channels.ChannelsService
 	Integrations  *integrations.IntegrationsService
@@ -22,9 +25,13 @@ func NewClient(config clientconfig.Config) *Client {
 	notifications := notifications.NewNotificationsService()
 
 	manager := configmanager.NewConfigManager(config)
+	hook := hooks.NewDefaultHook()
 	channels.WithConfigManager(manager)
 	integrations.WithConfigManager(manager)
 	notifications.WithConfigManager(manager)
+	channels.WithHook(hook)
+	integrations.WithHook(hook)
+	notifications.WithHook(hook)
 
 	return &Client{
 		Channels:      channels,

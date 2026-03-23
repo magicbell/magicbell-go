@@ -2,7 +2,7 @@
 
 **Properties**
 
-| Name  | Type                         | Required | Description |
-| :---- | :--------------------------- | :------- | :---------- |
-| Data  | []integrations.WebpushConfig | ❌       |             |
-| Links | shared.Links                 | ❌       |             |
+| Name  | Type                                              | Required | Description |
+| :---- | :------------------------------------------------ | :------- | :---------- |
+| Data  | [][integrations.WebpushConfig](webpush_config.md) | ❌       |             |
+| Links | [shared.Links](links.md)                          | ❌       |             |

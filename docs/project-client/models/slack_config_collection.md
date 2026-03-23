@@ -2,7 +2,7 @@
 
 **Properties**
 
-| Name  | Type                       | Required | Description |
-| :---- | :------------------------- | :------- | :---------- |
-| Data  | []integrations.SlackConfig | ❌       |             |
-| Links | shared.Links               | ❌       |             |
+| Name  | Type                                          | Required | Description |
+| :---- | :-------------------------------------------- | :------- | :---------- |
+| Data  | [][integrations.SlackConfig](slack_config.md) | ❌       |             |
+| Links | [shared.Links](links.md)                      | ❌       |             |

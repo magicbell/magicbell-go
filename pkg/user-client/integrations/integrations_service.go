@@ -3,6 +3,7 @@ package integrations
 import (
 	"context"
 	restClient "github.com/magicbell/magicbell-go/pkg/user-client/internal/clients/rest"
+	"github.com/magicbell/magicbell-go/pkg/user-client/internal/clients/rest/hooks"
 	"github.com/magicbell/magicbell-go/pkg/user-client/internal/clients/rest/httptransport"
 	"github.com/magicbell/magicbell-go/pkg/user-client/internal/configmanager"
 	"github.com/magicbell/magicbell-go/pkg/user-client/clientconfig"
@@ -10,8 +11,11 @@ import (
 	"time"
 )
 
+// IntegrationsService provides methods to interact with IntegrationsService-related API endpoints.
+// It uses a configuration manager for settings and supports custom hooks for request/response interception.
 type IntegrationsService struct {
 	manager *configmanager.ConfigManager
+	hook    hooks.Hook
 }
 
 func NewIntegrationsService() *IntegrationsService {
@@ -20,13 +24,26 @@ func NewIntegrationsService() *IntegrationsService {
 	}
 }
 
+// WithConfigManager sets the configuration manager for this service.
+// Returns the service instance for method chaining.
 func (api *IntegrationsService) WithConfigManager(manager *configmanager.ConfigManager) *IntegrationsService {
 	api.manager = manager
 	return api
 }
 
+// WithHook sets a custom hook for request/response interception.
+// Returns the service instance for method chaining.
+func (api *IntegrationsService) WithHook(hook hooks.Hook) *IntegrationsService {
+	api.hook = hook
+	return api
+}
+
 func (api *IntegrationsService) getConfig() *clientconfig.Config {
 	return api.manager.GetIntegrations()
+}
+
+func (api *IntegrationsService) getHook() hooks.Hook {
+	return api.hook
 }
 
 func (api *IntegrationsService) SetBaseUrl(baseUrl string) {
@@ -45,7 +62,7 @@ func (api *IntegrationsService) SetAccessToken(accessToken string) {
 }
 
 // Creates a new installation of a Inbox integration for a user. This endpoint is used when an integration needs to be set up with user-specific credentials or configuration.
-func (api *IntegrationsService) SaveInboxInstallation(ctx context.Context, inboxConfigPayload InboxConfigPayload) (*shared.ClientResponse[InboxConfigPayload], *shared.ClientError) {
+func (api *IntegrationsService) SaveInboxInstallation(ctx context.Context, inboxConfigPayload InboxConfigPayload) (*shared.ClientResponse[InboxConfigPayload], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -58,17 +75,17 @@ func (api *IntegrationsService) SaveInboxInstallation(ctx context.Context, inbox
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[InboxConfigPayload](config)
+	client := restClient.NewRestClient[InboxConfigPayload, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[InboxConfigPayload](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[InboxConfigPayload](resp), nil
 }
 
 // Initiates the installation flow for an Inbox integration. This is the first step in a multi-step installation process where user authorization or external service configuration may be required.
-func (api *IntegrationsService) StartInboxInstallation(ctx context.Context) (*shared.ClientResponse[InboxConfigPayload], *shared.ClientError) {
+func (api *IntegrationsService) StartInboxInstallation(ctx context.Context) (*shared.ClientResponse[InboxConfigPayload], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -79,17 +96,86 @@ func (api *IntegrationsService) StartInboxInstallation(ctx context.Context) (*sh
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[InboxConfigPayload](config)
+	client := restClient.NewRestClient[InboxConfigPayload, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[InboxConfigPayload](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[InboxConfigPayload](resp), nil
 }
 
+// Creates a new installation of a MagicBell SlackBot integration for a user. This endpoint is used when an integration needs to be set up with user-specific credentials or configuration.
+func (api *IntegrationsService) SaveMagicbellSlackbotInstallation(ctx context.Context, slackInstallation SlackInstallation) (*shared.ClientResponse[SlackInstallation], *shared.ClientError[[]byte]) {
+	config := *api.getConfig()
+
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("PUT").
+		WithPath("/integrations/magicbell_slackbot/installations").
+		WithConfig(config).
+		WithBody(slackInstallation).
+		AddHeader("CONTENT-TYPE", "application/json").
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
+	client := restClient.NewRestClient[SlackInstallation, []byte](config, api.getHook())
+	resp, err := client.Call(*request)
+	if err != nil {
+		return nil, shared.NewClientError[[]byte](err)
+	}
+
+	return shared.NewClientResponse[SlackInstallation](resp), nil
+}
+
+// Completes the installation flow for the MagicBell SlackBot integration. This endpoint is typically called after the user has completed any required authorization steps with MagicBell SlackBot.
+func (api *IntegrationsService) FinishMagicbellSlackbotInstallation(ctx context.Context, slackFinishInstallResponse SlackFinishInstallResponse) (*shared.ClientResponse[SlackInstallation], *shared.ClientError[[]byte]) {
+	config := *api.getConfig()
+
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("POST").
+		WithPath("/integrations/magicbell_slackbot/installations/finish").
+		WithConfig(config).
+		WithBody(slackFinishInstallResponse).
+		AddHeader("CONTENT-TYPE", "application/json").
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
+	client := restClient.NewRestClient[SlackInstallation, []byte](config, api.getHook())
+	resp, err := client.Call(*request)
+	if err != nil {
+		return nil, shared.NewClientError[[]byte](err)
+	}
+
+	return shared.NewClientResponse[SlackInstallation](resp), nil
+}
+
+// Initiates the installation flow for a MagicBell SlackBot integration. This is the first step in a multi-step installation process where user authorization or external service configuration may be required.
+func (api *IntegrationsService) StartMagicbellSlackbotInstallation(ctx context.Context, slackStartInstall SlackStartInstall) (*shared.ClientResponse[SlackStartInstallResponseContent], *shared.ClientError[[]byte]) {
+	config := *api.getConfig()
+
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("POST").
+		WithPath("/integrations/magicbell_slackbot/installations/start").
+		WithConfig(config).
+		WithBody(slackStartInstall).
+		AddHeader("CONTENT-TYPE", "application/json").
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
+	client := restClient.NewRestClient[SlackStartInstallResponseContent, []byte](config, api.getHook())
+	resp, err := client.Call(*request)
+	if err != nil {
+		return nil, shared.NewClientError[[]byte](err)
+	}
+
+	return shared.NewClientResponse[SlackStartInstallResponseContent](resp), nil
+}
+
 // Creates a new installation of a Slack integration for a user. This endpoint is used when an integration needs to be set up with user-specific credentials or configuration.
-func (api *IntegrationsService) SaveSlackInstallation(ctx context.Context, slackInstallation SlackInstallation) (*shared.ClientResponse[SlackInstallation], *shared.ClientError) {
+func (api *IntegrationsService) SaveSlackInstallation(ctx context.Context, slackInstallation SlackInstallation) (*shared.ClientResponse[SlackInstallation], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -102,17 +188,17 @@ func (api *IntegrationsService) SaveSlackInstallation(ctx context.Context, slack
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[SlackInstallation](config)
+	client := restClient.NewRestClient[SlackInstallation, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[SlackInstallation](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[SlackInstallation](resp), nil
 }
 
 // Completes the installation flow for the Slack integration. This endpoint is typically called after the user has completed any required authorization steps with Slack.
-func (api *IntegrationsService) FinishSlackInstallation(ctx context.Context, slackFinishInstallResponse SlackFinishInstallResponse) (*shared.ClientResponse[SlackInstallation], *shared.ClientError) {
+func (api *IntegrationsService) FinishSlackInstallation(ctx context.Context, slackFinishInstallResponse SlackFinishInstallResponse) (*shared.ClientResponse[SlackInstallation], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -125,17 +211,17 @@ func (api *IntegrationsService) FinishSlackInstallation(ctx context.Context, sla
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[SlackInstallation](config)
+	client := restClient.NewRestClient[SlackInstallation, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[SlackInstallation](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[SlackInstallation](resp), nil
 }
 
 // Initiates the installation flow for a Slack integration. This is the first step in a multi-step installation process where user authorization or external service configuration may be required.
-func (api *IntegrationsService) StartSlackInstallation(ctx context.Context, slackStartInstall SlackStartInstall) (*shared.ClientResponse[SlackStartInstallResponseContent], *shared.ClientError) {
+func (api *IntegrationsService) StartSlackInstallation(ctx context.Context, slackStartInstall SlackStartInstall) (*shared.ClientResponse[SlackStartInstallResponseContent], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -148,17 +234,17 @@ func (api *IntegrationsService) StartSlackInstallation(ctx context.Context, slac
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[SlackStartInstallResponseContent](config)
+	client := restClient.NewRestClient[SlackStartInstallResponseContent, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[SlackStartInstallResponseContent](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[SlackStartInstallResponseContent](resp), nil
 }
 
 // Creates a new installation of a Web Push integration for a user. This endpoint is used when an integration needs to be set up with user-specific credentials or configuration.
-func (api *IntegrationsService) SaveWebPushInstallation(ctx context.Context, webPushTokenPayload shared.WebPushTokenPayload) (*shared.ClientResponse[shared.WebPushTokenPayload], *shared.ClientError) {
+func (api *IntegrationsService) SaveWebPushInstallation(ctx context.Context, webPushTokenPayload shared.WebPushTokenPayload) (*shared.ClientResponse[shared.WebPushTokenPayload], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -171,17 +257,17 @@ func (api *IntegrationsService) SaveWebPushInstallation(ctx context.Context, web
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[shared.WebPushTokenPayload](config)
+	client := restClient.NewRestClient[shared.WebPushTokenPayload, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[shared.WebPushTokenPayload](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[shared.WebPushTokenPayload](resp), nil
 }
 
 // Initiates the installation flow for a Web Push integration. This is the first step in a multi-step installation process where user authorization or external service configuration may be required.
-func (api *IntegrationsService) StartWebPushInstallation(ctx context.Context) (*shared.ClientResponse[WebPushStartInstallationResponse], *shared.ClientError) {
+func (api *IntegrationsService) StartWebPushInstallation(ctx context.Context) (*shared.ClientResponse[WebPushStartInstallationResponse], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -192,10 +278,10 @@ func (api *IntegrationsService) StartWebPushInstallation(ctx context.Context) (*
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[WebPushStartInstallationResponse](config)
+	client := restClient.NewRestClient[WebPushStartInstallationResponse, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[WebPushStartInstallationResponse](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[WebPushStartInstallationResponse](resp), nil

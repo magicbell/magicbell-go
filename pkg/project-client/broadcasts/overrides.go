@@ -1,0 +1,41 @@
+package broadcasts
+
+import "encoding/json"
+
+// Channel- or provider-specific values that override the defaults.
+type Overrides struct {
+	// Overrides that are scoped to individual delivery channels.
+	Channels *OverridesChannels `json:"channels,omitempty"`
+	// Overrides that are scoped to specific providers for a channel.
+	Providers *Providers `json:"providers,omitempty"`
+}
+
+func (o *Overrides) GetChannels() *OverridesChannels {
+	if o == nil {
+		return nil
+	}
+	return o.Channels
+}
+
+func (o *Overrides) SetChannels(channels OverridesChannels) {
+	o.Channels = &channels
+}
+
+func (o *Overrides) GetProviders() *Providers {
+	if o == nil {
+		return nil
+	}
+	return o.Providers
+}
+
+func (o *Overrides) SetProviders(providers Providers) {
+	o.Providers = &providers
+}
+
+func (o Overrides) String() string {
+	jsonData, err := json.MarshalIndent(o, "", "  ")
+	if err != nil {
+		return "error converting struct: Overrides to string"
+	}
+	return string(jsonData)
+}

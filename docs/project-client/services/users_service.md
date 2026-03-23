@@ -32,18 +32,23 @@ Lists all users in the project.
 import (
   "fmt"
   "encoding/json"
+  "context"
   "github.com/magicbell/magicbell-go/pkg/project-client/clientconfig"
   "github.com/magicbell/magicbell-go/pkg/project-client/client"
-
+  "github.com/magicbell/magicbell-go/pkg/project-client/util"
   "github.com/magicbell/magicbell-go/pkg/project-client/users"
 )
 
 config := clientconfig.NewConfig()
+config.SetAccessToken("ACCESS_TOKEN")
 client := client.NewClient(config)
 
 
 params := users.ListUsersRequestParams{
-
+  Limit: util.ToPointer(int64(2)),
+  StartingAfter: util.ToPointer("starting_after"),
+  EndingBefore: util.ToPointer("ending_before"),
+  Query: util.ToPointer("query"),
 }
 
 response, err := client.Users.ListUsers(context.Background(), params)
@@ -78,6 +83,7 @@ Creates or updates a user with the provided details. The user will be associated
 import (
   "fmt"
   "encoding/json"
+  "context"
   "github.com/magicbell/magicbell-go/pkg/project-client/clientconfig"
   "github.com/magicbell/magicbell-go/pkg/project-client/client"
   "github.com/magicbell/magicbell-go/pkg/project-client/util"
@@ -85,20 +91,21 @@ import (
 )
 
 config := clientconfig.NewConfig()
+config.SetAccessToken("ACCESS_TOKEN")
 client := client.NewClient(config)
 
 
 request := shared.User{
-  CreatedAt: util.ToPointer(util.Nullable[string]{ Value: "CreatedAt" }),
+  CreatedAt: util.ToPointer(util.Nullable[string]{ Value: "created_at" }),
   CustomAttributes: []byte{},
-  Email: util.ToPointer(util.Nullable[string]{ Value: "Email" }),
-  ExternalId: util.ToPointer(util.Nullable[string]{ Value: "ExternalId" }),
-  FirstName: util.ToPointer(util.Nullable[string]{ Value: "FirstName" }),
-  Id: util.ToPointer("Id"),
-  LastName: util.ToPointer(util.Nullable[string]{ Value: "LastName" }),
-  LastNotifiedAt: util.ToPointer(util.Nullable[string]{ Value: "LastNotifiedAt" }),
-  LastSeenAt: util.ToPointer(util.Nullable[string]{ Value: "LastSeenAt" }),
-  UpdatedAt: util.ToPointer(util.Nullable[string]{ Value: "UpdatedAt" }),
+  Email: util.ToPointer(util.Nullable[string]{ Value: "email" }),
+  ExternalId: util.ToPointer(util.Nullable[string]{ Value: "external_id" }),
+  FirstName: util.ToPointer(util.Nullable[string]{ Value: "first_name" }),
+  Id: util.ToPointer("id"),
+  LastName: util.ToPointer(util.Nullable[string]{ Value: "last_name" }),
+  LastNotifiedAt: util.ToPointer(util.Nullable[string]{ Value: "last_notified_at" }),
+  LastSeenAt: util.ToPointer(util.Nullable[string]{ Value: "last_seen_at" }),
+  UpdatedAt: util.ToPointer(util.Nullable[string]{ Value: "updated_at" }),
 }
 
 response, err := client.Users.SaveUser(context.Background(), request)
@@ -133,15 +140,17 @@ Removes a user and all associated data from the project.
 import (
   "fmt"
   "encoding/json"
+  "context"
   "github.com/magicbell/magicbell-go/pkg/project-client/clientconfig"
   "github.com/magicbell/magicbell-go/pkg/project-client/client"
 
 )
 
 config := clientconfig.NewConfig()
+config.SetAccessToken("ACCESS_TOKEN")
 client := client.NewClient(config)
 
-response, err := client.Users.DeleteUser(context.Background(), "userId")
+response, err := client.Users.DeleteUser(context.Background(), "user_id")
 if err != nil {
   panic(err)
 }

@@ -2,15 +2,15 @@ package main
 
 import (
 	"bufio"
-	"context"
 	"fmt"
 	"os"
 	"strings"
 
+	"context"
+	"github.com/magicbell/magicbell-go/pkg/project-client/broadcasts"
 	"github.com/magicbell/magicbell-go/pkg/project-client/client"
 	"github.com/magicbell/magicbell-go/pkg/project-client/clientconfig"
-
-	"github.com/magicbell/magicbell-go/pkg/project-client/broadcasts"
+	"github.com/magicbell/magicbell-go/pkg/project-client/util"
 )
 
 func main() {
@@ -19,7 +19,11 @@ func main() {
 	config := clientconfig.NewConfig()
 	client := client.NewClient(config)
 
-	params := broadcasts.ListBroadcastsRequestParams{}
+	params := broadcasts.ListBroadcastsRequestParams{
+		Limit:         util.ToPointer(int64(0)),
+		StartingAfter: util.ToPointer("starting_after"),
+		EndingBefore:  util.ToPointer("ending_before"),
+	}
 
 	response, err := client.Broadcasts.ListBroadcasts(context.Background(), params)
 	if err != nil {

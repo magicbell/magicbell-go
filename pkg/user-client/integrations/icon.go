@@ -1,0 +1,41 @@
+package integrations
+
+import "encoding/json"
+
+// Launcher icon styling overrides.
+type Icon struct {
+	// CSS color used for the icon border.
+	BorderColor *string `json:"borderColor,omitempty" required:"true"`
+	// Width of the launcher icon (any CSS length).
+	Width *string `json:"width,omitempty" required:"true"`
+}
+
+func (i *Icon) GetBorderColor() *string {
+	if i == nil {
+		return nil
+	}
+	return i.BorderColor
+}
+
+func (i *Icon) SetBorderColor(borderColor string) {
+	i.BorderColor = &borderColor
+}
+
+func (i *Icon) GetWidth() *string {
+	if i == nil {
+		return nil
+	}
+	return i.Width
+}
+
+func (i *Icon) SetWidth(width string) {
+	i.Width = &width
+}
+
+func (i Icon) String() string {
+	jsonData, err := json.MarshalIndent(i, "", "  ")
+	if err != nil {
+		return "error converting struct: Icon to string"
+	}
+	return string(jsonData)
+}

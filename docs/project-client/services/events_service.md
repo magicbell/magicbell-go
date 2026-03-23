@@ -31,18 +31,22 @@ Retrieves a paginated list of events for the project.
 import (
   "fmt"
   "encoding/json"
+  "context"
   "github.com/magicbell/magicbell-go/pkg/project-client/clientconfig"
   "github.com/magicbell/magicbell-go/pkg/project-client/client"
-
+  "github.com/magicbell/magicbell-go/pkg/project-client/util"
   "github.com/magicbell/magicbell-go/pkg/project-client/events"
 )
 
 config := clientconfig.NewConfig()
+config.SetAccessToken("ACCESS_TOKEN")
 client := client.NewClient(config)
 
 
 params := events.ListEventsRequestParams{
-
+  Limit: util.ToPointer(int64(5)),
+  StartingAfter: util.ToPointer("starting_after"),
+  EndingBefore: util.ToPointer("ending_before"),
 }
 
 response, err := client.Events.ListEvents(context.Background(), params)
@@ -77,15 +81,17 @@ Fetches a project event by its ID.
 import (
   "fmt"
   "encoding/json"
+  "context"
   "github.com/magicbell/magicbell-go/pkg/project-client/clientconfig"
   "github.com/magicbell/magicbell-go/pkg/project-client/client"
 
 )
 
 config := clientconfig.NewConfig()
+config.SetAccessToken("ACCESS_TOKEN")
 client := client.NewClient(config)
 
-response, err := client.Events.FetchEvent(context.Background(), "eventId")
+response, err := client.Events.FetchEvent(context.Background(), "event_id")
 if err != nil {
   panic(err)
 }

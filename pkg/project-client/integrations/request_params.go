@@ -1,121 +1,200 @@
 package integrations
 
+// ListIntegrationsRequestParams holds the optional parameters for the API request.
+// Use the Set methods to configure query parameters, headers, and path parameters.
 type ListIntegrationsRequestParams struct {
 	Limit         *int64  `explode:"true" serializationStyle:"form" queryParam:"limit"`
 	StartingAfter *string `explode:"true" serializationStyle:"form" queryParam:"starting_after"`
 	EndingBefore  *string `explode:"true" serializationStyle:"form" queryParam:"ending_before"`
 }
 
+// SetLimit sets the Limit parameter.
 func (params *ListIntegrationsRequestParams) SetLimit(limit int64) {
 	params.Limit = &limit
 }
+
+// SetStartingAfter sets the StartingAfter parameter.
 func (params *ListIntegrationsRequestParams) SetStartingAfter(startingAfter string) {
 	params.StartingAfter = &startingAfter
 }
+
+// SetEndingBefore sets the EndingBefore parameter.
 func (params *ListIntegrationsRequestParams) SetEndingBefore(endingBefore string) {
 	params.EndingBefore = &endingBefore
 }
 
+// DeleteApnsIntegrationRequestParams holds the optional parameters for the API request.
+// Use the Set methods to configure query parameters, headers, and path parameters.
 type DeleteApnsIntegrationRequestParams struct {
 	Id *string `explode:"true" serializationStyle:"form" queryParam:"id"`
 }
 
+// SetId sets the Id parameter.
 func (params *DeleteApnsIntegrationRequestParams) SetId(id string) {
 	params.Id = &id
 }
 
+// DeleteEventsourceIntegrationRequestParams holds the optional parameters for the API request.
+// Use the Set methods to configure query parameters, headers, and path parameters.
+type DeleteEventsourceIntegrationRequestParams struct {
+	Id *string `explode:"true" serializationStyle:"form" queryParam:"id"`
+}
+
+// SetId sets the Id parameter.
+func (params *DeleteEventsourceIntegrationRequestParams) SetId(id string) {
+	params.Id = &id
+}
+
+// DeleteExpoIntegrationRequestParams holds the optional parameters for the API request.
+// Use the Set methods to configure query parameters, headers, and path parameters.
 type DeleteExpoIntegrationRequestParams struct {
 	Id *string `explode:"true" serializationStyle:"form" queryParam:"id"`
 }
 
+// SetId sets the Id parameter.
 func (params *DeleteExpoIntegrationRequestParams) SetId(id string) {
 	params.Id = &id
 }
 
+// DeleteFcmIntegrationRequestParams holds the optional parameters for the API request.
+// Use the Set methods to configure query parameters, headers, and path parameters.
 type DeleteFcmIntegrationRequestParams struct {
 	Id *string `explode:"true" serializationStyle:"form" queryParam:"id"`
 }
 
+// SetId sets the Id parameter.
 func (params *DeleteFcmIntegrationRequestParams) SetId(id string) {
 	params.Id = &id
 }
 
+// DeleteGithubIntegrationRequestParams holds the optional parameters for the API request.
+// Use the Set methods to configure query parameters, headers, and path parameters.
 type DeleteGithubIntegrationRequestParams struct {
 	Id *string `explode:"true" serializationStyle:"form" queryParam:"id"`
 }
 
+// SetId sets the Id parameter.
 func (params *DeleteGithubIntegrationRequestParams) SetId(id string) {
 	params.Id = &id
 }
 
+// DeleteInboxIntegrationRequestParams holds the optional parameters for the API request.
+// Use the Set methods to configure query parameters, headers, and path parameters.
 type DeleteInboxIntegrationRequestParams struct {
 	Id *string `explode:"true" serializationStyle:"form" queryParam:"id"`
 }
 
+// SetId sets the Id parameter.
 func (params *DeleteInboxIntegrationRequestParams) SetId(id string) {
 	params.Id = &id
 }
 
+// DeleteMagicbellSlackbotIntegrationRequestParams holds the optional parameters for the API request.
+// Use the Set methods to configure query parameters, headers, and path parameters.
+type DeleteMagicbellSlackbotIntegrationRequestParams struct {
+	Id *string `explode:"true" serializationStyle:"form" queryParam:"id"`
+}
+
+// SetId sets the Id parameter.
+func (params *DeleteMagicbellSlackbotIntegrationRequestParams) SetId(id string) {
+	params.Id = &id
+}
+
+// DeleteMailgunIntegrationRequestParams holds the optional parameters for the API request.
+// Use the Set methods to configure query parameters, headers, and path parameters.
 type DeleteMailgunIntegrationRequestParams struct {
 	Id *string `explode:"true" serializationStyle:"form" queryParam:"id"`
 }
 
+// SetId sets the Id parameter.
 func (params *DeleteMailgunIntegrationRequestParams) SetId(id string) {
 	params.Id = &id
 }
 
+// DeletePingEmailIntegrationRequestParams holds the optional parameters for the API request.
+// Use the Set methods to configure query parameters, headers, and path parameters.
 type DeletePingEmailIntegrationRequestParams struct {
 	Id *string `explode:"true" serializationStyle:"form" queryParam:"id"`
 }
 
+// SetId sets the Id parameter.
 func (params *DeletePingEmailIntegrationRequestParams) SetId(id string) {
 	params.Id = &id
 }
 
+// DeleteSendgridIntegrationRequestParams holds the optional parameters for the API request.
+// Use the Set methods to configure query parameters, headers, and path parameters.
 type DeleteSendgridIntegrationRequestParams struct {
 	Id *string `explode:"true" serializationStyle:"form" queryParam:"id"`
 }
 
+// SetId sets the Id parameter.
 func (params *DeleteSendgridIntegrationRequestParams) SetId(id string) {
 	params.Id = &id
 }
 
+// DeleteSesIntegrationRequestParams holds the optional parameters for the API request.
+// Use the Set methods to configure query parameters, headers, and path parameters.
 type DeleteSesIntegrationRequestParams struct {
 	Id *string `explode:"true" serializationStyle:"form" queryParam:"id"`
 }
 
+// SetId sets the Id parameter.
 func (params *DeleteSesIntegrationRequestParams) SetId(id string) {
 	params.Id = &id
 }
 
+// DeleteSlackIntegrationRequestParams holds the optional parameters for the API request.
+// Use the Set methods to configure query parameters, headers, and path parameters.
 type DeleteSlackIntegrationRequestParams struct {
 	Id *string `explode:"true" serializationStyle:"form" queryParam:"id"`
 }
 
+// SetId sets the Id parameter.
 func (params *DeleteSlackIntegrationRequestParams) SetId(id string) {
 	params.Id = &id
 }
 
+// DeleteSmtpIntegrationRequestParams holds the optional parameters for the API request.
+// Use the Set methods to configure query parameters, headers, and path parameters.
+type DeleteSmtpIntegrationRequestParams struct {
+	Id *string `explode:"true" serializationStyle:"form" queryParam:"id"`
+}
+
+// SetId sets the Id parameter.
+func (params *DeleteSmtpIntegrationRequestParams) SetId(id string) {
+	params.Id = &id
+}
+
+// DeleteStripeIntegrationRequestParams holds the optional parameters for the API request.
+// Use the Set methods to configure query parameters, headers, and path parameters.
 type DeleteStripeIntegrationRequestParams struct {
 	Id *string `explode:"true" serializationStyle:"form" queryParam:"id"`
 }
 
+// SetId sets the Id parameter.
 func (params *DeleteStripeIntegrationRequestParams) SetId(id string) {
 	params.Id = &id
 }
 
+// DeleteTwilioIntegrationRequestParams holds the optional parameters for the API request.
+// Use the Set methods to configure query parameters, headers, and path parameters.
 type DeleteTwilioIntegrationRequestParams struct {
 	Id *string `explode:"true" serializationStyle:"form" queryParam:"id"`
 }
 
+// SetId sets the Id parameter.
 func (params *DeleteTwilioIntegrationRequestParams) SetId(id string) {
 	params.Id = &id
 }
 
+// DeleteWebPushIntegrationRequestParams holds the optional parameters for the API request.
+// Use the Set methods to configure query parameters, headers, and path parameters.
 type DeleteWebPushIntegrationRequestParams struct {
 	Id *string `explode:"true" serializationStyle:"form" queryParam:"id"`
 }
 
+// SetId sets the Id parameter.
 func (params *DeleteWebPushIntegrationRequestParams) SetId(id string) {
 	params.Id = &id
 }

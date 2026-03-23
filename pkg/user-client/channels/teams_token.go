@@ -7,11 +7,15 @@ import (
 )
 
 type TeamsToken struct {
-	CreatedAt   *string                `json:"created_at,omitempty" required:"true"`
+	// The timestamp when the token was created.
+	CreatedAt *string `json:"created_at,omitempty" required:"true"`
+	// The timestamp when the token was discarded, if applicable.
 	DiscardedAt *util.Nullable[string] `json:"discarded_at,omitempty"`
-	Id          *string                `json:"id,omitempty" required:"true"`
-	UpdatedAt   *util.Nullable[string] `json:"updated_at,omitempty"`
-	Webhook     *TeamsTokenWebhook     `json:"webhook,omitempty"`
+	// The unique identifier for the token.
+	Id *string `json:"id,omitempty" required:"true"`
+	// The timestamp when the token metadata last changed.
+	UpdatedAt *util.Nullable[string] `json:"updated_at,omitempty"`
+	Webhook   *TeamsTokenWebhook     `json:"webhook,omitempty"`
 }
 
 func (t *TeamsToken) GetCreatedAt() *string {
@@ -87,27 +91,4 @@ func (t TeamsToken) String() string {
 
 func (t *TeamsToken) UnmarshalJSON(data []byte) error {
 	return unmarshal.UnmarshalNullable(data, t)
-}
-
-type TeamsTokenWebhook struct {
-	Url *string `json:"url,omitempty"`
-}
-
-func (t *TeamsTokenWebhook) GetUrl() *string {
-	if t == nil {
-		return nil
-	}
-	return t.Url
-}
-
-func (t *TeamsTokenWebhook) SetUrl(url string) {
-	t.Url = &url
-}
-
-func (t TeamsTokenWebhook) String() string {
-	jsonData, err := json.MarshalIndent(t, "", "  ")
-	if err != nil {
-		return "error converting struct: TeamsTokenWebhook to string"
-	}
-	return string(jsonData)
 }

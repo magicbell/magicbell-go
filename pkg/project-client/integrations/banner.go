@@ -1,0 +1,67 @@
+package integrations
+
+import "encoding/json"
+
+// Top banner styling options.
+type Banner struct {
+	// Banner background color.
+	BackgroundColor *string `json:"backgroundColor,omitempty" required:"true"`
+	// Opacity applied to the banner background.
+	BackgroundOpacity *float64 `json:"backgroundOpacity,omitempty"`
+	// Font size for banner text.
+	FontSize *string `json:"fontSize,omitempty" required:"true"`
+	// Banner text color.
+	TextColor *string `json:"textColor,omitempty" required:"true"`
+}
+
+func (b *Banner) GetBackgroundColor() *string {
+	if b == nil {
+		return nil
+	}
+	return b.BackgroundColor
+}
+
+func (b *Banner) SetBackgroundColor(backgroundColor string) {
+	b.BackgroundColor = &backgroundColor
+}
+
+func (b *Banner) GetBackgroundOpacity() *float64 {
+	if b == nil {
+		return nil
+	}
+	return b.BackgroundOpacity
+}
+
+func (b *Banner) SetBackgroundOpacity(backgroundOpacity float64) {
+	b.BackgroundOpacity = &backgroundOpacity
+}
+
+func (b *Banner) GetFontSize() *string {
+	if b == nil {
+		return nil
+	}
+	return b.FontSize
+}
+
+func (b *Banner) SetFontSize(fontSize string) {
+	b.FontSize = &fontSize
+}
+
+func (b *Banner) GetTextColor() *string {
+	if b == nil {
+		return nil
+	}
+	return b.TextColor
+}
+
+func (b *Banner) SetTextColor(textColor string) {
+	b.TextColor = &textColor
+}
+
+func (b Banner) String() string {
+	jsonData, err := json.MarshalIndent(b, "", "  ")
+	if err != nil {
+		return "error converting struct: Banner to string"
+	}
+	return string(jsonData)
+}

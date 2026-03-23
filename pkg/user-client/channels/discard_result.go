@@ -3,8 +3,10 @@ package channels
 import "encoding/json"
 
 type DiscardResult struct {
+	// The timestamp when the token was discarded.
 	DiscardedAt *string `json:"discarded_at,omitempty"`
-	Id          *string `json:"id,omitempty"`
+	// The unique identifier for the discarded token.
+	Id *string `json:"id,omitempty"`
 }
 
 func (d *DiscardResult) GetDiscardedAt() *string {

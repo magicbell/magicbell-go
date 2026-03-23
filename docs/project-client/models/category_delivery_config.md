@@ -2,32 +2,34 @@
 
 **Properties**
 
-| Name     | Type                                      | Required | Description |
-| :------- | :---------------------------------------- | :------- | :---------- |
-| Channels | []channels.CategoryDeliveryConfigChannels | ✅       |             |
-| Key      | string                                    | ✅       |             |
-| Disabled | bool                                      | ❌       |             |
+| Name     | Type                                      | Required | Description                                                |
+| :------- | :---------------------------------------- | :------- | :--------------------------------------------------------- |
+| Channels | []channels.CategoryDeliveryConfigChannels | ✅       | Ordered channel steps the delivery planner should execute. |
+| Key      | string                                    | ✅       | Unique identifier for this delivery plan.                  |
+| Disabled | bool                                      | ❌       | Disables the plan so it cannot be executed.                |
 
 # CategoryDeliveryConfigChannels
 
 **Properties**
 
-| Name    | Type             | Required | Description |
-| :------ | :--------------- | :------- | :---------- |
-| Channel | channels.Channel | ✅       |             |
-| Delay   | int64            | ❌       |             |
-| If\_    | string           | ❌       |             |
+| Name    | Type             | Required | Description                                               |
+| :------ | :--------------- | :------- | :-------------------------------------------------------- |
+| Channel | channels.Channel | ✅       | Name of the channel used for this step.                   |
+| Delay   | int64            | ❌       | Delay in seconds to wait after the previous step.         |
+| If\_    | string           | ❌       | Conditional expression evaluated before running the step. |
 
 # Channel
 
+Name of the channel used for this step.
+
 **Properties**
 
-| Name        | Type   | Required | Description   |
-| :---------- | :----- | :------- | :------------ |
-| in_app      | string | ✅       | "in_app"      |
-| slack       | string | ✅       | "slack"       |
-| web_push    | string | ✅       | "web_push"    |
-| mobile_push | string | ✅       | "mobile_push" |
-| teams       | string | ✅       | "teams"       |
-| email       | string | ✅       | "email"       |
-| sms         | string | ✅       | "sms"         |
+| Name       | Type   | Required | Description   |
+| :--------- | :----- | :------- | :------------ |
+| InApp      | string | ✅       | "in_app"      |
+| Slack      | string | ✅       | "slack"       |
+| WebPush    | string | ✅       | "web_push"    |
+| MobilePush | string | ✅       | "mobile_push" |
+| Teams      | string | ✅       | "teams"       |
+| Email      | string | ✅       | "email"       |
+| Sms        | string | ✅       | "sms"         |

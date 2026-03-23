@@ -7,12 +7,18 @@ import (
 )
 
 type InboxTokenResponse struct {
+	// Realtime connection ID to restrict delivery to a specific Ably connection.
 	ConnectionId *util.Nullable[string] `json:"connection_id,omitempty"`
-	CreatedAt    *string                `json:"created_at,omitempty" required:"true"`
-	DiscardedAt  *util.Nullable[string] `json:"discarded_at,omitempty"`
-	Id           *string                `json:"id,omitempty" required:"true"`
-	Token        *string                `json:"token,omitempty" required:"true" minLength:"64"`
-	UpdatedAt    *util.Nullable[string] `json:"updated_at,omitempty"`
+	// The timestamp when the token was created.
+	CreatedAt *string `json:"created_at,omitempty" required:"true"`
+	// The timestamp when the token was discarded, if applicable.
+	DiscardedAt *util.Nullable[string] `json:"discarded_at,omitempty"`
+	// The unique identifier for the token.
+	Id *string `json:"id,omitempty" required:"true"`
+	// The in-app inbox token generated for this user.
+	Token *string `json:"token,omitempty" required:"true" minLength:"64"`
+	// The timestamp when the token metadata last changed.
+	UpdatedAt *util.Nullable[string] `json:"updated_at,omitempty"`
 }
 
 func (i *InboxTokenResponse) GetConnectionId() *util.Nullable[string] {

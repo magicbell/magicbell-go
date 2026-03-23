@@ -1,0 +1,41 @@
+package integrations
+
+import "encoding/json"
+
+// Reply-to email address
+type SmtpConfigReplyTo struct {
+	// Reply-to email address
+	Email *string `json:"email,omitempty" required:"true"`
+	// Reply-to name
+	Name *string `json:"name,omitempty"`
+}
+
+func (s *SmtpConfigReplyTo) GetEmail() *string {
+	if s == nil {
+		return nil
+	}
+	return s.Email
+}
+
+func (s *SmtpConfigReplyTo) SetEmail(email string) {
+	s.Email = &email
+}
+
+func (s *SmtpConfigReplyTo) GetName() *string {
+	if s == nil {
+		return nil
+	}
+	return s.Name
+}
+
+func (s *SmtpConfigReplyTo) SetName(name string) {
+	s.Name = &name
+}
+
+func (s SmtpConfigReplyTo) String() string {
+	jsonData, err := json.MarshalIndent(s, "", "  ")
+	if err != nil {
+		return "error converting struct: SmtpConfigReplyTo to string"
+	}
+	return string(jsonData)
+}

@@ -1,0 +1,22 @@
+# WorkflowRun
+
+**Properties**
+
+| Name        | Type                        | Required | Description |
+| :---------- | :-------------------------- | :------- | :---------- |
+| CreatedAt   | string                      | ❌       |             |
+| Id          | string                      | ❌       |             |
+| Status      | workflows.WorkflowRunStatus | ❌       |             |
+| WorkflowKey | string                      | ❌       |             |
+
+# WorkflowRunStatus
+
+**Properties**
+
+| Name        | Type   | Required | Description |
+| :---------- | :----- | :------- | :---------- |
+| CompletedAt | string | ❌       |             |
+| Error       | string | ❌       |             |
+| NextStep    | int64  | ❌       |             |
+| StartedAt   | string | ❌       |             |
+| State       | int64  | ❌       |             |

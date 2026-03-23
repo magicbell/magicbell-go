@@ -2,16 +2,6 @@
 
 **Properties**
 
-| Name           | Type                                   | Required | Description |
-| :------------- | :------------------------------------- | :------- | :---------- |
-| DeviceToken    | string                                 | ✅       |             |
-| InstallationId | channels.FcmTokenPayloadInstallationId | ❌       |             |
-
-# FcmTokenPayloadInstallationId
-
-**Properties**
-
-| Name        | Type   | Required | Description   |
-| :---------- | :----- | :------- | :------------ |
-| development | string | ✅       | "development" |
-| production  | string | ✅       | "production"  |
+| Name        | Type   | Required | Description                                                                        |
+| :---------- | :----- | :------- | :--------------------------------------------------------------------------------- |
+| DeviceToken | string | ✅       | The Firebase Cloud Messaging device registration token to associate with the user. |

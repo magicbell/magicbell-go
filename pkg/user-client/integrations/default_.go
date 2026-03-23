@@ -1,0 +1,119 @@
+package integrations
+
+import "encoding/json"
+
+// Base styles applied to every notification item.
+type Default_ struct {
+	// Background color for notifications in their default state.
+	BackgroundColor *string `json:"backgroundColor,omitempty" required:"true"`
+	// Border radius applied to each notification card.
+	BorderRadius *string `json:"borderRadius,omitempty" required:"true"`
+	// Font family for notification text.
+	FontFamily *string `json:"fontFamily,omitempty" required:"true"`
+	// Font size for notification text.
+	FontSize *string `json:"fontSize,omitempty" required:"true"`
+	// Styles applied when a notification is hovered.
+	Hover *DefaultHover `json:"hover,omitempty"`
+	// CSS margin applied around each notification card.
+	Margin *string `json:"margin,omitempty" required:"true"`
+	// Accent colors for notification state indicators.
+	State *DefaultState `json:"state,omitempty"`
+	// Default text color for notifications.
+	TextColor *string `json:"textColor,omitempty" required:"true"`
+}
+
+func (d *Default_) GetBackgroundColor() *string {
+	if d == nil {
+		return nil
+	}
+	return d.BackgroundColor
+}
+
+func (d *Default_) SetBackgroundColor(backgroundColor string) {
+	d.BackgroundColor = &backgroundColor
+}
+
+func (d *Default_) GetBorderRadius() *string {
+	if d == nil {
+		return nil
+	}
+	return d.BorderRadius
+}
+
+func (d *Default_) SetBorderRadius(borderRadius string) {
+	d.BorderRadius = &borderRadius
+}
+
+func (d *Default_) GetFontFamily() *string {
+	if d == nil {
+		return nil
+	}
+	return d.FontFamily
+}
+
+func (d *Default_) SetFontFamily(fontFamily string) {
+	d.FontFamily = &fontFamily
+}
+
+func (d *Default_) GetFontSize() *string {
+	if d == nil {
+		return nil
+	}
+	return d.FontSize
+}
+
+func (d *Default_) SetFontSize(fontSize string) {
+	d.FontSize = &fontSize
+}
+
+func (d *Default_) GetHover() *DefaultHover {
+	if d == nil {
+		return nil
+	}
+	return d.Hover
+}
+
+func (d *Default_) SetHover(hover DefaultHover) {
+	d.Hover = &hover
+}
+
+func (d *Default_) GetMargin() *string {
+	if d == nil {
+		return nil
+	}
+	return d.Margin
+}
+
+func (d *Default_) SetMargin(margin string) {
+	d.Margin = &margin
+}
+
+func (d *Default_) GetState() *DefaultState {
+	if d == nil {
+		return nil
+	}
+	return d.State
+}
+
+func (d *Default_) SetState(state DefaultState) {
+	d.State = &state
+}
+
+func (d *Default_) GetTextColor() *string {
+	if d == nil {
+		return nil
+	}
+	return d.TextColor
+}
+
+func (d *Default_) SetTextColor(textColor string) {
+	d.TextColor = &textColor
+}
+
+func (d Default_) String() string {
+	jsonData, err := json.MarshalIndent(d, "", "  ")
+	if err != nil {
+		return "error converting struct: Default_ to string"
+	}
+	return string(jsonData)
+}

@@ -3,6 +3,7 @@ package channels
 import "encoding/json"
 
 type ExpoTokenPayload struct {
+	// The Expo push token returned by the Expo client.
 	DeviceToken *string `json:"device_token,omitempty" required:"true" minLength:"1"`
 }
 

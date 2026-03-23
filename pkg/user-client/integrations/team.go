@@ -1,0 +1,40 @@
+package integrations
+
+import "encoding/json"
+
+type Team struct {
+	// Workspace ID where the app was installed.
+	Id *string `json:"id,omitempty" required:"true"`
+	// Workspace name where the app was installed.
+	Name *string `json:"name,omitempty"`
+}
+
+func (t *Team) GetId() *string {
+	if t == nil {
+		return nil
+	}
+	return t.Id
+}
+
+func (t *Team) SetId(id string) {
+	t.Id = &id
+}
+
+func (t *Team) GetName() *string {
+	if t == nil {
+		return nil
+	}
+	return t.Name
+}
+
+func (t *Team) SetName(name string) {
+	t.Name = &name
+}
+
+func (t Team) String() string {
+	jsonData, err := json.MarshalIndent(t, "", "  ")
+	if err != nil {
+		return "error converting struct: Team to string"
+	}
+	return string(jsonData)
+}

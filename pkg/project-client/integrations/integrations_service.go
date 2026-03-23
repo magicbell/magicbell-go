@@ -3,6 +3,7 @@ package integrations
 import (
 	"context"
 	restClient "github.com/magicbell/magicbell-go/pkg/project-client/internal/clients/rest"
+	"github.com/magicbell/magicbell-go/pkg/project-client/internal/clients/rest/hooks"
 	"github.com/magicbell/magicbell-go/pkg/project-client/internal/clients/rest/httptransport"
 	"github.com/magicbell/magicbell-go/pkg/project-client/internal/configmanager"
 	"github.com/magicbell/magicbell-go/pkg/project-client/clientconfig"
@@ -10,8 +11,11 @@ import (
 	"time"
 )
 
+// IntegrationsService provides methods to interact with IntegrationsService-related API endpoints.
+// It uses a configuration manager for settings and supports custom hooks for request/response interception.
 type IntegrationsService struct {
 	manager *configmanager.ConfigManager
+	hook    hooks.Hook
 }
 
 func NewIntegrationsService() *IntegrationsService {
@@ -20,13 +24,26 @@ func NewIntegrationsService() *IntegrationsService {
 	}
 }
 
+// WithConfigManager sets the configuration manager for this service.
+// Returns the service instance for method chaining.
 func (api *IntegrationsService) WithConfigManager(manager *configmanager.ConfigManager) *IntegrationsService {
 	api.manager = manager
 	return api
 }
 
+// WithHook sets a custom hook for request/response interception.
+// Returns the service instance for method chaining.
+func (api *IntegrationsService) WithHook(hook hooks.Hook) *IntegrationsService {
+	api.hook = hook
+	return api
+}
+
 func (api *IntegrationsService) getConfig() *clientconfig.Config {
 	return api.manager.GetIntegrations()
+}
+
+func (api *IntegrationsService) getHook() hooks.Hook {
+	return api.hook
 }
 
 func (api *IntegrationsService) SetBaseUrl(baseUrl string) {
@@ -45,7 +62,7 @@ func (api *IntegrationsService) SetAccessToken(accessToken string) {
 }
 
 // Lists all available and configured integrations for the project. Returns a summary of each integration including its type, status, and basic configuration information.
-func (api *IntegrationsService) ListIntegrations(ctx context.Context, params ListIntegrationsRequestParams) (*shared.ClientResponse[IntegrationConfigCollection], *shared.ClientError) {
+func (api *IntegrationsService) ListIntegrations(ctx context.Context, params ListIntegrationsRequestParams) (*shared.ClientResponse[IntegrationConfigCollection], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -57,17 +74,17 @@ func (api *IntegrationsService) ListIntegrations(ctx context.Context, params Lis
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[IntegrationConfigCollection](config)
+	client := restClient.NewRestClient[IntegrationConfigCollection, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[IntegrationConfigCollection](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[IntegrationConfigCollection](resp), nil
 }
 
 // Retrieves the current APNs integration configurations for a specific integration type in the project. Returns configuration details and status information.
-func (api *IntegrationsService) ListApnsIntegrations(ctx context.Context) (*shared.ClientResponse[ApnsConfigCollection], *shared.ClientError) {
+func (api *IntegrationsService) ListApnsIntegrations(ctx context.Context) (*shared.ClientResponse[ApnsConfigCollection], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -78,17 +95,17 @@ func (api *IntegrationsService) ListApnsIntegrations(ctx context.Context) (*shar
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[ApnsConfigCollection](config)
+	client := restClient.NewRestClient[ApnsConfigCollection, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[ApnsConfigCollection](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[ApnsConfigCollection](resp), nil
 }
 
 // Updates or creates the APNs integration for the project.
-func (api *IntegrationsService) SaveApnsIntegration(ctx context.Context, apnsConfigPayload ApnsConfigPayload) (*shared.ClientResponse[ApnsConfigPayload], *shared.ClientError) {
+func (api *IntegrationsService) SaveApnsIntegration(ctx context.Context, apnsConfigPayload ApnsConfigPayload) (*shared.ClientResponse[ApnsConfigPayload], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -101,17 +118,17 @@ func (api *IntegrationsService) SaveApnsIntegration(ctx context.Context, apnsCon
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[ApnsConfigPayload](config)
+	client := restClient.NewRestClient[ApnsConfigPayload, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[ApnsConfigPayload](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[ApnsConfigPayload](resp), nil
 }
 
 // Deletes the APNs integration configuration from the project. This will disable the integration's functionality within the project.
-func (api *IntegrationsService) DeleteApnsIntegration(ctx context.Context, params DeleteApnsIntegrationRequestParams) (*shared.ClientResponse[any], *shared.ClientError) {
+func (api *IntegrationsService) DeleteApnsIntegration(ctx context.Context, params DeleteApnsIntegrationRequestParams) (*shared.ClientResponse[any], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -123,17 +140,83 @@ func (api *IntegrationsService) DeleteApnsIntegration(ctx context.Context, param
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[any](config)
+	client := restClient.NewRestClient[any, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[any](err)
+		return nil, shared.NewClientError[[]byte](err)
+	}
+
+	return shared.NewClientResponse[any](resp), nil
+}
+
+// Retrieves the current EventSource integration configurations for a specific integration type in the project. Returns configuration details and status information.
+func (api *IntegrationsService) ListEventsourceIntegrations(ctx context.Context) (*shared.ClientResponse[EventSourceConfigCollection], *shared.ClientError[[]byte]) {
+	config := *api.getConfig()
+
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("GET").
+		WithPath("/integrations/eventsource").
+		WithConfig(config).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
+	client := restClient.NewRestClient[EventSourceConfigCollection, []byte](config, api.getHook())
+	resp, err := client.Call(*request)
+	if err != nil {
+		return nil, shared.NewClientError[[]byte](err)
+	}
+
+	return shared.NewClientResponse[EventSourceConfigCollection](resp), nil
+}
+
+// Updates or creates the EventSource integration for the project.
+func (api *IntegrationsService) SaveEventsourceIntegration(ctx context.Context, eventSourceConfigPayload EventSourceConfigPayload) (*shared.ClientResponse[EventSourceConfigPayload], *shared.ClientError[[]byte]) {
+	config := *api.getConfig()
+
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("PUT").
+		WithPath("/integrations/eventsource").
+		WithConfig(config).
+		WithBody(eventSourceConfigPayload).
+		AddHeader("CONTENT-TYPE", "application/json").
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
+	client := restClient.NewRestClient[EventSourceConfigPayload, []byte](config, api.getHook())
+	resp, err := client.Call(*request)
+	if err != nil {
+		return nil, shared.NewClientError[[]byte](err)
+	}
+
+	return shared.NewClientResponse[EventSourceConfigPayload](resp), nil
+}
+
+// Deletes the EventSource integration configuration from the project. This will disable the integration's functionality within the project.
+func (api *IntegrationsService) DeleteEventsourceIntegration(ctx context.Context, params DeleteEventsourceIntegrationRequestParams) (*shared.ClientResponse[any], *shared.ClientError[[]byte]) {
+	config := *api.getConfig()
+
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("DELETE").
+		WithPath("/integrations/eventsource").
+		WithConfig(config).
+		WithOptions(params).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
+	client := restClient.NewRestClient[any, []byte](config, api.getHook())
+	resp, err := client.Call(*request)
+	if err != nil {
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[any](resp), nil
 }
 
 // Retrieves the current Expo integration configurations for a specific integration type in the project. Returns configuration details and status information.
-func (api *IntegrationsService) ListExpoIntegrations(ctx context.Context) (*shared.ClientResponse[ExpoConfigCollection], *shared.ClientError) {
+func (api *IntegrationsService) ListExpoIntegrations(ctx context.Context) (*shared.ClientResponse[ExpoConfigCollection], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -144,17 +227,17 @@ func (api *IntegrationsService) ListExpoIntegrations(ctx context.Context) (*shar
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[ExpoConfigCollection](config)
+	client := restClient.NewRestClient[ExpoConfigCollection, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[ExpoConfigCollection](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[ExpoConfigCollection](resp), nil
 }
 
 // Updates or creates the Expo integration for the project.
-func (api *IntegrationsService) SaveExpoIntegration(ctx context.Context, expoConfigPayload ExpoConfigPayload) (*shared.ClientResponse[ExpoConfigPayload], *shared.ClientError) {
+func (api *IntegrationsService) SaveExpoIntegration(ctx context.Context, expoConfigPayload ExpoConfigPayload) (*shared.ClientResponse[ExpoConfigPayload], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -167,17 +250,17 @@ func (api *IntegrationsService) SaveExpoIntegration(ctx context.Context, expoCon
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[ExpoConfigPayload](config)
+	client := restClient.NewRestClient[ExpoConfigPayload, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[ExpoConfigPayload](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[ExpoConfigPayload](resp), nil
 }
 
 // Deletes the Expo integration configuration from the project. This will disable the integration's functionality within the project.
-func (api *IntegrationsService) DeleteExpoIntegration(ctx context.Context, params DeleteExpoIntegrationRequestParams) (*shared.ClientResponse[any], *shared.ClientError) {
+func (api *IntegrationsService) DeleteExpoIntegration(ctx context.Context, params DeleteExpoIntegrationRequestParams) (*shared.ClientResponse[any], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -189,17 +272,17 @@ func (api *IntegrationsService) DeleteExpoIntegration(ctx context.Context, param
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[any](config)
+	client := restClient.NewRestClient[any, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[any](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[any](resp), nil
 }
 
 // Retrieves the current FCM integration configurations for a specific integration type in the project. Returns configuration details and status information.
-func (api *IntegrationsService) ListFcmIntegrations(ctx context.Context) (*shared.ClientResponse[FcmConfigCollection], *shared.ClientError) {
+func (api *IntegrationsService) ListFcmIntegrations(ctx context.Context) (*shared.ClientResponse[FcmConfigCollection], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -210,17 +293,17 @@ func (api *IntegrationsService) ListFcmIntegrations(ctx context.Context) (*share
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[FcmConfigCollection](config)
+	client := restClient.NewRestClient[FcmConfigCollection, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[FcmConfigCollection](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[FcmConfigCollection](resp), nil
 }
 
 // Updates or creates the FCM integration for the project.
-func (api *IntegrationsService) SaveFcmIntegration(ctx context.Context, fcmConfigPayload FcmConfigPayload) (*shared.ClientResponse[FcmConfigPayload], *shared.ClientError) {
+func (api *IntegrationsService) SaveFcmIntegration(ctx context.Context, fcmConfigPayload FcmConfigPayload) (*shared.ClientResponse[FcmConfigPayload], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -233,17 +316,17 @@ func (api *IntegrationsService) SaveFcmIntegration(ctx context.Context, fcmConfi
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[FcmConfigPayload](config)
+	client := restClient.NewRestClient[FcmConfigPayload, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[FcmConfigPayload](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[FcmConfigPayload](resp), nil
 }
 
 // Deletes the FCM integration configuration from the project. This will disable the integration's functionality within the project.
-func (api *IntegrationsService) DeleteFcmIntegration(ctx context.Context, params DeleteFcmIntegrationRequestParams) (*shared.ClientResponse[any], *shared.ClientError) {
+func (api *IntegrationsService) DeleteFcmIntegration(ctx context.Context, params DeleteFcmIntegrationRequestParams) (*shared.ClientResponse[any], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -255,17 +338,17 @@ func (api *IntegrationsService) DeleteFcmIntegration(ctx context.Context, params
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[any](config)
+	client := restClient.NewRestClient[any, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[any](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[any](resp), nil
 }
 
 // Retrieves the current GitHub integration configurations for a specific integration type in the project. Returns configuration details and status information.
-func (api *IntegrationsService) ListGithubIntegrations(ctx context.Context) (*shared.ClientResponse[GithubConfigCollection], *shared.ClientError) {
+func (api *IntegrationsService) ListGithubIntegrations(ctx context.Context) (*shared.ClientResponse[GithubConfigCollection], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -276,17 +359,17 @@ func (api *IntegrationsService) ListGithubIntegrations(ctx context.Context) (*sh
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[GithubConfigCollection](config)
+	client := restClient.NewRestClient[GithubConfigCollection, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[GithubConfigCollection](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[GithubConfigCollection](resp), nil
 }
 
 // Updates or creates the GitHub integration for the project.
-func (api *IntegrationsService) SaveGithubIntegration(ctx context.Context, githubConfigPayload GithubConfigPayload) (*shared.ClientResponse[GithubConfigPayload], *shared.ClientError) {
+func (api *IntegrationsService) SaveGithubIntegration(ctx context.Context, githubConfigPayload GithubConfigPayload) (*shared.ClientResponse[GithubConfigPayload], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -299,17 +382,17 @@ func (api *IntegrationsService) SaveGithubIntegration(ctx context.Context, githu
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[GithubConfigPayload](config)
+	client := restClient.NewRestClient[GithubConfigPayload, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[GithubConfigPayload](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[GithubConfigPayload](resp), nil
 }
 
 // Deletes the GitHub integration configuration from the project. This will disable the integration's functionality within the project.
-func (api *IntegrationsService) DeleteGithubIntegration(ctx context.Context, params DeleteGithubIntegrationRequestParams) (*shared.ClientResponse[any], *shared.ClientError) {
+func (api *IntegrationsService) DeleteGithubIntegration(ctx context.Context, params DeleteGithubIntegrationRequestParams) (*shared.ClientResponse[any], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -321,17 +404,17 @@ func (api *IntegrationsService) DeleteGithubIntegration(ctx context.Context, par
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[any](config)
+	client := restClient.NewRestClient[any, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[any](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[any](resp), nil
 }
 
 // Retrieves the current Inbox integration configurations for a specific integration type in the project. Returns configuration details and status information.
-func (api *IntegrationsService) ListInboxIntegrations(ctx context.Context) (*shared.ClientResponse[InboxConfigCollection], *shared.ClientError) {
+func (api *IntegrationsService) ListInboxIntegrations(ctx context.Context) (*shared.ClientResponse[InboxConfigCollection], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -342,17 +425,17 @@ func (api *IntegrationsService) ListInboxIntegrations(ctx context.Context) (*sha
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[InboxConfigCollection](config)
+	client := restClient.NewRestClient[InboxConfigCollection, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[InboxConfigCollection](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[InboxConfigCollection](resp), nil
 }
 
 // Updates or creates the Inbox integration for the project.
-func (api *IntegrationsService) SaveInboxIntegration(ctx context.Context, inboxConfigPayload InboxConfigPayload) (*shared.ClientResponse[InboxConfigPayload], *shared.ClientError) {
+func (api *IntegrationsService) SaveInboxIntegration(ctx context.Context, inboxConfigPayload InboxConfigPayload) (*shared.ClientResponse[InboxConfigPayload], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -365,17 +448,17 @@ func (api *IntegrationsService) SaveInboxIntegration(ctx context.Context, inboxC
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[InboxConfigPayload](config)
+	client := restClient.NewRestClient[InboxConfigPayload, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[InboxConfigPayload](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[InboxConfigPayload](resp), nil
 }
 
 // Deletes the Inbox integration configuration from the project. This will disable the integration's functionality within the project.
-func (api *IntegrationsService) DeleteInboxIntegration(ctx context.Context, params DeleteInboxIntegrationRequestParams) (*shared.ClientResponse[any], *shared.ClientError) {
+func (api *IntegrationsService) DeleteInboxIntegration(ctx context.Context, params DeleteInboxIntegrationRequestParams) (*shared.ClientResponse[any], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -387,17 +470,83 @@ func (api *IntegrationsService) DeleteInboxIntegration(ctx context.Context, para
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[any](config)
+	client := restClient.NewRestClient[any, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[any](err)
+		return nil, shared.NewClientError[[]byte](err)
+	}
+
+	return shared.NewClientResponse[any](resp), nil
+}
+
+// Retrieves the current MagicBell SlackBot integration configurations for a specific integration type in the project. Returns configuration details and status information.
+func (api *IntegrationsService) ListMagicbellSlackbotIntegrations(ctx context.Context) (*shared.ClientResponse[SlackBotConfigCollection], *shared.ClientError[[]byte]) {
+	config := *api.getConfig()
+
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("GET").
+		WithPath("/integrations/magicbell_slackbot").
+		WithConfig(config).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
+	client := restClient.NewRestClient[SlackBotConfigCollection, []byte](config, api.getHook())
+	resp, err := client.Call(*request)
+	if err != nil {
+		return nil, shared.NewClientError[[]byte](err)
+	}
+
+	return shared.NewClientResponse[SlackBotConfigCollection](resp), nil
+}
+
+// Updates or creates the MagicBell SlackBot integration for the project.
+func (api *IntegrationsService) SaveMagicbellSlackbotIntegration(ctx context.Context, slackBotConfigPayload SlackBotConfigPayload) (*shared.ClientResponse[SlackBotConfigPayload], *shared.ClientError[[]byte]) {
+	config := *api.getConfig()
+
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("PUT").
+		WithPath("/integrations/magicbell_slackbot").
+		WithConfig(config).
+		WithBody(slackBotConfigPayload).
+		AddHeader("CONTENT-TYPE", "application/json").
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
+	client := restClient.NewRestClient[SlackBotConfigPayload, []byte](config, api.getHook())
+	resp, err := client.Call(*request)
+	if err != nil {
+		return nil, shared.NewClientError[[]byte](err)
+	}
+
+	return shared.NewClientResponse[SlackBotConfigPayload](resp), nil
+}
+
+// Deletes the MagicBell SlackBot integration configuration from the project. This will disable the integration's functionality within the project.
+func (api *IntegrationsService) DeleteMagicbellSlackbotIntegration(ctx context.Context, params DeleteMagicbellSlackbotIntegrationRequestParams) (*shared.ClientResponse[any], *shared.ClientError[[]byte]) {
+	config := *api.getConfig()
+
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("DELETE").
+		WithPath("/integrations/magicbell_slackbot").
+		WithConfig(config).
+		WithOptions(params).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
+	client := restClient.NewRestClient[any, []byte](config, api.getHook())
+	resp, err := client.Call(*request)
+	if err != nil {
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[any](resp), nil
 }
 
 // Retrieves the current Mailgun integration configurations for a specific integration type in the project. Returns configuration details and status information.
-func (api *IntegrationsService) ListMailgunIntegrations(ctx context.Context) (*shared.ClientResponse[MailgunConfigCollection], *shared.ClientError) {
+func (api *IntegrationsService) ListMailgunIntegrations(ctx context.Context) (*shared.ClientResponse[MailgunConfigCollection], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -408,17 +557,17 @@ func (api *IntegrationsService) ListMailgunIntegrations(ctx context.Context) (*s
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[MailgunConfigCollection](config)
+	client := restClient.NewRestClient[MailgunConfigCollection, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[MailgunConfigCollection](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[MailgunConfigCollection](resp), nil
 }
 
 // Updates or creates the Mailgun integration for the project.
-func (api *IntegrationsService) SaveMailgunIntegration(ctx context.Context, mailgunConfigPayload MailgunConfigPayload) (*shared.ClientResponse[MailgunConfigPayload], *shared.ClientError) {
+func (api *IntegrationsService) SaveMailgunIntegration(ctx context.Context, mailgunConfigPayload MailgunConfigPayload) (*shared.ClientResponse[MailgunConfigPayload], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -431,17 +580,17 @@ func (api *IntegrationsService) SaveMailgunIntegration(ctx context.Context, mail
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[MailgunConfigPayload](config)
+	client := restClient.NewRestClient[MailgunConfigPayload, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[MailgunConfigPayload](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[MailgunConfigPayload](resp), nil
 }
 
 // Deletes the Mailgun integration configuration from the project. This will disable the integration's functionality within the project.
-func (api *IntegrationsService) DeleteMailgunIntegration(ctx context.Context, params DeleteMailgunIntegrationRequestParams) (*shared.ClientResponse[any], *shared.ClientError) {
+func (api *IntegrationsService) DeleteMailgunIntegration(ctx context.Context, params DeleteMailgunIntegrationRequestParams) (*shared.ClientResponse[any], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -453,17 +602,17 @@ func (api *IntegrationsService) DeleteMailgunIntegration(ctx context.Context, pa
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[any](config)
+	client := restClient.NewRestClient[any, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[any](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[any](resp), nil
 }
 
 // Retrieves the current Ping Email integration configurations for a specific integration type in the project. Returns configuration details and status information.
-func (api *IntegrationsService) ListPingEmailIntegrations(ctx context.Context) (*shared.ClientResponse[PingConfigCollection], *shared.ClientError) {
+func (api *IntegrationsService) ListPingEmailIntegrations(ctx context.Context) (*shared.ClientResponse[PingConfigCollection], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -474,17 +623,17 @@ func (api *IntegrationsService) ListPingEmailIntegrations(ctx context.Context) (
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[PingConfigCollection](config)
+	client := restClient.NewRestClient[PingConfigCollection, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[PingConfigCollection](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[PingConfigCollection](resp), nil
 }
 
 // Updates or creates the Ping Email integration for the project.
-func (api *IntegrationsService) SavePingEmailIntegration(ctx context.Context, pingConfigPayload PingConfigPayload) (*shared.ClientResponse[PingConfigPayload], *shared.ClientError) {
+func (api *IntegrationsService) SavePingEmailIntegration(ctx context.Context, pingConfigPayload PingConfigPayload) (*shared.ClientResponse[PingConfigPayload], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -497,17 +646,17 @@ func (api *IntegrationsService) SavePingEmailIntegration(ctx context.Context, pi
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[PingConfigPayload](config)
+	client := restClient.NewRestClient[PingConfigPayload, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[PingConfigPayload](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[PingConfigPayload](resp), nil
 }
 
 // Deletes the Ping Email integration configuration from the project. This will disable the integration's functionality within the project.
-func (api *IntegrationsService) DeletePingEmailIntegration(ctx context.Context, params DeletePingEmailIntegrationRequestParams) (*shared.ClientResponse[any], *shared.ClientError) {
+func (api *IntegrationsService) DeletePingEmailIntegration(ctx context.Context, params DeletePingEmailIntegrationRequestParams) (*shared.ClientResponse[any], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -519,17 +668,17 @@ func (api *IntegrationsService) DeletePingEmailIntegration(ctx context.Context, 
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[any](config)
+	client := restClient.NewRestClient[any, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[any](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[any](resp), nil
 }
 
 // Retrieves the current SendGrid integration configurations for a specific integration type in the project. Returns configuration details and status information.
-func (api *IntegrationsService) ListSendgridIntegrations(ctx context.Context) (*shared.ClientResponse[SendgridConfigCollection], *shared.ClientError) {
+func (api *IntegrationsService) ListSendgridIntegrations(ctx context.Context) (*shared.ClientResponse[SendgridConfigCollection], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -540,17 +689,17 @@ func (api *IntegrationsService) ListSendgridIntegrations(ctx context.Context) (*
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[SendgridConfigCollection](config)
+	client := restClient.NewRestClient[SendgridConfigCollection, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[SendgridConfigCollection](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[SendgridConfigCollection](resp), nil
 }
 
 // Updates or creates the SendGrid integration for the project.
-func (api *IntegrationsService) SaveSendgridIntegration(ctx context.Context, sendgridConfigPayload SendgridConfigPayload) (*shared.ClientResponse[SendgridConfigPayload], *shared.ClientError) {
+func (api *IntegrationsService) SaveSendgridIntegration(ctx context.Context, sendgridConfigPayload SendgridConfigPayload) (*shared.ClientResponse[SendgridConfigPayload], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -563,17 +712,17 @@ func (api *IntegrationsService) SaveSendgridIntegration(ctx context.Context, sen
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[SendgridConfigPayload](config)
+	client := restClient.NewRestClient[SendgridConfigPayload, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[SendgridConfigPayload](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[SendgridConfigPayload](resp), nil
 }
 
 // Deletes the SendGrid integration configuration from the project. This will disable the integration's functionality within the project.
-func (api *IntegrationsService) DeleteSendgridIntegration(ctx context.Context, params DeleteSendgridIntegrationRequestParams) (*shared.ClientResponse[any], *shared.ClientError) {
+func (api *IntegrationsService) DeleteSendgridIntegration(ctx context.Context, params DeleteSendgridIntegrationRequestParams) (*shared.ClientResponse[any], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -585,17 +734,17 @@ func (api *IntegrationsService) DeleteSendgridIntegration(ctx context.Context, p
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[any](config)
+	client := restClient.NewRestClient[any, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[any](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[any](resp), nil
 }
 
 // Retrieves the current Amazon SES integration configurations for a specific integration type in the project. Returns configuration details and status information.
-func (api *IntegrationsService) ListSesIntegrations(ctx context.Context) (*shared.ClientResponse[SesConfigCollection], *shared.ClientError) {
+func (api *IntegrationsService) ListSesIntegrations(ctx context.Context) (*shared.ClientResponse[SesConfigCollection], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -606,17 +755,17 @@ func (api *IntegrationsService) ListSesIntegrations(ctx context.Context) (*share
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[SesConfigCollection](config)
+	client := restClient.NewRestClient[SesConfigCollection, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[SesConfigCollection](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[SesConfigCollection](resp), nil
 }
 
 // Updates or creates the Amazon SES integration for the project.
-func (api *IntegrationsService) SaveSesIntegration(ctx context.Context, sesConfigPayload SesConfigPayload) (*shared.ClientResponse[SesConfigPayload], *shared.ClientError) {
+func (api *IntegrationsService) SaveSesIntegration(ctx context.Context, sesConfigPayload SesConfigPayload) (*shared.ClientResponse[SesConfigPayload], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -629,17 +778,17 @@ func (api *IntegrationsService) SaveSesIntegration(ctx context.Context, sesConfi
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[SesConfigPayload](config)
+	client := restClient.NewRestClient[SesConfigPayload, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[SesConfigPayload](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[SesConfigPayload](resp), nil
 }
 
 // Deletes the Amazon SES integration configuration from the project. This will disable the integration's functionality within the project.
-func (api *IntegrationsService) DeleteSesIntegration(ctx context.Context, params DeleteSesIntegrationRequestParams) (*shared.ClientResponse[any], *shared.ClientError) {
+func (api *IntegrationsService) DeleteSesIntegration(ctx context.Context, params DeleteSesIntegrationRequestParams) (*shared.ClientResponse[any], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -651,17 +800,17 @@ func (api *IntegrationsService) DeleteSesIntegration(ctx context.Context, params
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[any](config)
+	client := restClient.NewRestClient[any, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[any](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[any](resp), nil
 }
 
 // Retrieves the current Slack integration configurations for a specific integration type in the project. Returns configuration details and status information.
-func (api *IntegrationsService) ListSlackIntegrations(ctx context.Context) (*shared.ClientResponse[SlackConfigCollection], *shared.ClientError) {
+func (api *IntegrationsService) ListSlackIntegrations(ctx context.Context) (*shared.ClientResponse[SlackConfigCollection], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -672,17 +821,17 @@ func (api *IntegrationsService) ListSlackIntegrations(ctx context.Context) (*sha
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[SlackConfigCollection](config)
+	client := restClient.NewRestClient[SlackConfigCollection, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[SlackConfigCollection](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[SlackConfigCollection](resp), nil
 }
 
 // Updates or creates the Slack integration for the project.
-func (api *IntegrationsService) SaveSlackIntegration(ctx context.Context, slackConfigPayload SlackConfigPayload) (*shared.ClientResponse[SlackConfigPayload], *shared.ClientError) {
+func (api *IntegrationsService) SaveSlackIntegration(ctx context.Context, slackConfigPayload SlackConfigPayload) (*shared.ClientResponse[SlackConfigPayload], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -695,17 +844,17 @@ func (api *IntegrationsService) SaveSlackIntegration(ctx context.Context, slackC
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[SlackConfigPayload](config)
+	client := restClient.NewRestClient[SlackConfigPayload, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[SlackConfigPayload](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[SlackConfigPayload](resp), nil
 }
 
 // Deletes the Slack integration configuration from the project. This will disable the integration's functionality within the project.
-func (api *IntegrationsService) DeleteSlackIntegration(ctx context.Context, params DeleteSlackIntegrationRequestParams) (*shared.ClientResponse[any], *shared.ClientError) {
+func (api *IntegrationsService) DeleteSlackIntegration(ctx context.Context, params DeleteSlackIntegrationRequestParams) (*shared.ClientResponse[any], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -717,17 +866,83 @@ func (api *IntegrationsService) DeleteSlackIntegration(ctx context.Context, para
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[any](config)
+	client := restClient.NewRestClient[any, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[any](err)
+		return nil, shared.NewClientError[[]byte](err)
+	}
+
+	return shared.NewClientResponse[any](resp), nil
+}
+
+// Retrieves the current SMTP integration configurations for a specific integration type in the project. Returns configuration details and status information.
+func (api *IntegrationsService) ListSmtpIntegrations(ctx context.Context) (*shared.ClientResponse[SmtpConfigObjectCollection], *shared.ClientError[[]byte]) {
+	config := *api.getConfig()
+
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("GET").
+		WithPath("/integrations/smtp").
+		WithConfig(config).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
+	client := restClient.NewRestClient[SmtpConfigObjectCollection, []byte](config, api.getHook())
+	resp, err := client.Call(*request)
+	if err != nil {
+		return nil, shared.NewClientError[[]byte](err)
+	}
+
+	return shared.NewClientResponse[SmtpConfigObjectCollection](resp), nil
+}
+
+// Updates or creates the SMTP integration for the project.
+func (api *IntegrationsService) SaveSmtpIntegration(ctx context.Context, smtpConfig SmtpConfig) (*shared.ClientResponse[SmtpConfig], *shared.ClientError[[]byte]) {
+	config := *api.getConfig()
+
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("PUT").
+		WithPath("/integrations/smtp").
+		WithConfig(config).
+		WithBody(smtpConfig).
+		AddHeader("CONTENT-TYPE", "application/json").
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
+	client := restClient.NewRestClient[SmtpConfig, []byte](config, api.getHook())
+	resp, err := client.Call(*request)
+	if err != nil {
+		return nil, shared.NewClientError[[]byte](err)
+	}
+
+	return shared.NewClientResponse[SmtpConfig](resp), nil
+}
+
+// Deletes the SMTP integration configuration from the project. This will disable the integration's functionality within the project.
+func (api *IntegrationsService) DeleteSmtpIntegration(ctx context.Context, params DeleteSmtpIntegrationRequestParams) (*shared.ClientResponse[any], *shared.ClientError[[]byte]) {
+	config := *api.getConfig()
+
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("DELETE").
+		WithPath("/integrations/smtp").
+		WithConfig(config).
+		WithOptions(params).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
+	client := restClient.NewRestClient[any, []byte](config, api.getHook())
+	resp, err := client.Call(*request)
+	if err != nil {
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[any](resp), nil
 }
 
 // Retrieves the current Stripe integration configurations for a specific integration type in the project. Returns configuration details and status information.
-func (api *IntegrationsService) ListStripeIntegrations(ctx context.Context) (*shared.ClientResponse[StripeConfigCollection], *shared.ClientError) {
+func (api *IntegrationsService) ListStripeIntegrations(ctx context.Context) (*shared.ClientResponse[StripeConfigCollection], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -738,17 +953,17 @@ func (api *IntegrationsService) ListStripeIntegrations(ctx context.Context) (*sh
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[StripeConfigCollection](config)
+	client := restClient.NewRestClient[StripeConfigCollection, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[StripeConfigCollection](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[StripeConfigCollection](resp), nil
 }
 
 // Updates or creates the Stripe integration for the project.
-func (api *IntegrationsService) SaveStripeIntegration(ctx context.Context, stripeConfigPayload StripeConfigPayload) (*shared.ClientResponse[StripeConfigPayload], *shared.ClientError) {
+func (api *IntegrationsService) SaveStripeIntegration(ctx context.Context, stripeConfigPayload StripeConfigPayload) (*shared.ClientResponse[StripeConfigPayload], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -761,17 +976,17 @@ func (api *IntegrationsService) SaveStripeIntegration(ctx context.Context, strip
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[StripeConfigPayload](config)
+	client := restClient.NewRestClient[StripeConfigPayload, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[StripeConfigPayload](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[StripeConfigPayload](resp), nil
 }
 
 // Deletes the Stripe integration configuration from the project. This will disable the integration's functionality within the project.
-func (api *IntegrationsService) DeleteStripeIntegration(ctx context.Context, params DeleteStripeIntegrationRequestParams) (*shared.ClientResponse[any], *shared.ClientError) {
+func (api *IntegrationsService) DeleteStripeIntegration(ctx context.Context, params DeleteStripeIntegrationRequestParams) (*shared.ClientResponse[any], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -783,17 +998,17 @@ func (api *IntegrationsService) DeleteStripeIntegration(ctx context.Context, par
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[any](config)
+	client := restClient.NewRestClient[any, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[any](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[any](resp), nil
 }
 
 // Retrieves the current Twilio integration configurations for a specific integration type in the project. Returns configuration details and status information.
-func (api *IntegrationsService) ListTwilioIntegrations(ctx context.Context) (*shared.ClientResponse[TwilioConfigCollection], *shared.ClientError) {
+func (api *IntegrationsService) ListTwilioIntegrations(ctx context.Context) (*shared.ClientResponse[TwilioConfigCollection], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -804,17 +1019,17 @@ func (api *IntegrationsService) ListTwilioIntegrations(ctx context.Context) (*sh
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[TwilioConfigCollection](config)
+	client := restClient.NewRestClient[TwilioConfigCollection, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[TwilioConfigCollection](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[TwilioConfigCollection](resp), nil
 }
 
 // Updates or creates the Twilio integration for the project.
-func (api *IntegrationsService) SaveTwilioIntegration(ctx context.Context, twilioConfigPayload TwilioConfigPayload) (*shared.ClientResponse[TwilioConfigPayload], *shared.ClientError) {
+func (api *IntegrationsService) SaveTwilioIntegration(ctx context.Context, twilioConfigPayload TwilioConfigPayload) (*shared.ClientResponse[TwilioConfigPayload], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -827,17 +1042,17 @@ func (api *IntegrationsService) SaveTwilioIntegration(ctx context.Context, twili
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[TwilioConfigPayload](config)
+	client := restClient.NewRestClient[TwilioConfigPayload, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[TwilioConfigPayload](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[TwilioConfigPayload](resp), nil
 }
 
 // Deletes the Twilio integration configuration from the project. This will disable the integration's functionality within the project.
-func (api *IntegrationsService) DeleteTwilioIntegration(ctx context.Context, params DeleteTwilioIntegrationRequestParams) (*shared.ClientResponse[any], *shared.ClientError) {
+func (api *IntegrationsService) DeleteTwilioIntegration(ctx context.Context, params DeleteTwilioIntegrationRequestParams) (*shared.ClientResponse[any], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -849,17 +1064,17 @@ func (api *IntegrationsService) DeleteTwilioIntegration(ctx context.Context, par
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[any](config)
+	client := restClient.NewRestClient[any, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[any](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[any](resp), nil
 }
 
 // Retrieves the current Web Push integration configurations for a specific integration type in the project. Returns configuration details and status information.
-func (api *IntegrationsService) ListWebPushIntegrations(ctx context.Context) (*shared.ClientResponse[WebpushConfigCollection], *shared.ClientError) {
+func (api *IntegrationsService) ListWebPushIntegrations(ctx context.Context) (*shared.ClientResponse[WebpushConfigCollection], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -870,17 +1085,17 @@ func (api *IntegrationsService) ListWebPushIntegrations(ctx context.Context) (*s
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[WebpushConfigCollection](config)
+	client := restClient.NewRestClient[WebpushConfigCollection, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[WebpushConfigCollection](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[WebpushConfigCollection](resp), nil
 }
 
 // Updates or creates the Web Push integration for the project.
-func (api *IntegrationsService) SaveWebPushIntegration(ctx context.Context, webpushConfigPayload WebpushConfigPayload) (*shared.ClientResponse[WebpushConfigPayload], *shared.ClientError) {
+func (api *IntegrationsService) SaveWebPushIntegration(ctx context.Context, webpushConfigPayload WebpushConfigPayload) (*shared.ClientResponse[WebpushConfigPayload], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -893,17 +1108,17 @@ func (api *IntegrationsService) SaveWebPushIntegration(ctx context.Context, webp
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[WebpushConfigPayload](config)
+	client := restClient.NewRestClient[WebpushConfigPayload, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[WebpushConfigPayload](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[WebpushConfigPayload](resp), nil
 }
 
 // Deletes the Web Push integration configuration from the project. This will disable the integration's functionality within the project.
-func (api *IntegrationsService) DeleteWebPushIntegration(ctx context.Context, params DeleteWebPushIntegrationRequestParams) (*shared.ClientResponse[any], *shared.ClientError) {
+func (api *IntegrationsService) DeleteWebPushIntegration(ctx context.Context, params DeleteWebPushIntegrationRequestParams) (*shared.ClientResponse[any], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -915,10 +1130,10 @@ func (api *IntegrationsService) DeleteWebPushIntegration(ctx context.Context, pa
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[any](config)
+	client := restClient.NewRestClient[any, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[any](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[any](resp), nil

@@ -1,10 +1,6 @@
 package integrations
 
-import (
-	"encoding/json"
-	"github.com/magicbell/magicbell-go/pkg/project-client/internal/unmarshal"
-	"github.com/magicbell/magicbell-go/pkg/project-client/util"
-)
+import "encoding/json"
 
 type SesConfigPayload struct {
 	From *SesConfigPayloadFrom `json:"from,omitempty"`
@@ -66,49 +62,4 @@ func (s SesConfigPayload) String() string {
 		return "error converting struct: SesConfigPayload to string"
 	}
 	return string(jsonData)
-}
-
-type SesConfigPayloadFrom struct {
-	// The email address to send from
-	Email *string `json:"email,omitempty" required:"true"`
-	// The name to send from
-	Name *util.Nullable[string] `json:"name,omitempty"`
-}
-
-func (s *SesConfigPayloadFrom) GetEmail() *string {
-	if s == nil {
-		return nil
-	}
-	return s.Email
-}
-
-func (s *SesConfigPayloadFrom) SetEmail(email string) {
-	s.Email = &email
-}
-
-func (s *SesConfigPayloadFrom) GetName() *util.Nullable[string] {
-	if s == nil {
-		return nil
-	}
-	return s.Name
-}
-
-func (s *SesConfigPayloadFrom) SetName(name util.Nullable[string]) {
-	s.Name = &name
-}
-
-func (s *SesConfigPayloadFrom) SetNameNull() {
-	s.Name = &util.Nullable[string]{IsNull: true}
-}
-
-func (s SesConfigPayloadFrom) String() string {
-	jsonData, err := json.MarshalIndent(s, "", "  ")
-	if err != nil {
-		return "error converting struct: SesConfigPayloadFrom to string"
-	}
-	return string(jsonData)
-}
-
-func (s *SesConfigPayloadFrom) UnmarshalJSON(data []byte) error {
-	return unmarshal.UnmarshalNullable(data, s)
 }

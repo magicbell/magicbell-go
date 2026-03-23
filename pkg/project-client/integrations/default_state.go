@@ -1,0 +1,28 @@
+package integrations
+
+import "encoding/json"
+
+// Accent colors for notification state indicators.
+type DefaultState struct {
+	// Color used for the state indicator.
+	Color *string `json:"color,omitempty" required:"true"`
+}
+
+func (d *DefaultState) GetColor() *string {
+	if d == nil {
+		return nil
+	}
+	return d.Color
+}
+
+func (d *DefaultState) SetColor(color string) {
+	d.Color = &color
+}
+
+func (d DefaultState) String() string {
+	jsonData, err := json.MarshalIndent(d, "", "  ")
+	if err != nil {
+		return "error converting struct: DefaultState to string"
+	}
+	return string(jsonData)
+}

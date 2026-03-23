@@ -1,0 +1,145 @@
+package broadcasts
+
+import "encoding/json"
+
+// Overrides that are scoped to specific providers for a channel.
+type Providers struct {
+	// Provider-specific overrides for Apple Push Notification service.
+	Apns any `json:"apns,omitempty"`
+	// Provider-specific overrides for Expo push notifications.
+	Expo any `json:"expo,omitempty"`
+	// Provider-specific overrides for Firebase Cloud Messaging.
+	Fcm any `json:"fcm,omitempty"`
+	// Provider-specific overrides for Mailgun.
+	Mailgun any `json:"mailgun,omitempty"`
+	// Provider-specific overrides for Sendgrid.
+	Sendgrid any `json:"sendgrid,omitempty"`
+	// Provider-specific overrides for AWS SES.
+	Ses any `json:"ses,omitempty"`
+	// Provider-specific overrides for Slack.
+	Slack any `json:"slack,omitempty"`
+	// Provider-specific overrides for Microsoft Teams.
+	Teams any `json:"teams,omitempty"`
+	// Provider-specific overrides for Twilio.
+	Twilio any `json:"twilio,omitempty"`
+	// Provider-specific overrides for the web push provider.
+	WebPush any `json:"web_push,omitempty"`
+}
+
+func (p *Providers) GetApns() any {
+	if p == nil {
+		return nil
+	}
+	return p.Apns
+}
+
+func (p *Providers) SetApns(apns any) {
+	p.Apns = &apns
+}
+
+func (p *Providers) GetExpo() any {
+	if p == nil {
+		return nil
+	}
+	return p.Expo
+}
+
+func (p *Providers) SetExpo(expo any) {
+	p.Expo = &expo
+}
+
+func (p *Providers) GetFcm() any {
+	if p == nil {
+		return nil
+	}
+	return p.Fcm
+}
+
+func (p *Providers) SetFcm(fcm any) {
+	p.Fcm = &fcm
+}
+
+func (p *Providers) GetMailgun() any {
+	if p == nil {
+		return nil
+	}
+	return p.Mailgun
+}
+
+func (p *Providers) SetMailgun(mailgun any) {
+	p.Mailgun = &mailgun
+}
+
+func (p *Providers) GetSendgrid() any {
+	if p == nil {
+		return nil
+	}
+	return p.Sendgrid
+}
+
+func (p *Providers) SetSendgrid(sendgrid any) {
+	p.Sendgrid = &sendgrid
+}
+
+func (p *Providers) GetSes() any {
+	if p == nil {
+		return nil
+	}
+	return p.Ses
+}
+
+func (p *Providers) SetSes(ses any) {
+	p.Ses = &ses
+}
+
+func (p *Providers) GetSlack() any {
+	if p == nil {
+		return nil
+	}
+	return p.Slack
+}
+
+func (p *Providers) SetSlack(slack any) {
+	p.Slack = &slack
+}
+
+func (p *Providers) GetTeams() any {
+	if p == nil {
+		return nil
+	}
+	return p.Teams
+}
+
+func (p *Providers) SetTeams(teams any) {
+	p.Teams = &teams
+}
+
+func (p *Providers) GetTwilio() any {
+	if p == nil {
+		return nil
+	}
+	return p.Twilio
+}
+
+func (p *Providers) SetTwilio(twilio any) {
+	p.Twilio = &twilio
+}
+
+func (p *Providers) GetWebPush() any {
+	if p == nil {
+		return nil
+	}
+	return p.WebPush
+}
+
+func (p *Providers) SetWebPush(webPush any) {
+	p.WebPush = &webPush
+}
+
+func (p Providers) String() string {
+	jsonData, err := json.MarshalIndent(p, "", "  ")
+	if err != nil {
+		return "error converting struct: Providers to string"
+	}
+	return string(jsonData)
+}

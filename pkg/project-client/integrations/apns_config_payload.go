@@ -5,12 +5,16 @@ import "encoding/json"
 type ApnsConfigPayload struct {
 	// The default bundle identifier of the application that is configured with this project. It can be overriden on a per token basis, when registering device tokens.
 	AppId *string `json:"app_id,omitempty" required:"true" pattern:"^[a-zA-Z0-9]+(.[a-zA-Z0-9]+)*$"`
-	Badge *Badge  `json:"badge,omitempty" required:"true"`
+	// Controls whether the app icon badge counts unread or unseen notifications.
+	Badge *Badge `json:"badge,omitempty" required:"true"`
 	// The APNs certificate in P8 format. Generate it at [developer.apple.com](https://developer.apple.com/account/resources/authkeys/add) with the 'Apple Push Notification service (APNs)' option selected.
-	Certificate    *string         `json:"certificate,omitempty" required:"true" pattern:"^-+?\s?BEGIN PRIVATE KEY-+\n([A-Za-z0-9+/\r\n]+={0,2})\n-+\s?END PRIVATE KEY+-+\n?$"`
-	KeyId          *string         `json:"key_id,omitempty" required:"true" maxLength:"10" minLength:"10"`
+	Certificate *string `json:"certificate,omitempty" required:"true" pattern:"^-+?\s?BEGIN PRIVATE KEY-+\n([A-Za-z0-9+/\r\n]+={0,2})\n-+\s?END PRIVATE KEY+-+\n?$"`
+	// The 10-character Key ID from your Apple Developer account used with the P8 certificate.
+	KeyId *string `json:"key_id,omitempty" required:"true" maxLength:"10" minLength:"10"`
+	// Internal payload format version used by MagicBell.
 	PayloadVersion *PayloadVersion `json:"payload_version,omitempty"`
-	TeamId         *string         `json:"team_id,omitempty" required:"true" maxLength:"10" minLength:"10"`
+	// The Apple Developer Team ID that owns the configured key.
+	TeamId *string `json:"team_id,omitempty" required:"true" maxLength:"10" minLength:"10"`
 }
 
 func (a *ApnsConfigPayload) GetAppId() *string {
@@ -86,17 +90,3 @@ func (a ApnsConfigPayload) String() string {
 	}
 	return string(jsonData)
 }
-
-type Badge string
-
-const (
-	BADGE_UNREAD Badge = "unread"
-	BADGE_UNSEEN Badge = "unseen"
-)
-
-type PayloadVersion string
-
-const (
-	PAYLOAD_VERSION_1 PayloadVersion = "1"
-	PAYLOAD_VERSION_2 PayloadVersion = "2"
-)

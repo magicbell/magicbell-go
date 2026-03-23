@@ -2,6 +2,6 @@
 
 **Properties**
 
-| Name        | Type   | Required | Description |
-| :---------- | :----- | :------- | :---------- |
-| AccessToken | string | ✅       |             |
+| Name        | Type   | Required | Description                                                    |
+| :---------- | :----- | :------- | :------------------------------------------------------------- |
+| AccessToken | string | ✅       | The Expo access token used to authenticate push notifications. |

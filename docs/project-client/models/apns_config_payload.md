@@ -5,22 +5,26 @@
 | Name           | Type                        | Required | Description                                                                                                                                                                                            |
 | :------------- | :-------------------------- | :------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | AppId          | string                      | ✅       | The default bundle identifier of the application that is configured with this project. It can be overriden on a per token basis, when registering device tokens.                                       |
-| Badge          | integrations.Badge          | ✅       |                                                                                                                                                                                                        |
+| Badge          | integrations.Badge          | ✅       | Controls whether the app icon badge counts unread or unseen notifications.                                                                                                                             |
 | Certificate    | string                      | ✅       | The APNs certificate in P8 format. Generate it at [developer.apple.com](https://developer.apple.com/account/resources/authkeys/add) with the 'Apple Push Notification service (APNs)' option selected. |
-| KeyId          | string                      | ✅       |                                                                                                                                                                                                        |
-| TeamId         | string                      | ✅       |                                                                                                                                                                                                        |
-| PayloadVersion | integrations.PayloadVersion | ❌       |                                                                                                                                                                                                        |
+| KeyId          | string                      | ✅       | The 10-character Key ID from your Apple Developer account used with the P8 certificate.                                                                                                                |
+| TeamId         | string                      | ✅       | The Apple Developer Team ID that owns the configured key.                                                                                                                                              |
+| PayloadVersion | integrations.PayloadVersion | ❌       | Internal payload format version used by MagicBell.                                                                                                                                                     |
 
 # Badge
+
+Controls whether the app icon badge counts unread or unseen notifications.
 
 **Properties**
 
 | Name   | Type   | Required | Description |
 | :----- | :----- | :------- | :---------- |
-| unread | string | ✅       | "unread"    |
-| unseen | string | ✅       | "unseen"    |
+| Unread | string | ✅       | "unread"    |
+| Unseen | string | ✅       | "unseen"    |
 
 # PayloadVersion
+
+Internal payload format version used by MagicBell.
 
 **Properties**
 

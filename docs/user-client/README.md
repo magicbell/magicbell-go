@@ -8,6 +8,14 @@ title: "user-client"
 
 This SDK is compatible with the following versions: `Go >= 1.19.0`
 
+## Installation
+
+To get started with the SDK, we recommend installing using `go get`:
+
+```bash
+go get client
+```
+
 ## Authentication
 
 ### Access Token Authentication
@@ -46,11 +54,60 @@ sdk := client.NewClient(config)
 sdk.SetAccessToken("YOUR-TOKEN")
 ```
 
+## Setting a Custom Timeout
+
+You can set a custom timeout for the SDK's HTTP requests as follows:
+
+```go
+import "time"
+
+config := clientconfig.NewConfig()
+
+sdk := client.NewClient(config)
+
+sdk.SetTimeout(10 * time.Second)
+```
+
+# Sample Usage
+
+Below is a comprehensive example demonstrating how to authenticate and call a simple endpoint:
+
+```go
+import (
+  "fmt"
+  "encoding/json"
+  "context"
+  "github.com/magicbell/magicbell-go/pkg/user-client/clientconfig"
+  "github.com/magicbell/magicbell-go/pkg/user-client/client"
+  "github.com/magicbell/magicbell-go/pkg/user-client/util"
+  "github.com/magicbell/magicbell-go/pkg/user-client/channels"
+)
+
+config := clientconfig.NewConfig()
+config.SetAccessToken("ACCESS_TOKEN")
+client := client.NewClient(config)
+
+
+params := channels.ListInboxTokensRequestParams{
+  Limit: util.ToPointer(int64(8)),
+  StartingAfter: util.ToPointer("starting_after"),
+  EndingBefore: util.ToPointer("ending_before"),
+}
+
+response, err := client.Channels.ListInboxTokens(context.Background(), params)
+if err != nil {
+  panic(err)
+}
+
+fmt.Println(response)
+
+```
+
 ## Services
 
 The SDK provides various services to interact with the API.
 
-<details> 
+<details>
 <summary>Below is a list of all available services with links to their detailed documentation:</summary>
 
 | Name                                                                    |
@@ -79,15 +136,16 @@ This response wrapper is used to return the response data from the API. It conta
 | Data     | `T`                      | The body of the API response                |
 | Metadata | `ClientResponseMetadata` | Status code and headers returned by the API |
 
-#### `ClientError`
+#### `ClientError[T]`
 
 This response wrapper is used to return an error. It contains the following fields:
 
-| Name     | Type                     | Description                                 |
-| :------- | :----------------------- | :------------------------------------------ |
-| Err      | `error`                  | The error that occurred                     |
-| Body     | `T`                      | The body of the API response                |
-| Metadata | `ClientResponseMetadata` | Status code and headers returned by the API |
+| Name     | Type                  | Description                                                       |
+| :------- | :-------------------- | :---------------------------------------------------------------- |
+| Err      | `error`               | The error that occurred                                           |
+| Data     | `*T`                  | The deserialized error response data (nil if unmarshaling failed) |
+| Body     | `[]byte`              | The raw body of the API response                                  |
+| Metadata | `ClientErrorMetadata` | Status code and headers returned by the API                       |
 
 #### `ClientResponseMetadata`
 
@@ -104,41 +162,45 @@ This struct is shared by both response wrappers and contains the following field
 
 The SDK includes several models that represent the data structures used in API requests and responses. These models help in organizing and managing the data efficiently.
 
-<details> 
+<details>
 <summary>Below is a list of all available models with links to their detailed documentation:</summary>
 
 | Name                                                                                             | Description |
 | :----------------------------------------------------------------------------------------------- | :---------- |
 | [InboxTokenResponseCollection](models/inbox_token_response_collection.md)          |             |
-| [InboxToken](models/inbox_token.md)                                                |             |
 | [InboxTokenResponse](models/inbox_token_response.md)                               |             |
+| [Links](models/links.md)                                                           |             |
+| [InboxToken](models/inbox_token.md)                                                |             |
 | [DiscardResult](models/discard_result.md)                                          |             |
 | [ApnsTokenCollection](models/apns_token_collection.md)                             |             |
-| [ApnsTokenPayload](models/apns_token_payload.md)                                   |             |
 | [ApnsToken](models/apns_token.md)                                                  |             |
+| [ApnsTokenPayload](models/apns_token_payload.md)                                   |             |
 | [ExpoTokenCollection](models/expo_token_collection.md)                             |             |
-| [ExpoTokenPayload](models/expo_token_payload.md)                                   |             |
 | [ExpoToken](models/expo_token.md)                                                  |             |
+| [ExpoTokenPayload](models/expo_token_payload.md)                                   |             |
 | [FcmTokenCollection](models/fcm_token_collection.md)                               |             |
-| [FcmTokenPayload](models/fcm_token_payload.md)                                     |             |
 | [FcmToken](models/fcm_token.md)                                                    |             |
+| [FcmTokenPayload](models/fcm_token_payload.md)                                     |             |
 | [SlackTokenCollection](models/slack_token_collection.md)                           |             |
-| [SlackTokenPayload](models/slack_token_payload.md)                                 |             |
 | [SlackToken](models/slack_token.md)                                                |             |
+| [SlackTokenPayload](models/slack_token_payload.md)                                 |             |
 | [TeamsTokenCollection](models/teams_token_collection.md)                           |             |
-| [TeamsTokenPayload](models/teams_token_payload.md)                                 |             |
 | [TeamsToken](models/teams_token.md)                                                |             |
+| [TeamsTokenPayload](models/teams_token_payload.md)                                 |             |
+| [UserPreferences](models/user_preferences.md)                                      |             |
 | [WebPushTokenCollection](models/web_push_token_collection.md)                      |             |
-| [WebPushTokenPayload](models/web_push_token_payload.md)                            |             |
 | [WebPushToken](models/web_push_token.md)                                           |             |
+| [WebPushTokenPayload](models/web_push_token_payload.md)                            |             |
 | [InboxConfigPayload](models/inbox_config_payload.md)                               |             |
 | [SlackInstallation](models/slack_installation.md)                                  |             |
 | [SlackFinishInstallResponse](models/slack_finish_install_response.md)              |             |
-| [SlackStartInstall](models/slack_start_install.md)                                 |             |
 | [SlackStartInstallResponseContent](models/slack_start_install_response_content.md) |             |
+| [SlackStartInstall](models/slack_start_install.md)                                 |             |
+| [WebPushTokenPayload](models/web_push_token_payload.md)                            |             |
 | [WebPushStartInstallationResponse](models/web_push_start_installation_response.md) |             |
 | [NotificationCollection](models/notification_collection.md)                        |             |
 | [Notification](models/notification.md)                                             |             |
 | [Links](models/links.md)                                                           |             |
+| [CountResponse](models/count_response.md)                                          |             |
 
 </details>

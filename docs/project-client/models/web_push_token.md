@@ -4,12 +4,12 @@
 
 | Name        | Type          | Required | Description                                                                                                                                                                                      |
 | :---------- | :------------ | :------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| CreatedAt   | string        | ✅       |                                                                                                                                                                                                  |
+| CreatedAt   | string        | ✅       | The timestamp when the token was created.                                                                                                                                                        |
 | Endpoint    | string        | ✅       | The push subscription URL obtained from PushSubscription.endpoint after calling registration.pushManager.subscribe(). This is the unique URL for this device that push messages will be sent to. |
-| Id          | string        | ✅       |                                                                                                                                                                                                  |
+| Id          | string        | ✅       | The unique identifier for the token.                                                                                                                                                             |
 | Keys        | channels.Keys | ✅       | The encryption keys from the PushSubscription.getKey() method, needed to encrypt push messages for this subscription.                                                                            |
-| DiscardedAt | string        | ❌       |                                                                                                                                                                                                  |
-| UpdatedAt   | string        | ❌       |                                                                                                                                                                                                  |
+| DiscardedAt | string        | ❌       | The timestamp when the token was discarded, if applicable.                                                                                                                                       |
+| UpdatedAt   | string        | ❌       | The timestamp when the token metadata last changed.                                                                                                                                              |
 
 # Keys
 

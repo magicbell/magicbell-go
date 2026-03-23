@@ -1,5 +1,7 @@
 package users
 
+// ListUsersRequestParams holds the optional parameters for the API request.
+// Use the Set methods to configure query parameters, headers, and path parameters.
 type ListUsersRequestParams struct {
 	Limit         *int64  `explode:"true" serializationStyle:"form" queryParam:"limit"`
 	StartingAfter *string `explode:"true" serializationStyle:"form" queryParam:"starting_after"`
@@ -7,15 +9,22 @@ type ListUsersRequestParams struct {
 	Query         *string `explode:"true" serializationStyle:"form" queryParam:"query"`
 }
 
+// SetLimit sets the Limit parameter.
 func (params *ListUsersRequestParams) SetLimit(limit int64) {
 	params.Limit = &limit
 }
+
+// SetStartingAfter sets the StartingAfter parameter.
 func (params *ListUsersRequestParams) SetStartingAfter(startingAfter string) {
 	params.StartingAfter = &startingAfter
 }
+
+// SetEndingBefore sets the EndingBefore parameter.
 func (params *ListUsersRequestParams) SetEndingBefore(endingBefore string) {
 	params.EndingBefore = &endingBefore
 }
+
+// SetQuery sets the Query parameter.
 func (params *ListUsersRequestParams) SetQuery(query string) {
 	params.Query = &query
 }
