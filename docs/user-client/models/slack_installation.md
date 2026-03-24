@@ -2,59 +2,59 @@
 
 **Properties**
 
-| Name                | Type                         | Required | Description |
-| :------------------ | :--------------------------- | :------- | :---------- |
-| AccessToken         | string                       | ✅       |             |
-| AppId               | string                       | ✅       |             |
-| AuthedUser          | integrations.AuthedUser      | ✅       |             |
-| Team                | integrations.Team            | ✅       |             |
-| BotUserId           | string                       | ❌       |             |
-| Enterprise          | integrations.Enterprise      | ❌       |             |
-| ExpiresIn           | int64                        | ❌       |             |
-| Id                  | string                       | ❌       |             |
-| IncomingWebhook     | integrations.IncomingWebhook | ❌       |             |
-| IsEnterpriseInstall | bool                         | ❌       |             |
-| RefreshToken        | string                       | ❌       |             |
-| Scope               | string                       | ❌       |             |
-| TokenType           | string                       | ❌       |             |
+| Name                | Type                         | Required | Description                                                        |
+| :------------------ | :--------------------------- | :------- | :----------------------------------------------------------------- |
+| AccessToken         | string                       | ✅       | Bot token returned from the Slack OAuth exchange.                  |
+| AppId               | string                       | ✅       | Slack app identifier for the installed app.                        |
+| AuthedUser          | integrations.AuthedUser      | ✅       |                                                                    |
+| Team                | integrations.Team            | ✅       |                                                                    |
+| BotUserId           | string                       | ❌       | Slack user ID of the installed bot.                                |
+| Enterprise          | integrations.Enterprise      | ❌       |                                                                    |
+| ExpiresIn           | int64                        | ❌       | Seconds until the bot access token expires.                        |
+| Id                  | string                       | ❌       | Unique identifier MagicBell assigns to the Slack installation.     |
+| IncomingWebhook     | integrations.IncomingWebhook | ❌       |                                                                    |
+| IsEnterpriseInstall | bool                         | ❌       | Indicates whether the installation occurred on an enterprise grid. |
+| RefreshToken        | string                       | ❌       | Refresh token for regenerating the bot access token.               |
+| Scope               | string                       | ❌       | Space-delimited OAuth scopes granted to the bot token.             |
+| TokenType           | string                       | ❌       | Type of bot token returned by Slack.                               |
 
 # AuthedUser
 
 **Properties**
 
-| Name         | Type   | Required | Description |
-| :----------- | :----- | :------- | :---------- |
-| Id           | string | ✅       |             |
-| AccessToken  | string | ❌       |             |
-| ExpiresIn    | int64  | ❌       |             |
-| RefreshToken | string | ❌       |             |
-| Scope        | string | ❌       |             |
-| TokenType    | string | ❌       |             |
+| Name         | Type   | Required | Description                                             |
+| :----------- | :----- | :------- | :------------------------------------------------------ |
+| Id           | string | ✅       | Slack user ID for the installer.                        |
+| AccessToken  | string | ❌       | User token returned from the OAuth exchange.            |
+| ExpiresIn    | int64  | ❌       | Seconds until the user token expires.                   |
+| RefreshToken | string | ❌       | Refresh token for the authed user.                      |
+| Scope        | string | ❌       | Space-delimited OAuth scopes granted to the user token. |
+| TokenType    | string | ❌       | Token type value provided by Slack.                     |
 
 # Team
 
 **Properties**
 
-| Name | Type   | Required | Description |
-| :--- | :----- | :------- | :---------- |
-| Id   | string | ✅       |             |
-| Name | string | ❌       |             |
+| Name | Type   | Required | Description                                 |
+| :--- | :----- | :------- | :------------------------------------------ |
+| Id   | string | ✅       | Workspace ID where the app was installed.   |
+| Name | string | ❌       | Workspace name where the app was installed. |
 
 # Enterprise
 
 **Properties**
 
-| Name | Type   | Required | Description |
-| :--- | :----- | :------- | :---------- |
-| Id   | string | ✅       |             |
-| Name | string | ✅       |             |
+| Name | Type   | Required | Description                 |
+| :--- | :----- | :------- | :-------------------------- |
+| Id   | string | ✅       | Enterprise grid identifier. |
+| Name | string | ✅       | Enterprise grid name.       |
 
 # IncomingWebhook
 
 **Properties**
 
-| Name             | Type   | Required | Description |
-| :--------------- | :----- | :------- | :---------- |
-| Channel          | string | ✅       |             |
-| ConfigurationUrl | string | ✅       |             |
-| Url              | string | ✅       |             |
+| Name             | Type   | Required | Description                                  |
+| :--------------- | :----- | :------- | :------------------------------------------- |
+| Channel          | string | ✅       | Human readable name for the webhook channel. |
+| ConfigurationUrl | string | ✅       | URL users can visit to manage the webhook.   |
+| Url              | string | ✅       | Webhook URL that Slack posts events to.      |

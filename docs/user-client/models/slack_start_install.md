@@ -2,9 +2,9 @@
 
 **Properties**
 
-| Name        | Type     | Required | Description |
-| :---------- | :------- | :------- | :---------- |
-| AppId       | string   | ✅       |             |
-| AuthUrl     | string   | ❌       |             |
-| ExtraScopes | []string | ❌       |             |
-| RedirectUrl | string   | ❌       |             |
+| Name        | Type     | Required | Description                                                         |
+| :---------- | :------- | :------- | :------------------------------------------------------------------ |
+| AppId       | string   | ✅       | Slack app ID that the installation flow should use.                 |
+| AuthUrl     | string   | ❌       | Optional override for the authorization URL returned to the client. |
+| ExtraScopes | []string | ❌       | Additional OAuth scopes to request during installation.             |
+| RedirectUrl | string   | ❌       | Custom redirect URL to use after OAuth completes.                   |

@@ -1,0 +1,27 @@
+# WorkflowList
+
+**Properties**
+
+| Name  | Type              | Required | Description |
+| :---- | :---------------- | :------- | :---------- |
+| Items | []workflows.Items | ❌       |             |
+
+# Items
+
+**Properties**
+
+| Name     | Type                   | Required | Description |
+| :------- | :--------------------- | :------- | :---------- |
+| Key      | string                 | ✅       |             |
+| Steps    | []workflows.ItemsSteps | ✅       |             |
+| Disabled | bool                   | ❌       |             |
+
+# ItemsSteps
+
+**Properties**
+
+| Name    | Type   | Required | Description                                              |
+| :------ | :----- | :------- | :------------------------------------------------------- |
+| Command | string | ✅       | Command to execute (e.g., broadcast, pause, wait, abort) |
+| If\_    | string | ❌       |                                                          |
+| Input   | any    | ❌       |                                                          |

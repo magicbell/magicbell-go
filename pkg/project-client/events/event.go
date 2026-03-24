@@ -7,13 +7,22 @@ import (
 )
 
 type Event struct {
-	Code      *int64                 `json:"code,omitempty"`
-	Context   *util.Nullable[any]    `json:"context,omitempty"`
-	Id        *string                `json:"id,omitempty" required:"true"`
-	Level     *string                `json:"level,omitempty"`
-	Log       *util.Nullable[string] `json:"log,omitempty"`
-	Timestamp *string                `json:"timestamp,omitempty" required:"true"`
-	Type_     *string                `json:"type,omitempty" required:"true"`
+	// The numeric code that categorizes the event.
+	Code *int64 `json:"code,omitempty"`
+	// Additional contextual attributes for the event.
+	Context *util.Nullable[any] `json:"context,omitempty"`
+	// The unique identifier for the event.
+	Id *string `json:"id,omitempty" required:"true"`
+	// The severity level assigned to the event.
+	Level *string `json:"level,omitempty"`
+	// A human-readable log message.
+	Log *util.Nullable[string] `json:"log,omitempty"`
+	// The raw payload delivered by the event source.
+	Payload *util.Nullable[any] `json:"payload,omitempty"`
+	// The time at which the event was recorded.
+	Timestamp *string `json:"timestamp,omitempty" required:"true"`
+	// The type of event that occurred.
+	Type_ *string `json:"type,omitempty" required:"true"`
 }
 
 func (e *Event) GetCode() *int64 {
@@ -77,6 +86,21 @@ func (e *Event) SetLog(log util.Nullable[string]) {
 
 func (e *Event) SetLogNull() {
 	e.Log = &util.Nullable[string]{IsNull: true}
+}
+
+func (e *Event) GetPayload() *util.Nullable[any] {
+	if e == nil {
+		return nil
+	}
+	return e.Payload
+}
+
+func (e *Event) SetPayload(payload util.Nullable[any]) {
+	e.Payload = &payload
+}
+
+func (e *Event) SetPayloadNull() {
+	e.Payload = &util.Nullable[any]{IsNull: true}
 }
 
 func (e *Event) GetTimestamp() *string {

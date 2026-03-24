@@ -1,0 +1,8 @@
+# SmtpConfigObjectCollection
+
+**Properties**
+
+| Name  | Type                                                     | Required | Description |
+| :---- | :------------------------------------------------------- | :------- | :---------- |
+| Data  | [][integrations.SmtpConfigObject](smtp_config_object.md) | ❌       |             |
+| Links | [shared.Links](links.md)                                 | ❌       |             |

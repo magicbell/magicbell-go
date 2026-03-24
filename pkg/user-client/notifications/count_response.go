@@ -1,0 +1,27 @@
+package notifications
+
+import "encoding/json"
+
+type CountResponse struct {
+	// The count of notifications matching the query.
+	Count *int64 `json:"count,omitempty" required:"true"`
+}
+
+func (c *CountResponse) GetCount() *int64 {
+	if c == nil {
+		return nil
+	}
+	return c.Count
+}
+
+func (c *CountResponse) SetCount(count int64) {
+	c.Count = &count
+}
+
+func (c CountResponse) String() string {
+	jsonData, err := json.MarshalIndent(c, "", "  ")
+	if err != nil {
+		return "error converting struct: CountResponse to string"
+	}
+	return string(jsonData)
+}

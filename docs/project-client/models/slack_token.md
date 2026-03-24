@@ -4,22 +4,22 @@
 
 | Name        | Type                       | Required | Description                                                                                         |
 | :---------- | :------------------------- | :------- | :-------------------------------------------------------------------------------------------------- |
-| CreatedAt   | string                     | ✅       |                                                                                                     |
-| Id          | string                     | ✅       |                                                                                                     |
-| DiscardedAt | string                     | ❌       |                                                                                                     |
+| CreatedAt   | string                     | ✅       | The timestamp when the token was created.                                                           |
+| Id          | string                     | ✅       | The unique identifier for the token.                                                                |
+| DiscardedAt | string                     | ❌       | The timestamp when the token was discarded, if applicable.                                          |
 | Oauth       | channels.Oauth             | ❌       |                                                                                                     |
-| UpdatedAt   | string                     | ❌       |                                                                                                     |
+| UpdatedAt   | string                     | ❌       | The timestamp when the token metadata last changed.                                                 |
 | Webhook     | channels.SlackTokenWebhook | ❌       | Obtained directly from the incoming_webhook object in the installation response from the Slack API. |
 
 # Oauth
 
 **Properties**
 
-| Name           | Type   | Required | Description |
-| :------------- | :----- | :------- | :---------- |
-| ChannelId      | string | ✅       |             |
-| InstallationId | string | ✅       |             |
-| Scope          | string | ❌       |             |
+| Name           | Type   | Required | Description                                                      |
+| :------------- | :----- | :------- | :--------------------------------------------------------------- |
+| ChannelId      | string | ✅       | The ID of the Slack channel this installation is associated with |
+| InstallationId | string | ✅       | A unique identifier for this Slack workspace installation        |
+| Scope          | string | ❌       | The OAuth scope granted during installation                      |
 
 # SlackTokenWebhook
 
@@ -27,6 +27,6 @@ Obtained directly from the incoming_webhook object in the installation response 
 
 **Properties**
 
-| Name | Type   | Required | Description |
-| :--- | :----- | :------- | :---------- |
-| Url  | string | ✅       |             |
+| Name | Type   | Required | Description                                 |
+| :--- | :----- | :------- | :------------------------------------------ |
+| Url  | string | ✅       | The URL for the incoming webhook from Slack |

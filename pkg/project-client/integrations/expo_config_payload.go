@@ -3,6 +3,7 @@ package integrations
 import "encoding/json"
 
 type ExpoConfigPayload struct {
+	// The Expo access token used to authenticate push notifications.
 	AccessToken *string `json:"access_token,omitempty" required:"true" minLength:"1"`
 }
 

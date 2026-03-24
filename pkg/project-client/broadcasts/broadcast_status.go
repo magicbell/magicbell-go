@@ -1,0 +1,66 @@
+package broadcasts
+
+import (
+	"encoding/json"
+	"github.com/magicbell/magicbell-go/pkg/project-client/internal/unmarshal"
+	"github.com/magicbell/magicbell-go/pkg/project-client/util"
+)
+
+// The runtime state of the broadcast execution.
+type BroadcastStatus struct {
+	// A list of errors encountered while processing the broadcast.
+	Errors *util.Nullable[[]Errors] `json:"errors,omitempty" required:"true"`
+	// The overall processing status of the broadcast.
+	Status *StatusStatus `json:"status,omitempty" required:"true"`
+	// The summary counts for total recipients and failures.
+	Summary *Summary `json:"summary,omitempty" required:"true"`
+}
+
+func (b *BroadcastStatus) GetErrors() *util.Nullable[[]Errors] {
+	if b == nil {
+		return nil
+	}
+	return b.Errors
+}
+
+func (b *BroadcastStatus) SetErrors(errors util.Nullable[[]Errors]) {
+	b.Errors = &errors
+}
+
+func (b *BroadcastStatus) SetErrorsNull() {
+	b.Errors = &util.Nullable[[]Errors]{IsNull: true}
+}
+
+func (b *BroadcastStatus) GetStatus() *StatusStatus {
+	if b == nil {
+		return nil
+	}
+	return b.Status
+}
+
+func (b *BroadcastStatus) SetStatus(status StatusStatus) {
+	b.Status = &status
+}
+
+func (b *BroadcastStatus) GetSummary() *Summary {
+	if b == nil {
+		return nil
+	}
+	return b.Summary
+}
+
+func (b *BroadcastStatus) SetSummary(summary Summary) {
+	b.Summary = &summary
+}
+
+func (b BroadcastStatus) String() string {
+	jsonData, err := json.MarshalIndent(b, "", "  ")
+	if err != nil {
+		return "error converting struct: BroadcastStatus to string"
+	}
+	return string(jsonData)
+}
+
+func (b *BroadcastStatus) UnmarshalJSON(data []byte) error {
+	return unmarshal.UnmarshalNullable(data, b)
+}

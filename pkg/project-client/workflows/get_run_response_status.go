@@ -1,0 +1,74 @@
+package workflows
+
+import "encoding/json"
+
+type GetRunResponseStatus struct {
+	CompletedAt *string `json:"completed_at,omitempty"`
+	Error       *string `json:"error,omitempty"`
+	NextStep    *int64  `json:"next_step,omitempty"`
+	StartedAt   *string `json:"started_at,omitempty"`
+	State       *int64  `json:"state,omitempty"`
+}
+
+func (g *GetRunResponseStatus) GetCompletedAt() *string {
+	if g == nil {
+		return nil
+	}
+	return g.CompletedAt
+}
+
+func (g *GetRunResponseStatus) SetCompletedAt(completedAt string) {
+	g.CompletedAt = &completedAt
+}
+
+func (g *GetRunResponseStatus) GetError() *string {
+	if g == nil {
+		return nil
+	}
+	return g.Error
+}
+
+func (g *GetRunResponseStatus) SetError(error string) {
+	g.Error = &error
+}
+
+func (g *GetRunResponseStatus) GetNextStep() *int64 {
+	if g == nil {
+		return nil
+	}
+	return g.NextStep
+}
+
+func (g *GetRunResponseStatus) SetNextStep(nextStep int64) {
+	g.NextStep = &nextStep
+}
+
+func (g *GetRunResponseStatus) GetStartedAt() *string {
+	if g == nil {
+		return nil
+	}
+	return g.StartedAt
+}
+
+func (g *GetRunResponseStatus) SetStartedAt(startedAt string) {
+	g.StartedAt = &startedAt
+}
+
+func (g *GetRunResponseStatus) GetState() *int64 {
+	if g == nil {
+		return nil
+	}
+	return g.State
+}
+
+func (g *GetRunResponseStatus) SetState(state int64) {
+	g.State = &state
+}
+
+func (g GetRunResponseStatus) String() string {
+	jsonData, err := json.MarshalIndent(g, "", "  ")
+	if err != nil {
+		return "error converting struct: GetRunResponseStatus to string"
+	}
+	return string(jsonData)
+}

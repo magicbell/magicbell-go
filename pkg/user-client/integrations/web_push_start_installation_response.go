@@ -3,7 +3,9 @@ package integrations
 import "encoding/json"
 
 type WebPushStartInstallationResponse struct {
+	// Auth secret returned from PushSubscription.getKey('auth').
 	AuthToken *string `json:"auth_token,omitempty" required:"true" minLength:"8"`
+	// VAPID public key generated for this web push installation.
 	PublicKey *string `json:"public_key,omitempty" required:"true" maxLength:"128" minLength:"8"`
 }
 

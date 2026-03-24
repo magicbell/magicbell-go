@@ -3,8 +3,21 @@ package integrations
 import "encoding/json"
 
 type StripeConfigPayload struct {
+	// The unique identifier for this configuration
+	Id *string `json:"id,omitempty"`
 	// The signing secret to verify incoming requests from Stripe
 	WebhookSigningSecret *string `json:"webhook_signing_secret,omitempty" required:"true" maxLength:"100" minLength:"1"`
+}
+
+func (s *StripeConfigPayload) GetId() *string {
+	if s == nil {
+		return nil
+	}
+	return s.Id
+}
+
+func (s *StripeConfigPayload) SetId(id string) {
+	s.Id = &id
 }
 
 func (s *StripeConfigPayload) GetWebhookSigningSecret() *string {

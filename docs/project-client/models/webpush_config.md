@@ -2,8 +2,8 @@
 
 **Properties**
 
-| Name   | Type                              | Required | Description |
-| :----- | :-------------------------------- | :------- | :---------- |
-| Config | integrations.WebpushConfigPayload | ✅       |             |
-| Id     | string                            | ✅       |             |
-| Name   | string                            | ✅       |             |
+| Name   | Type                                                           | Required | Description |
+| :----- | :------------------------------------------------------------- | :------- | :---------- |
+| Config | [integrations.WebpushConfigPayload](webpush_config_payload.md) | ✅       |             |
+| Id     | string                                                         | ✅       |             |
+| Name   | string                                                         | ✅       |             |

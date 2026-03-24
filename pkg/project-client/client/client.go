@@ -1,6 +1,7 @@
 package client
 
 import (
+	"github.com/magicbell/magicbell-go/pkg/project-client/internal/clients/rest/hooks"
 	"github.com/magicbell/magicbell-go/pkg/project-client/internal/configmanager"
 	"github.com/magicbell/magicbell-go/pkg/project-client/broadcasts"
 	"github.com/magicbell/magicbell-go/pkg/project-client/channels"
@@ -8,15 +9,19 @@ import (
 	"github.com/magicbell/magicbell-go/pkg/project-client/events"
 	"github.com/magicbell/magicbell-go/pkg/project-client/integrations"
 	"github.com/magicbell/magicbell-go/pkg/project-client/users"
+	"github.com/magicbell/magicbell-go/pkg/project-client/workflows"
 	"time"
 )
 
+// Client is the main SDK client that provides access to all service endpoints.
+// It manages configuration, authentication, and service instances with centralized settings.
 type Client struct {
 	Broadcasts   *broadcasts.BroadcastsService
 	Channels     *channels.ChannelsService
 	Events       *events.EventsService
 	Integrations *integrations.IntegrationsService
 	Users        *users.UsersService
+	Workflows    *workflows.WorkflowsService
 	manager      *configmanager.ConfigManager
 }
 
@@ -26,13 +31,22 @@ func NewClient(config clientconfig.Config) *Client {
 	events := events.NewEventsService()
 	integrations := integrations.NewIntegrationsService()
 	users := users.NewUsersService()
+	workflows := workflows.NewWorkflowsService()
 
 	manager := configmanager.NewConfigManager(config)
+	hook := hooks.NewDefaultHook()
 	broadcasts.WithConfigManager(manager)
 	channels.WithConfigManager(manager)
 	events.WithConfigManager(manager)
 	integrations.WithConfigManager(manager)
 	users.WithConfigManager(manager)
+	workflows.WithConfigManager(manager)
+	broadcasts.WithHook(hook)
+	channels.WithHook(hook)
+	events.WithHook(hook)
+	integrations.WithHook(hook)
+	users.WithHook(hook)
+	workflows.WithHook(hook)
 
 	return &Client{
 		Broadcasts:   broadcasts,
@@ -40,6 +54,7 @@ func NewClient(config clientconfig.Config) *Client {
 		Events:       events,
 		Integrations: integrations,
 		Users:        users,
+		Workflows:    workflows,
 		manager:      manager,
 	}
 }

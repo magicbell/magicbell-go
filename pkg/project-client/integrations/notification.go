@@ -1,0 +1,54 @@
+package integrations
+
+import "encoding/json"
+
+// Styling overrides for notification list items.
+type Notification struct {
+	// Base styles applied to every notification item.
+	Default_ *Default_ `json:"default,omitempty" required:"true"`
+	// Overrides for unread notifications.
+	Unread *Unread `json:"unread,omitempty" required:"true"`
+	// Overrides for unseen notifications.
+	Unseen *Unseen `json:"unseen,omitempty" required:"true"`
+}
+
+func (n *Notification) GetDefault_() *Default_ {
+	if n == nil {
+		return nil
+	}
+	return n.Default_
+}
+
+func (n *Notification) SetDefault_(default_ Default_) {
+	n.Default_ = &default_
+}
+
+func (n *Notification) GetUnread() *Unread {
+	if n == nil {
+		return nil
+	}
+	return n.Unread
+}
+
+func (n *Notification) SetUnread(unread Unread) {
+	n.Unread = &unread
+}
+
+func (n *Notification) GetUnseen() *Unseen {
+	if n == nil {
+		return nil
+	}
+	return n.Unseen
+}
+
+func (n *Notification) SetUnseen(unseen Unseen) {
+	n.Unseen = &unseen
+}
+
+func (n Notification) String() string {
+	jsonData, err := json.MarshalIndent(n, "", "  ")
+	if err != nil {
+		return "error converting struct: Notification to string"
+	}
+	return string(jsonData)
+}

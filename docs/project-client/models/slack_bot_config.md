@@ -1,0 +1,9 @@
+# SlackBotConfig
+
+**Properties**
+
+| Name   | Type                                                              | Required | Description |
+| :----- | :---------------------------------------------------------------- | :------- | :---------- |
+| Config | [integrations.SlackBotConfigPayload](slack_bot_config_payload.md) | ✅       |             |
+| Id     | string                                                            | ✅       |             |
+| Name   | string                                                            | ✅       |             |

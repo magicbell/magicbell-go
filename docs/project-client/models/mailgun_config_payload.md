@@ -15,8 +15,8 @@
 
 | Name | Type   | Required | Description |
 | :--- | :----- | :------- | :---------- |
-| us   | string | ✅       | "us"        |
-| eu   | string | ✅       | "eu"        |
+| Us   | string | ✅       | "us"        |
+| Eu   | string | ✅       | "eu"        |
 
 # MailgunConfigPayloadFrom
 

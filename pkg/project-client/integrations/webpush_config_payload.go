@@ -3,9 +3,9 @@ package integrations
 import "encoding/json"
 
 type WebpushConfigPayload struct {
-	// VAPID private key - from the pair you generated.
+	// VAPID private key.
 	PrivateKey *string `json:"private_key,omitempty" required:"true" maxLength:"128" minLength:"8"`
-	// VAPID public key - generate one at https://tools.reactpwa.com/vapid.
+	// VAPID public key - read more at https://magicbell.com/tools/vapid-keys.
 	PublicKey *string `json:"public_key,omitempty" required:"true" maxLength:"128" minLength:"8"`
 }
 

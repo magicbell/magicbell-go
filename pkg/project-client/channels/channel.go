@@ -1,0 +1,14 @@
+package channels
+
+// Name of the channel used for this step.
+type Channel string
+
+const (
+	CHANNEL_IN_APP      Channel = "in_app"
+	CHANNEL_SLACK       Channel = "slack"
+	CHANNEL_WEB_PUSH    Channel = "web_push"
+	CHANNEL_MOBILE_PUSH Channel = "mobile_push"
+	CHANNEL_TEAMS       Channel = "teams"
+	CHANNEL_EMAIL       Channel = "email"
+	CHANNEL_SMS         Channel = "sms"
+)

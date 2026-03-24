@@ -1,0 +1,50 @@
+package integrations
+
+import "encoding/json"
+
+type SlackBotConfig struct {
+	Config *SlackBotConfigPayload `json:"config,omitempty" required:"true"`
+	Id     *string                `json:"id,omitempty" required:"true"`
+	Name   *string                `json:"name,omitempty" required:"true"`
+}
+
+func (s *SlackBotConfig) GetConfig() *SlackBotConfigPayload {
+	if s == nil {
+		return nil
+	}
+	return s.Config
+}
+
+func (s *SlackBotConfig) SetConfig(config SlackBotConfigPayload) {
+	s.Config = &config
+}
+
+func (s *SlackBotConfig) GetId() *string {
+	if s == nil {
+		return nil
+	}
+	return s.Id
+}
+
+func (s *SlackBotConfig) SetId(id string) {
+	s.Id = &id
+}
+
+func (s *SlackBotConfig) GetName() *string {
+	if s == nil {
+		return nil
+	}
+	return s.Name
+}
+
+func (s *SlackBotConfig) SetName(name string) {
+	s.Name = &name
+}
+
+func (s SlackBotConfig) String() string {
+	jsonData, err := json.MarshalIndent(s, "", "  ")
+	if err != nil {
+		return "error converting struct: SlackBotConfig to string"
+	}
+	return string(jsonData)
+}

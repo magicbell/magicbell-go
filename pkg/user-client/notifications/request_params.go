@@ -1,5 +1,7 @@
 package notifications
 
+// ListNotificationsRequestParams holds the optional parameters for the API request.
+// Use the Set methods to configure query parameters, headers, and path parameters.
 type ListNotificationsRequestParams struct {
 	Limit         *int64  `explode:"true" serializationStyle:"form" queryParam:"limit"`
 	StartingAfter *string `explode:"true" serializationStyle:"form" queryParam:"starting_after"`
@@ -9,45 +11,83 @@ type ListNotificationsRequestParams struct {
 	Topic         *string `explode:"true" serializationStyle:"form" queryParam:"topic"`
 }
 
+// SetLimit sets the Limit parameter.
 func (params *ListNotificationsRequestParams) SetLimit(limit int64) {
 	params.Limit = &limit
 }
+
+// SetStartingAfter sets the StartingAfter parameter.
 func (params *ListNotificationsRequestParams) SetStartingAfter(startingAfter string) {
 	params.StartingAfter = &startingAfter
 }
+
+// SetEndingBefore sets the EndingBefore parameter.
 func (params *ListNotificationsRequestParams) SetEndingBefore(endingBefore string) {
 	params.EndingBefore = &endingBefore
 }
+
+// SetStatus sets the Status parameter.
 func (params *ListNotificationsRequestParams) SetStatus(status string) {
 	params.Status = &status
 }
+
+// SetCategory sets the Category parameter.
 func (params *ListNotificationsRequestParams) SetCategory(category string) {
 	params.Category = &category
 }
+
+// SetTopic sets the Topic parameter.
 func (params *ListNotificationsRequestParams) SetTopic(topic string) {
 	params.Topic = &topic
 }
 
+// ArchiveAllNotificationsRequestParams holds the optional parameters for the API request.
+// Use the Set methods to configure query parameters, headers, and path parameters.
 type ArchiveAllNotificationsRequestParams struct {
 	Category *string `explode:"true" serializationStyle:"form" queryParam:"category"`
 	Topic    *string `explode:"true" serializationStyle:"form" queryParam:"topic"`
 }
 
+// SetCategory sets the Category parameter.
 func (params *ArchiveAllNotificationsRequestParams) SetCategory(category string) {
 	params.Category = &category
 }
+
+// SetTopic sets the Topic parameter.
 func (params *ArchiveAllNotificationsRequestParams) SetTopic(topic string) {
 	params.Topic = &topic
 }
 
+// MarkAllNotificationsReadRequestParams holds the optional parameters for the API request.
+// Use the Set methods to configure query parameters, headers, and path parameters.
 type MarkAllNotificationsReadRequestParams struct {
 	Category *string `explode:"true" serializationStyle:"form" queryParam:"category"`
 	Topic    *string `explode:"true" serializationStyle:"form" queryParam:"topic"`
 }
 
+// SetCategory sets the Category parameter.
 func (params *MarkAllNotificationsReadRequestParams) SetCategory(category string) {
 	params.Category = &category
 }
+
+// SetTopic sets the Topic parameter.
 func (params *MarkAllNotificationsReadRequestParams) SetTopic(topic string) {
+	params.Topic = &topic
+}
+
+// FetchUnreadNotificationsCountRequestParams holds the optional parameters for the API request.
+// Use the Set methods to configure query parameters, headers, and path parameters.
+type FetchUnreadNotificationsCountRequestParams struct {
+	Category *string `explode:"true" serializationStyle:"form" queryParam:"category"`
+	Topic    *string `explode:"true" serializationStyle:"form" queryParam:"topic"`
+}
+
+// SetCategory sets the Category parameter.
+func (params *FetchUnreadNotificationsCountRequestParams) SetCategory(category string) {
+	params.Category = &category
+}
+
+// SetTopic sets the Topic parameter.
+func (params *FetchUnreadNotificationsCountRequestParams) SetTopic(topic string) {
 	params.Topic = &topic
 }

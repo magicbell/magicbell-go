@@ -1,0 +1,28 @@
+package channels
+
+import "encoding/json"
+
+// Obtained directly from the incoming_webhook object in the installation response from the Slack API.
+type SlackTokenPayloadWebhook struct {
+	// The URL for the incoming webhook from Slack
+	Url *string `json:"url,omitempty" required:"true" minLength:"1"`
+}
+
+func (s *SlackTokenPayloadWebhook) GetUrl() *string {
+	if s == nil {
+		return nil
+	}
+	return s.Url
+}
+
+func (s *SlackTokenPayloadWebhook) SetUrl(url string) {
+	s.Url = &url
+}
+
+func (s SlackTokenPayloadWebhook) String() string {
+	jsonData, err := json.MarshalIndent(s, "", "  ")
+	if err != nil {
+		return "error converting struct: SlackTokenPayloadWebhook to string"
+	}
+	return string(jsonData)
+}

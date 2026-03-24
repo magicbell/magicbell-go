@@ -1,0 +1,28 @@
+package integrations
+
+import "encoding/json"
+
+// Hover styles for unread notifications.
+type UnreadHover struct {
+	// Background color on hover for unread notifications.
+	BackgroundColor *string `json:"backgroundColor,omitempty" required:"true"`
+}
+
+func (u *UnreadHover) GetBackgroundColor() *string {
+	if u == nil {
+		return nil
+	}
+	return u.BackgroundColor
+}
+
+func (u *UnreadHover) SetBackgroundColor(backgroundColor string) {
+	u.BackgroundColor = &backgroundColor
+}
+
+func (u UnreadHover) String() string {
+	jsonData, err := json.MarshalIndent(u, "", "  ")
+	if err != nil {
+		return "error converting struct: UnreadHover to string"
+	}
+	return string(jsonData)
+}

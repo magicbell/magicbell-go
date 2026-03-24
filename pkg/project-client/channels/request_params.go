@@ -1,113 +1,185 @@
 package channels
 
+// ListUserInboxTokensRequestParams holds the optional parameters for the API request.
+// Use the Set methods to configure query parameters, headers, and path parameters.
 type ListUserInboxTokensRequestParams struct {
 	Limit         *int64  `explode:"true" serializationStyle:"form" queryParam:"limit"`
 	StartingAfter *string `explode:"true" serializationStyle:"form" queryParam:"starting_after"`
 	EndingBefore  *string `explode:"true" serializationStyle:"form" queryParam:"ending_before"`
 }
 
+// SetLimit sets the Limit parameter.
 func (params *ListUserInboxTokensRequestParams) SetLimit(limit int64) {
 	params.Limit = &limit
 }
+
+// SetStartingAfter sets the StartingAfter parameter.
 func (params *ListUserInboxTokensRequestParams) SetStartingAfter(startingAfter string) {
 	params.StartingAfter = &startingAfter
 }
+
+// SetEndingBefore sets the EndingBefore parameter.
 func (params *ListUserInboxTokensRequestParams) SetEndingBefore(endingBefore string) {
 	params.EndingBefore = &endingBefore
 }
 
+// ListUserApnsTokensRequestParams holds the optional parameters for the API request.
+// Use the Set methods to configure query parameters, headers, and path parameters.
 type ListUserApnsTokensRequestParams struct {
 	Limit         *int64  `explode:"true" serializationStyle:"form" queryParam:"limit"`
 	StartingAfter *string `explode:"true" serializationStyle:"form" queryParam:"starting_after"`
 	EndingBefore  *string `explode:"true" serializationStyle:"form" queryParam:"ending_before"`
 }
 
+// SetLimit sets the Limit parameter.
 func (params *ListUserApnsTokensRequestParams) SetLimit(limit int64) {
 	params.Limit = &limit
 }
+
+// SetStartingAfter sets the StartingAfter parameter.
 func (params *ListUserApnsTokensRequestParams) SetStartingAfter(startingAfter string) {
 	params.StartingAfter = &startingAfter
 }
+
+// SetEndingBefore sets the EndingBefore parameter.
 func (params *ListUserApnsTokensRequestParams) SetEndingBefore(endingBefore string) {
 	params.EndingBefore = &endingBefore
 }
 
+// ListUserExpoTokensRequestParams holds the optional parameters for the API request.
+// Use the Set methods to configure query parameters, headers, and path parameters.
 type ListUserExpoTokensRequestParams struct {
 	Limit         *int64  `explode:"true" serializationStyle:"form" queryParam:"limit"`
 	StartingAfter *string `explode:"true" serializationStyle:"form" queryParam:"starting_after"`
 	EndingBefore  *string `explode:"true" serializationStyle:"form" queryParam:"ending_before"`
 }
 
+// SetLimit sets the Limit parameter.
 func (params *ListUserExpoTokensRequestParams) SetLimit(limit int64) {
 	params.Limit = &limit
 }
+
+// SetStartingAfter sets the StartingAfter parameter.
 func (params *ListUserExpoTokensRequestParams) SetStartingAfter(startingAfter string) {
 	params.StartingAfter = &startingAfter
 }
+
+// SetEndingBefore sets the EndingBefore parameter.
 func (params *ListUserExpoTokensRequestParams) SetEndingBefore(endingBefore string) {
 	params.EndingBefore = &endingBefore
 }
 
+// ListUserFcmTokensRequestParams holds the optional parameters for the API request.
+// Use the Set methods to configure query parameters, headers, and path parameters.
 type ListUserFcmTokensRequestParams struct {
 	Limit         *int64  `explode:"true" serializationStyle:"form" queryParam:"limit"`
 	StartingAfter *string `explode:"true" serializationStyle:"form" queryParam:"starting_after"`
 	EndingBefore  *string `explode:"true" serializationStyle:"form" queryParam:"ending_before"`
 }
 
+// SetLimit sets the Limit parameter.
 func (params *ListUserFcmTokensRequestParams) SetLimit(limit int64) {
 	params.Limit = &limit
 }
+
+// SetStartingAfter sets the StartingAfter parameter.
 func (params *ListUserFcmTokensRequestParams) SetStartingAfter(startingAfter string) {
 	params.StartingAfter = &startingAfter
 }
+
+// SetEndingBefore sets the EndingBefore parameter.
 func (params *ListUserFcmTokensRequestParams) SetEndingBefore(endingBefore string) {
 	params.EndingBefore = &endingBefore
 }
 
+// ListUserMagicbellSlackbotTokensRequestParams holds the optional parameters for the API request.
+// Use the Set methods to configure query parameters, headers, and path parameters.
+type ListUserMagicbellSlackbotTokensRequestParams struct {
+	Limit         *int64  `explode:"true" serializationStyle:"form" queryParam:"limit"`
+	StartingAfter *string `explode:"true" serializationStyle:"form" queryParam:"starting_after"`
+	EndingBefore  *string `explode:"true" serializationStyle:"form" queryParam:"ending_before"`
+}
+
+// SetLimit sets the Limit parameter.
+func (params *ListUserMagicbellSlackbotTokensRequestParams) SetLimit(limit int64) {
+	params.Limit = &limit
+}
+
+// SetStartingAfter sets the StartingAfter parameter.
+func (params *ListUserMagicbellSlackbotTokensRequestParams) SetStartingAfter(startingAfter string) {
+	params.StartingAfter = &startingAfter
+}
+
+// SetEndingBefore sets the EndingBefore parameter.
+func (params *ListUserMagicbellSlackbotTokensRequestParams) SetEndingBefore(endingBefore string) {
+	params.EndingBefore = &endingBefore
+}
+
+// ListUserSlackTokensRequestParams holds the optional parameters for the API request.
+// Use the Set methods to configure query parameters, headers, and path parameters.
 type ListUserSlackTokensRequestParams struct {
 	Limit         *int64  `explode:"true" serializationStyle:"form" queryParam:"limit"`
 	StartingAfter *string `explode:"true" serializationStyle:"form" queryParam:"starting_after"`
 	EndingBefore  *string `explode:"true" serializationStyle:"form" queryParam:"ending_before"`
 }
 
+// SetLimit sets the Limit parameter.
 func (params *ListUserSlackTokensRequestParams) SetLimit(limit int64) {
 	params.Limit = &limit
 }
+
+// SetStartingAfter sets the StartingAfter parameter.
 func (params *ListUserSlackTokensRequestParams) SetStartingAfter(startingAfter string) {
 	params.StartingAfter = &startingAfter
 }
+
+// SetEndingBefore sets the EndingBefore parameter.
 func (params *ListUserSlackTokensRequestParams) SetEndingBefore(endingBefore string) {
 	params.EndingBefore = &endingBefore
 }
 
+// ListUserTeamsTokensRequestParams holds the optional parameters for the API request.
+// Use the Set methods to configure query parameters, headers, and path parameters.
 type ListUserTeamsTokensRequestParams struct {
 	Limit         *int64  `explode:"true" serializationStyle:"form" queryParam:"limit"`
 	StartingAfter *string `explode:"true" serializationStyle:"form" queryParam:"starting_after"`
 	EndingBefore  *string `explode:"true" serializationStyle:"form" queryParam:"ending_before"`
 }
 
+// SetLimit sets the Limit parameter.
 func (params *ListUserTeamsTokensRequestParams) SetLimit(limit int64) {
 	params.Limit = &limit
 }
+
+// SetStartingAfter sets the StartingAfter parameter.
 func (params *ListUserTeamsTokensRequestParams) SetStartingAfter(startingAfter string) {
 	params.StartingAfter = &startingAfter
 }
+
+// SetEndingBefore sets the EndingBefore parameter.
 func (params *ListUserTeamsTokensRequestParams) SetEndingBefore(endingBefore string) {
 	params.EndingBefore = &endingBefore
 }
 
+// ListUserWebPushTokensRequestParams holds the optional parameters for the API request.
+// Use the Set methods to configure query parameters, headers, and path parameters.
 type ListUserWebPushTokensRequestParams struct {
 	Limit         *int64  `explode:"true" serializationStyle:"form" queryParam:"limit"`
 	StartingAfter *string `explode:"true" serializationStyle:"form" queryParam:"starting_after"`
 	EndingBefore  *string `explode:"true" serializationStyle:"form" queryParam:"ending_before"`
 }
 
+// SetLimit sets the Limit parameter.
 func (params *ListUserWebPushTokensRequestParams) SetLimit(limit int64) {
 	params.Limit = &limit
 }
+
+// SetStartingAfter sets the StartingAfter parameter.
 func (params *ListUserWebPushTokensRequestParams) SetStartingAfter(startingAfter string) {
 	params.StartingAfter = &startingAfter
 }
+
+// SetEndingBefore sets the EndingBefore parameter.
 func (params *ListUserWebPushTokensRequestParams) SetEndingBefore(endingBefore string) {
 	params.EndingBefore = &endingBefore
 }

@@ -48,11 +48,60 @@ sdk := client.NewClient(config)
 sdk.SetAccessToken("YOUR-TOKEN")
 ```
 
+## Setting a Custom Timeout
+
+You can set a custom timeout for the SDK's HTTP requests as follows:
+
+```go
+import "time"
+
+config := clientconfig.NewConfig()
+
+sdk := client.NewClient(config)
+
+sdk.SetTimeout(10 * time.Second)
+```
+
+# Sample Usage
+
+Below is a comprehensive example demonstrating how to authenticate and call a simple endpoint:
+
+```go
+import (
+  "fmt"
+  "encoding/json"
+  "context"
+  "github.com/magicbell/magicbell-go/pkg/project-client/clientconfig"
+  "github.com/magicbell/magicbell-go/pkg/project-client/client"
+  "github.com/magicbell/magicbell-go/pkg/project-client/util"
+  "github.com/magicbell/magicbell-go/pkg/project-client/broadcasts"
+)
+
+config := clientconfig.NewConfig()
+config.SetAccessToken("ACCESS_TOKEN")
+client := client.NewClient(config)
+
+
+params := broadcasts.ListBroadcastsRequestParams{
+  Limit: util.ToPointer(int64(0)),
+  StartingAfter: util.ToPointer("starting_after"),
+  EndingBefore: util.ToPointer("ending_before"),
+}
+
+response, err := client.Broadcasts.ListBroadcasts(context.Background(), params)
+if err != nil {
+  panic(err)
+}
+
+fmt.Println(response)
+
+```
+
 ## Services
 
 The SDK provides various services to interact with the API.
 
-<details> 
+<details>
 <summary>Below is a list of all available services with links to their detailed documentation:</summary>
 
 | Name                                                                  |
@@ -62,6 +111,7 @@ The SDK provides various services to interact with the API.
 | [EventsService](docs/project-client/services/events_service.md)             |
 | [IntegrationsService](docs/project-client/services/integrations_service.md) |
 | [UsersService](docs/project-client/services/users_service.md)               |
+| [WorkflowsService](docs/project-client/services/workflows_service.md)       |
 
 </details>
 
@@ -83,15 +133,16 @@ This response wrapper is used to return the response data from the API. It conta
 | Data     | `T`                      | The body of the API response                |
 | Metadata | `ClientResponseMetadata` | Status code and headers returned by the API |
 
-#### `ClientError`
+#### `ClientError[T]`
 
 This response wrapper is used to return an error. It contains the following fields:
 
-| Name     | Type                     | Description                                 |
-| :------- | :----------------------- | :------------------------------------------ |
-| Err      | `error`                  | The error that occurred                     |
-| Body     | `T`                      | The body of the API response                |
-| Metadata | `ClientResponseMetadata` | Status code and headers returned by the API |
+| Name     | Type                  | Description                                                       |
+| :------- | :-------------------- | :---------------------------------------------------------------- |
+| Err      | `error`               | The error that occurred                                           |
+| Data     | `*T`                  | The deserialized error response data (nil if unmarshaling failed) |
+| Body     | `[]byte`              | The raw body of the API response                                  |
+| Metadata | `ClientErrorMetadata` | Status code and headers returned by the API                       |
 
 #### `ClientResponseMetadata`
 
@@ -108,16 +159,19 @@ This struct is shared by both response wrappers and contains the following field
 
 The SDK includes several models that represent the data structures used in API requests and responses. These models help in organizing and managing the data efficiently.
 
-<details> 
+<details>
 <summary>Below is a list of all available models with links to their detailed documentation:</summary>
 
 | Name                                                                                    | Description |
 | :-------------------------------------------------------------------------------------- | :---------- |
 | [BroadcastCollection](docs/project-client/models/broadcast_collection.md)                     |             |
 | [Broadcast](docs/project-client/models/broadcast.md)                                          |             |
+| [User](docs/project-client/models/user.md)                                                    |             |
+| [Links](docs/project-client/models/links.md)                                                  |             |
 | [CategoryDeliveryConfig](docs/project-client/models/category_delivery_config.md)              |             |
 | [InboxTokenResponseCollection](docs/project-client/models/inbox_token_response_collection.md) |             |
 | [InboxTokenResponse](docs/project-client/models/inbox_token_response.md)                      |             |
+| [Links](docs/project-client/models/links.md)                                                  |             |
 | [DiscardResult](docs/project-client/models/discard_result.md)                                 |             |
 | [ApnsTokenCollection](docs/project-client/models/apns_token_collection.md)                    |             |
 | [ApnsToken](docs/project-client/models/apns_token.md)                                         |             |
@@ -133,50 +187,69 @@ The SDK includes several models that represent the data structures used in API r
 | [WebPushToken](docs/project-client/models/web_push_token.md)                                  |             |
 | [EventCollection](docs/project-client/models/event_collection.md)                             |             |
 | [Event](docs/project-client/models/event.md)                                                  |             |
+| [Links](docs/project-client/models/links.md)                                                  |             |
 | [IntegrationConfigCollection](docs/project-client/models/integration_config_collection.md)    |             |
+| [IntegrationConfig](docs/project-client/models/integration_config.md)                         |             |
+| [Links](docs/project-client/models/links.md)                                                  |             |
 | [ApnsConfigCollection](docs/project-client/models/apns_config_collection.md)                  |             |
+| [ApnsConfig](docs/project-client/models/apns_config.md)                                       |             |
 | [ApnsConfigPayload](docs/project-client/models/apns_config_payload.md)                        |             |
+| [EventSourceConfigCollection](docs/project-client/models/event_source_config_collection.md)   |             |
+| [EventSourceConfig](docs/project-client/models/event_source_config.md)                        |             |
+| [EventSourceConfigPayload](docs/project-client/models/event_source_config_payload.md)         |             |
 | [ExpoConfigCollection](docs/project-client/models/expo_config_collection.md)                  |             |
+| [ExpoConfig](docs/project-client/models/expo_config.md)                                       |             |
 | [ExpoConfigPayload](docs/project-client/models/expo_config_payload.md)                        |             |
 | [FcmConfigCollection](docs/project-client/models/fcm_config_collection.md)                    |             |
+| [FcmConfig](docs/project-client/models/fcm_config.md)                                         |             |
 | [FcmConfigPayload](docs/project-client/models/fcm_config_payload.md)                          |             |
 | [GithubConfigCollection](docs/project-client/models/github_config_collection.md)              |             |
+| [GithubConfig](docs/project-client/models/github_config.md)                                   |             |
 | [GithubConfigPayload](docs/project-client/models/github_config_payload.md)                    |             |
 | [InboxConfigCollection](docs/project-client/models/inbox_config_collection.md)                |             |
+| [InboxConfig](docs/project-client/models/inbox_config.md)                                     |             |
 | [InboxConfigPayload](docs/project-client/models/inbox_config_payload.md)                      |             |
+| [SlackBotConfigCollection](docs/project-client/models/slack_bot_config_collection.md)         |             |
+| [SlackBotConfig](docs/project-client/models/slack_bot_config.md)                              |             |
+| [SlackBotConfigPayload](docs/project-client/models/slack_bot_config_payload.md)               |             |
 | [MailgunConfigCollection](docs/project-client/models/mailgun_config_collection.md)            |             |
+| [MailgunConfig](docs/project-client/models/mailgun_config.md)                                 |             |
 | [MailgunConfigPayload](docs/project-client/models/mailgun_config_payload.md)                  |             |
 | [PingConfigCollection](docs/project-client/models/ping_config_collection.md)                  |             |
+| [PingConfig](docs/project-client/models/ping_config.md)                                       |             |
 | [PingConfigPayload](docs/project-client/models/ping_config_payload.md)                        |             |
 | [SendgridConfigCollection](docs/project-client/models/sendgrid_config_collection.md)          |             |
+| [SendgridConfig](docs/project-client/models/sendgrid_config.md)                               |             |
 | [SendgridConfigPayload](docs/project-client/models/sendgrid_config_payload.md)                |             |
 | [SesConfigCollection](docs/project-client/models/ses_config_collection.md)                    |             |
+| [SesConfig](docs/project-client/models/ses_config.md)                                         |             |
 | [SesConfigPayload](docs/project-client/models/ses_config_payload.md)                          |             |
 | [SlackConfigCollection](docs/project-client/models/slack_config_collection.md)                |             |
+| [SlackConfig](docs/project-client/models/slack_config.md)                                     |             |
 | [SlackConfigPayload](docs/project-client/models/slack_config_payload.md)                      |             |
+| [SmtpConfigObjectCollection](docs/project-client/models/smtp_config_object_collection.md)     |             |
+| [SmtpConfigObject](docs/project-client/models/smtp_config_object.md)                          |             |
+| [SmtpConfig](docs/project-client/models/smtp_config.md)                                       |             |
 | [StripeConfigCollection](docs/project-client/models/stripe_config_collection.md)              |             |
+| [StripeConfig](docs/project-client/models/stripe_config.md)                                   |             |
 | [StripeConfigPayload](docs/project-client/models/stripe_config_payload.md)                    |             |
 | [TwilioConfigCollection](docs/project-client/models/twilio_config_collection.md)              |             |
+| [TwilioConfig](docs/project-client/models/twilio_config.md)                                   |             |
 | [TwilioConfigPayload](docs/project-client/models/twilio_config_payload.md)                    |             |
 | [WebpushConfigCollection](docs/project-client/models/webpush_config_collection.md)            |             |
+| [WebpushConfig](docs/project-client/models/webpush_config.md)                                 |             |
 | [WebpushConfigPayload](docs/project-client/models/webpush_config_payload.md)                  |             |
 | [UserCollection](docs/project-client/models/user_collection.md)                               |             |
 | [User](docs/project-client/models/user.md)                                                    |             |
 | [Links](docs/project-client/models/links.md)                                                  |             |
-| [IntegrationConfig](docs/project-client/models/integration_config.md)                         |             |
-| [ApnsConfig](docs/project-client/models/apns_config.md)                                       |             |
-| [ExpoConfig](docs/project-client/models/expo_config.md)                                       |             |
-| [FcmConfig](docs/project-client/models/fcm_config.md)                                         |             |
-| [GithubConfig](docs/project-client/models/github_config.md)                                   |             |
-| [InboxConfig](docs/project-client/models/inbox_config.md)                                     |             |
-| [MailgunConfig](docs/project-client/models/mailgun_config.md)                                 |             |
-| [PingConfig](docs/project-client/models/ping_config.md)                                       |             |
-| [SendgridConfig](docs/project-client/models/sendgrid_config.md)                               |             |
-| [SesConfig](docs/project-client/models/ses_config.md)                                         |             |
-| [SlackConfig](docs/project-client/models/slack_config.md)                                     |             |
-| [StripeConfig](docs/project-client/models/stripe_config.md)                                   |             |
-| [TwilioConfig](docs/project-client/models/twilio_config.md)                                   |             |
-| [WebpushConfig](docs/project-client/models/webpush_config.md)                                 |             |
+| [WorkflowList](docs/project-client/models/workflow_list.md)                                   |             |
+| [WorkflowDefinition](docs/project-client/models/workflow_definition.md)                       |             |
+| [CreateRunResponse](docs/project-client/models/create_run_response.md)                        |             |
+| [ExecuteWorkflowRequest](docs/project-client/models/execute_workflow_request.md)              |             |
+| [GetRunResponse](docs/project-client/models/get_run_response.md)                              |             |
+| [WorkflowRunCollection](docs/project-client/models/workflow_run_collection.md)                |             |
+| [WorkflowRun](docs/project-client/models/workflow_run.md)                                     |             |
+| [Links](docs/project-client/models/links.md)                                                  |             |
 
 </details>
 
@@ -224,11 +297,60 @@ sdk := client.NewClient(config)
 sdk.SetAccessToken("YOUR-TOKEN")
 ```
 
+## Setting a Custom Timeout
+
+You can set a custom timeout for the SDK's HTTP requests as follows:
+
+```go
+import "time"
+
+config := clientconfig.NewConfig()
+
+sdk := client.NewClient(config)
+
+sdk.SetTimeout(10 * time.Second)
+```
+
+# Sample Usage
+
+Below is a comprehensive example demonstrating how to authenticate and call a simple endpoint:
+
+```go
+import (
+  "fmt"
+  "encoding/json"
+  "context"
+  "github.com/magicbell/magicbell-go/pkg/user-client/clientconfig"
+  "github.com/magicbell/magicbell-go/pkg/user-client/client"
+  "github.com/magicbell/magicbell-go/pkg/user-client/util"
+  "github.com/magicbell/magicbell-go/pkg/user-client/channels"
+)
+
+config := clientconfig.NewConfig()
+config.SetAccessToken("ACCESS_TOKEN")
+client := client.NewClient(config)
+
+
+params := channels.ListInboxTokensRequestParams{
+  Limit: util.ToPointer(int64(8)),
+  StartingAfter: util.ToPointer("starting_after"),
+  EndingBefore: util.ToPointer("ending_before"),
+}
+
+response, err := client.Channels.ListInboxTokens(context.Background(), params)
+if err != nil {
+  panic(err)
+}
+
+fmt.Println(response)
+
+```
+
 ## Services
 
 The SDK provides various services to interact with the API.
 
-<details> 
+<details>
 <summary>Below is a list of all available services with links to their detailed documentation:</summary>
 
 | Name                                                                    |
@@ -257,15 +379,16 @@ This response wrapper is used to return the response data from the API. It conta
 | Data     | `T`                      | The body of the API response                |
 | Metadata | `ClientResponseMetadata` | Status code and headers returned by the API |
 
-#### `ClientError`
+#### `ClientError[T]`
 
 This response wrapper is used to return an error. It contains the following fields:
 
-| Name     | Type                     | Description                                 |
-| :------- | :----------------------- | :------------------------------------------ |
-| Err      | `error`                  | The error that occurred                     |
-| Body     | `T`                      | The body of the API response                |
-| Metadata | `ClientResponseMetadata` | Status code and headers returned by the API |
+| Name     | Type                  | Description                                                       |
+| :------- | :-------------------- | :---------------------------------------------------------------- |
+| Err      | `error`               | The error that occurred                                           |
+| Data     | `*T`                  | The deserialized error response data (nil if unmarshaling failed) |
+| Body     | `[]byte`              | The raw body of the API response                                  |
+| Metadata | `ClientErrorMetadata` | Status code and headers returned by the API                       |
 
 #### `ClientResponseMetadata`
 
@@ -282,42 +405,46 @@ This struct is shared by both response wrappers and contains the following field
 
 The SDK includes several models that represent the data structures used in API requests and responses. These models help in organizing and managing the data efficiently.
 
-<details> 
+<details>
 <summary>Below is a list of all available models with links to their detailed documentation:</summary>
 
 | Name                                                                                             | Description |
 | :----------------------------------------------------------------------------------------------- | :---------- |
 | [InboxTokenResponseCollection](docs/user-client/models/inbox_token_response_collection.md)          |             |
-| [InboxToken](docs/user-client/models/inbox_token.md)                                                |             |
 | [InboxTokenResponse](docs/user-client/models/inbox_token_response.md)                               |             |
+| [Links](docs/user-client/models/links.md)                                                           |             |
+| [InboxToken](docs/user-client/models/inbox_token.md)                                                |             |
 | [DiscardResult](docs/user-client/models/discard_result.md)                                          |             |
 | [ApnsTokenCollection](docs/user-client/models/apns_token_collection.md)                             |             |
-| [ApnsTokenPayload](docs/user-client/models/apns_token_payload.md)                                   |             |
 | [ApnsToken](docs/user-client/models/apns_token.md)                                                  |             |
+| [ApnsTokenPayload](docs/user-client/models/apns_token_payload.md)                                   |             |
 | [ExpoTokenCollection](docs/user-client/models/expo_token_collection.md)                             |             |
-| [ExpoTokenPayload](docs/user-client/models/expo_token_payload.md)                                   |             |
 | [ExpoToken](docs/user-client/models/expo_token.md)                                                  |             |
+| [ExpoTokenPayload](docs/user-client/models/expo_token_payload.md)                                   |             |
 | [FcmTokenCollection](docs/user-client/models/fcm_token_collection.md)                               |             |
-| [FcmTokenPayload](docs/user-client/models/fcm_token_payload.md)                                     |             |
 | [FcmToken](docs/user-client/models/fcm_token.md)                                                    |             |
+| [FcmTokenPayload](docs/user-client/models/fcm_token_payload.md)                                     |             |
 | [SlackTokenCollection](docs/user-client/models/slack_token_collection.md)                           |             |
-| [SlackTokenPayload](docs/user-client/models/slack_token_payload.md)                                 |             |
 | [SlackToken](docs/user-client/models/slack_token.md)                                                |             |
+| [SlackTokenPayload](docs/user-client/models/slack_token_payload.md)                                 |             |
 | [TeamsTokenCollection](docs/user-client/models/teams_token_collection.md)                           |             |
-| [TeamsTokenPayload](docs/user-client/models/teams_token_payload.md)                                 |             |
 | [TeamsToken](docs/user-client/models/teams_token.md)                                                |             |
+| [TeamsTokenPayload](docs/user-client/models/teams_token_payload.md)                                 |             |
+| [UserPreferences](docs/user-client/models/user_preferences.md)                                      |             |
 | [WebPushTokenCollection](docs/user-client/models/web_push_token_collection.md)                      |             |
-| [WebPushTokenPayload](docs/user-client/models/web_push_token_payload.md)                            |             |
 | [WebPushToken](docs/user-client/models/web_push_token.md)                                           |             |
+| [WebPushTokenPayload](docs/user-client/models/web_push_token_payload.md)                            |             |
 | [InboxConfigPayload](docs/user-client/models/inbox_config_payload.md)                               |             |
 | [SlackInstallation](docs/user-client/models/slack_installation.md)                                  |             |
 | [SlackFinishInstallResponse](docs/user-client/models/slack_finish_install_response.md)              |             |
-| [SlackStartInstall](docs/user-client/models/slack_start_install.md)                                 |             |
 | [SlackStartInstallResponseContent](docs/user-client/models/slack_start_install_response_content.md) |             |
+| [SlackStartInstall](docs/user-client/models/slack_start_install.md)                                 |             |
+| [WebPushTokenPayload](docs/user-client/models/web_push_token_payload.md)                            |             |
 | [WebPushStartInstallationResponse](docs/user-client/models/web_push_start_installation_response.md) |             |
 | [NotificationCollection](docs/user-client/models/notification_collection.md)                        |             |
 | [Notification](docs/user-client/models/notification.md)                                             |             |
 | [Links](docs/user-client/models/links.md)                                                           |             |
+| [CountResponse](docs/user-client/models/count_response.md)                                          |             |
 
 </details>
 

@@ -5,12 +5,16 @@ import (
 	"time"
 )
 
+// ConfigManager manages configuration across all services with synchronized updates.
+// Provides centralized configuration management and OAuth token handling for multiple services.
 type ConfigManager struct {
 	Channels      clientconfig.Config
 	Integrations  clientconfig.Config
 	Notifications clientconfig.Config
 }
 
+// NewConfigManager creates a new configuration manager with the provided config and optional OAuth token service.
+// Initializes service-specific configs and sets up OAuth token management if enabled.
 func NewConfigManager(config clientconfig.Config) *ConfigManager {
 	return &ConfigManager{
 		Channels:      config,
@@ -19,24 +23,32 @@ func NewConfigManager(config clientconfig.Config) *ConfigManager {
 	}
 }
 
+// SetBaseUrl updates the BaseUrl configuration parameter across all services.
+// Changes are applied synchronously to all registered service configurations.
 func (c *ConfigManager) SetBaseUrl(baseUrl string) {
 	c.Channels.SetBaseUrl(baseUrl)
 	c.Integrations.SetBaseUrl(baseUrl)
 	c.Notifications.SetBaseUrl(baseUrl)
 }
 
+// SetTimeout updates the Timeout configuration parameter across all services.
+// Changes are applied synchronously to all registered service configurations.
 func (c *ConfigManager) SetTimeout(timeout time.Duration) {
 	c.Channels.SetTimeout(timeout)
 	c.Integrations.SetTimeout(timeout)
 	c.Notifications.SetTimeout(timeout)
 }
 
+// SetAccessToken updates the AccessToken configuration parameter across all services.
+// Changes are applied synchronously to all registered service configurations.
 func (c *ConfigManager) SetAccessToken(accessToken string) {
 	c.Channels.SetAccessToken(accessToken)
 	c.Integrations.SetAccessToken(accessToken)
 	c.Notifications.SetAccessToken(accessToken)
 }
 
+// UpdateAccessToken replaces an access token across all services that use the original value.
+// Used for token refresh to update all service configurations simultaneously.
 func (c *ConfigManager) UpdateAccessToken(originalValue string, newValue string) {
 
 	if c.Channels.AccessToken != nil && *c.Channels.AccessToken == originalValue {
@@ -52,12 +64,20 @@ func (c *ConfigManager) UpdateAccessToken(originalValue string, newValue string)
 	}
 }
 
+// GetChannels returns the configuration for the Channels service.
+// Returns a pointer to the service-specific config for use in API calls.
 func (c *ConfigManager) GetChannels() *clientconfig.Config {
 	return &c.Channels
 }
+
+// GetIntegrations returns the configuration for the Integrations service.
+// Returns a pointer to the service-specific config for use in API calls.
 func (c *ConfigManager) GetIntegrations() *clientconfig.Config {
 	return &c.Integrations
 }
+
+// GetNotifications returns the configuration for the Notifications service.
+// Returns a pointer to the service-specific config for use in API calls.
 func (c *ConfigManager) GetNotifications() *clientconfig.Config {
 	return &c.Notifications
 }

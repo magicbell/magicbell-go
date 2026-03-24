@@ -1,0 +1,26 @@
+package channels
+
+import "encoding/json"
+
+type TeamsTokenWebhook struct {
+	Url *string `json:"url,omitempty"`
+}
+
+func (t *TeamsTokenWebhook) GetUrl() *string {
+	if t == nil {
+		return nil
+	}
+	return t.Url
+}
+
+func (t *TeamsTokenWebhook) SetUrl(url string) {
+	t.Url = &url
+}
+
+func (t TeamsTokenWebhook) String() string {
+	jsonData, err := json.MarshalIndent(t, "", "  ")
+	if err != nil {
+		return "error converting struct: TeamsTokenWebhook to string"
+	}
+	return string(jsonData)
+}

@@ -1,0 +1,105 @@
+package integrations
+
+import "encoding/json"
+
+type SmtpConfig struct {
+	// Default sender email address
+	From *SmtpConfigFrom `json:"from,omitempty" required:"true"`
+	// SMTP server hostname
+	Host *string `json:"host,omitempty" required:"true"`
+	// SMTP authentication password
+	Password *string `json:"password,omitempty" required:"true"`
+	// SMTP server port
+	Port *int64 `json:"port,omitempty" required:"true" min:"1" max:"65535"`
+	// Reply-to email address
+	ReplyTo *SmtpConfigReplyTo `json:"reply_to,omitempty"`
+	// SMTP security/encryption method
+	Security *Security `json:"security,omitempty"`
+	// SMTP authentication username
+	Username *string `json:"username,omitempty" required:"true"`
+}
+
+func (s *SmtpConfig) GetFrom() *SmtpConfigFrom {
+	if s == nil {
+		return nil
+	}
+	return s.From
+}
+
+func (s *SmtpConfig) SetFrom(from SmtpConfigFrom) {
+	s.From = &from
+}
+
+func (s *SmtpConfig) GetHost() *string {
+	if s == nil {
+		return nil
+	}
+	return s.Host
+}
+
+func (s *SmtpConfig) SetHost(host string) {
+	s.Host = &host
+}
+
+func (s *SmtpConfig) GetPassword() *string {
+	if s == nil {
+		return nil
+	}
+	return s.Password
+}
+
+func (s *SmtpConfig) SetPassword(password string) {
+	s.Password = &password
+}
+
+func (s *SmtpConfig) GetPort() *int64 {
+	if s == nil {
+		return nil
+	}
+	return s.Port
+}
+
+func (s *SmtpConfig) SetPort(port int64) {
+	s.Port = &port
+}
+
+func (s *SmtpConfig) GetReplyTo() *SmtpConfigReplyTo {
+	if s == nil {
+		return nil
+	}
+	return s.ReplyTo
+}
+
+func (s *SmtpConfig) SetReplyTo(replyTo SmtpConfigReplyTo) {
+	s.ReplyTo = &replyTo
+}
+
+func (s *SmtpConfig) GetSecurity() *Security {
+	if s == nil {
+		return nil
+	}
+	return s.Security
+}
+
+func (s *SmtpConfig) SetSecurity(security Security) {
+	s.Security = &security
+}
+
+func (s *SmtpConfig) GetUsername() *string {
+	if s == nil {
+		return nil
+	}
+	return s.Username
+}
+
+func (s *SmtpConfig) SetUsername(username string) {
+	s.Username = &username
+}
+
+func (s SmtpConfig) String() string {
+	jsonData, err := json.MarshalIndent(s, "", "  ")
+	if err != nil {
+		return "error converting struct: SmtpConfig to string"
+	}
+	return string(jsonData)
+}

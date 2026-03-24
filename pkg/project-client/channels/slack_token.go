@@ -7,11 +7,15 @@ import (
 )
 
 type SlackToken struct {
-	CreatedAt   *string                `json:"created_at,omitempty" required:"true"`
+	// The timestamp when the token was created.
+	CreatedAt *string `json:"created_at,omitempty" required:"true"`
+	// The timestamp when the token was discarded, if applicable.
 	DiscardedAt *util.Nullable[string] `json:"discarded_at,omitempty"`
-	Id          *string                `json:"id,omitempty" required:"true"`
-	Oauth       *Oauth                 `json:"oauth,omitempty"`
-	UpdatedAt   *util.Nullable[string] `json:"updated_at,omitempty"`
+	// The unique identifier for the token.
+	Id    *string `json:"id,omitempty" required:"true"`
+	Oauth *Oauth  `json:"oauth,omitempty"`
+	// The timestamp when the token metadata last changed.
+	UpdatedAt *util.Nullable[string] `json:"updated_at,omitempty"`
 	// Obtained directly from the incoming_webhook object in the installation response from the Slack API.
 	Webhook *SlackTokenWebhook `json:"webhook,omitempty"`
 }
@@ -100,75 +104,4 @@ func (s SlackToken) String() string {
 
 func (s *SlackToken) UnmarshalJSON(data []byte) error {
 	return unmarshal.UnmarshalNullable(data, s)
-}
-
-type Oauth struct {
-	ChannelId      *string `json:"channel_id,omitempty" required:"true"`
-	InstallationId *string `json:"installation_id,omitempty" required:"true"`
-	Scope          *string `json:"scope,omitempty"`
-}
-
-func (o *Oauth) GetChannelId() *string {
-	if o == nil {
-		return nil
-	}
-	return o.ChannelId
-}
-
-func (o *Oauth) SetChannelId(channelId string) {
-	o.ChannelId = &channelId
-}
-
-func (o *Oauth) GetInstallationId() *string {
-	if o == nil {
-		return nil
-	}
-	return o.InstallationId
-}
-
-func (o *Oauth) SetInstallationId(installationId string) {
-	o.InstallationId = &installationId
-}
-
-func (o *Oauth) GetScope() *string {
-	if o == nil {
-		return nil
-	}
-	return o.Scope
-}
-
-func (o *Oauth) SetScope(scope string) {
-	o.Scope = &scope
-}
-
-func (o Oauth) String() string {
-	jsonData, err := json.MarshalIndent(o, "", "  ")
-	if err != nil {
-		return "error converting struct: Oauth to string"
-	}
-	return string(jsonData)
-}
-
-// Obtained directly from the incoming_webhook object in the installation response from the Slack API.
-type SlackTokenWebhook struct {
-	Url *string `json:"url,omitempty" required:"true" minLength:"1"`
-}
-
-func (s *SlackTokenWebhook) GetUrl() *string {
-	if s == nil {
-		return nil
-	}
-	return s.Url
-}
-
-func (s *SlackTokenWebhook) SetUrl(url string) {
-	s.Url = &url
-}
-
-func (s SlackTokenWebhook) String() string {
-	jsonData, err := json.MarshalIndent(s, "", "  ")
-	if err != nil {
-		return "error converting struct: SlackTokenWebhook to string"
-	}
-	return string(jsonData)
 }
