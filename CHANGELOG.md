@@ -1,5 +1,15 @@
 # magicbell-go-project-client
 
+## 0.5.0
+
+### Minor Changes
+
+- [#26](https://github.com/magicbell/magicbell-go/pull/26) [`e94c768`](https://github.com/magicbell/magicbell-go/commit/e94c768e8d8bf4fa627541fa1c0626e0edd691b9) Thanks [@MagicBella](https://github.com/MagicBella)! - Automatic minor version bump for changes in `magicbell-go`.
+
+- [#28](https://github.com/magicbell/magicbell-go/pull/28) [`80034c2`](https://github.com/magicbell/magicbell-go/commit/80034c233746ad70cddca40cc639f134c9d1feb4) Thanks [@MagicBella](https://github.com/MagicBella)! - Automatic minor version bump for changes in `magicbell-go`.
+
+- [#29](https://github.com/magicbell/magicbell-go/pull/29) [`c74b698`](https://github.com/magicbell/magicbell-go/commit/c74b69878cf456aa61b82f345c87e06861e754bf) Thanks [@MagicBella](https://github.com/MagicBella)! - Automatic minor version bump for changes in `magicbell-go`.
+
 ## 0.4.0
 
 ### Minor Changes
