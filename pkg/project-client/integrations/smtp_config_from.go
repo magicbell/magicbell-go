@@ -1,0 +1,41 @@
+package integrations
+
+import "encoding/json"
+
+// Default sender email address
+type SmtpConfigFrom struct {
+	// Sender email address
+	Email *string `json:"email,omitempty" required:"true"`
+	// Sender name
+	Name *string `json:"name,omitempty"`
+}
+
+func (s *SmtpConfigFrom) GetEmail() *string {
+	if s == nil {
+		return nil
+	}
+	return s.Email
+}
+
+func (s *SmtpConfigFrom) SetEmail(email string) {
+	s.Email = &email
+}
+
+func (s *SmtpConfigFrom) GetName() *string {
+	if s == nil {
+		return nil
+	}
+	return s.Name
+}
+
+func (s *SmtpConfigFrom) SetName(name string) {
+	s.Name = &name
+}
+
+func (s SmtpConfigFrom) String() string {
+	jsonData, err := json.MarshalIndent(s, "", "  ")
+	if err != nil {
+		return "error converting struct: SmtpConfigFrom to string"
+	}
+	return string(jsonData)
+}

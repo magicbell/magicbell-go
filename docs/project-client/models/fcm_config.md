@@ -2,8 +2,8 @@
 
 **Properties**
 
-| Name   | Type                          | Required | Description |
-| :----- | :---------------------------- | :------- | :---------- |
-| Config | integrations.FcmConfigPayload | ✅       |             |
-| Id     | string                        | ✅       |             |
-| Name   | string                        | ✅       |             |
+| Name   | Type                                                   | Required | Description |
+| :----- | :----------------------------------------------------- | :------- | :---------- |
+| Config | [integrations.FcmConfigPayload](fcm_config_payload.md) | ✅       |             |
+| Id     | string                                                 | ✅       |             |
+| Name   | string                                                 | ✅       |             |

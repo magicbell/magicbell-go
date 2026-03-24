@@ -2,8 +2,8 @@
 
 **Properties**
 
-| Name   | Type                             | Required | Description |
-| :----- | :------------------------------- | :------- | :---------- |
-| Config | integrations.TwilioConfigPayload | ✅       |             |
-| Id     | string                           | ✅       |             |
-| Name   | string                           | ✅       |             |
+| Name   | Type                                                         | Required | Description |
+| :----- | :----------------------------------------------------------- | :------- | :---------- |
+| Config | [integrations.TwilioConfigPayload](twilio_config_payload.md) | ✅       |             |
+| Id     | string                                                       | ✅       |             |
+| Name   | string                                                       | ✅       |             |

@@ -1,0 +1,28 @@
+package integrations
+
+import "encoding/json"
+
+// State indicator styling for unread notifications.
+type UnreadState struct {
+	// Color for the unread state indicator.
+	Color *string `json:"color,omitempty" required:"true"`
+}
+
+func (u *UnreadState) GetColor() *string {
+	if u == nil {
+		return nil
+	}
+	return u.Color
+}
+
+func (u *UnreadState) SetColor(color string) {
+	u.Color = &color
+}
+
+func (u UnreadState) String() string {
+	jsonData, err := json.MarshalIndent(u, "", "  ")
+	if err != nil {
+		return "error converting struct: UnreadState to string"
+	}
+	return string(jsonData)
+}

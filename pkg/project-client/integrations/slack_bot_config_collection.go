@@ -1,0 +1,41 @@
+package integrations
+
+import (
+	"encoding/json"
+	"github.com/magicbell/magicbell-go/pkg/project-client/shared"
+)
+
+type SlackBotConfigCollection struct {
+	Data  []SlackBotConfig `json:"data,omitempty"`
+	Links *shared.Links    `json:"links,omitempty"`
+}
+
+func (s *SlackBotConfigCollection) GetData() []SlackBotConfig {
+	if s == nil {
+		return nil
+	}
+	return s.Data
+}
+
+func (s *SlackBotConfigCollection) SetData(data []SlackBotConfig) {
+	s.Data = data
+}
+
+func (s *SlackBotConfigCollection) GetLinks() *shared.Links {
+	if s == nil {
+		return nil
+	}
+	return s.Links
+}
+
+func (s *SlackBotConfigCollection) SetLinks(links shared.Links) {
+	s.Links = &links
+}
+
+func (s SlackBotConfigCollection) String() string {
+	jsonData, err := json.MarshalIndent(s, "", "  ")
+	if err != nil {
+		return "error converting struct: SlackBotConfigCollection to string"
+	}
+	return string(jsonData)
+}

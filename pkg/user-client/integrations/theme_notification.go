@@ -1,0 +1,54 @@
+package integrations
+
+import "encoding/json"
+
+// Styling overrides for notification list items.
+type ThemeNotification struct {
+	// Base styles applied to every notification item.
+	Default_ *Default_ `json:"default,omitempty" required:"true"`
+	// Overrides for unread notifications.
+	Unread *Unread `json:"unread,omitempty" required:"true"`
+	// Overrides for unseen notifications.
+	Unseen *Unseen `json:"unseen,omitempty" required:"true"`
+}
+
+func (t *ThemeNotification) GetDefault_() *Default_ {
+	if t == nil {
+		return nil
+	}
+	return t.Default_
+}
+
+func (t *ThemeNotification) SetDefault_(default_ Default_) {
+	t.Default_ = &default_
+}
+
+func (t *ThemeNotification) GetUnread() *Unread {
+	if t == nil {
+		return nil
+	}
+	return t.Unread
+}
+
+func (t *ThemeNotification) SetUnread(unread Unread) {
+	t.Unread = &unread
+}
+
+func (t *ThemeNotification) GetUnseen() *Unseen {
+	if t == nil {
+		return nil
+	}
+	return t.Unseen
+}
+
+func (t *ThemeNotification) SetUnseen(unseen Unseen) {
+	t.Unseen = &unseen
+}
+
+func (t ThemeNotification) String() string {
+	jsonData, err := json.MarshalIndent(t, "", "  ")
+	if err != nil {
+		return "error converting struct: ThemeNotification to string"
+	}
+	return string(jsonData)
+}

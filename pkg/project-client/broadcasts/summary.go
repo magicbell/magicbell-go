@@ -1,0 +1,41 @@
+package broadcasts
+
+import "encoding/json"
+
+// The summary counts for total recipients and failures.
+type Summary struct {
+	// The number of failures while processing the broadcast.
+	Failures *int64 `json:"failures,omitempty" required:"true"`
+	// The number of recipients that the broadcast was sent to.
+	Total *int64 `json:"total,omitempty" required:"true"`
+}
+
+func (s *Summary) GetFailures() *int64 {
+	if s == nil {
+		return nil
+	}
+	return s.Failures
+}
+
+func (s *Summary) SetFailures(failures int64) {
+	s.Failures = &failures
+}
+
+func (s *Summary) GetTotal() *int64 {
+	if s == nil {
+		return nil
+	}
+	return s.Total
+}
+
+func (s *Summary) SetTotal(total int64) {
+	s.Total = &total
+}
+
+func (s Summary) String() string {
+	jsonData, err := json.MarshalIndent(s, "", "  ")
+	if err != nil {
+		return "error converting struct: Summary to string"
+	}
+	return string(jsonData)
+}

@@ -3,10 +3,14 @@ package integrations
 import "encoding/json"
 
 type SlackStartInstall struct {
-	AppId       *string  `json:"app_id,omitempty" required:"true"`
-	AuthUrl     *string  `json:"auth_url,omitempty"`
+	// Slack app ID that the installation flow should use.
+	AppId *string `json:"app_id,omitempty" required:"true"`
+	// Optional override for the authorization URL returned to the client.
+	AuthUrl *string `json:"auth_url,omitempty"`
+	// Additional OAuth scopes to request during installation.
 	ExtraScopes []string `json:"extra_scopes,omitempty"`
-	RedirectUrl *string  `json:"redirect_url,omitempty"`
+	// Custom redirect URL to use after OAuth completes.
+	RedirectUrl *string `json:"redirect_url,omitempty"`
 }
 
 func (s *SlackStartInstall) GetAppId() *string {

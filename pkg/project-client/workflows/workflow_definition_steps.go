@@ -1,0 +1,69 @@
+package workflows
+
+import (
+	"encoding/json"
+	"github.com/magicbell/magicbell-go/pkg/project-client/internal/unmarshal"
+	"github.com/magicbell/magicbell-go/pkg/project-client/util"
+)
+
+type WorkflowDefinitionSteps struct {
+	// Command to execute (e.g., broadcast, pause, wait, abort)
+	Command *string `json:"command,omitempty" required:"true" pattern:"^[a-z_]+$"`
+	// JMESPath condition that must evaluate truthy for the step to run.
+	If_ *util.Nullable[string] `json:"if,omitempty"`
+	// Optional payload passed to the command when it executes.
+	Input *util.Nullable[any] `json:"input,omitempty"`
+}
+
+func (w *WorkflowDefinitionSteps) GetCommand() *string {
+	if w == nil {
+		return nil
+	}
+	return w.Command
+}
+
+func (w *WorkflowDefinitionSteps) SetCommand(command string) {
+	w.Command = &command
+}
+
+func (w *WorkflowDefinitionSteps) GetIf_() *util.Nullable[string] {
+	if w == nil {
+		return nil
+	}
+	return w.If_
+}
+
+func (w *WorkflowDefinitionSteps) SetIf_(if_ util.Nullable[string]) {
+	w.If_ = &if_
+}
+
+func (w *WorkflowDefinitionSteps) SetIf_Null() {
+	w.If_ = &util.Nullable[string]{IsNull: true}
+}
+
+func (w *WorkflowDefinitionSteps) GetInput() *util.Nullable[any] {
+	if w == nil {
+		return nil
+	}
+	return w.Input
+}
+
+func (w *WorkflowDefinitionSteps) SetInput(input util.Nullable[any]) {
+	w.Input = &input
+}
+
+func (w *WorkflowDefinitionSteps) SetInputNull() {
+	w.Input = &util.Nullable[any]{IsNull: true}
+}
+
+func (w WorkflowDefinitionSteps) String() string {
+	jsonData, err := json.MarshalIndent(w, "", "  ")
+	if err != nil {
+		return "error converting struct: WorkflowDefinitionSteps to string"
+	}
+	return string(jsonData)
+}
+
+func (w *WorkflowDefinitionSteps) UnmarshalJSON(data []byte) error {
+	return unmarshal.UnmarshalNullable(data, w)
+}

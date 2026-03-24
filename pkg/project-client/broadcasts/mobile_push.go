@@ -1,0 +1,66 @@
+package broadcasts
+
+import (
+	"encoding/json"
+	"github.com/magicbell/magicbell-go/pkg/project-client/internal/unmarshal"
+	"github.com/magicbell/magicbell-go/pkg/project-client/util"
+)
+
+// Overrides for mobile push notifications.
+type MobilePush struct {
+	// The link associated with the channel-specific notification.
+	ActionUrl *util.Nullable[string] `json:"action_url,omitempty" maxLength:"2048"`
+	// The channel-specific content.
+	Content *string `json:"content,omitempty" maxLength:"1048576"`
+	// The channel-specific title.
+	Title *string `json:"title,omitempty" maxLength:"255" minLength:"1"`
+}
+
+func (m *MobilePush) GetActionUrl() *util.Nullable[string] {
+	if m == nil {
+		return nil
+	}
+	return m.ActionUrl
+}
+
+func (m *MobilePush) SetActionUrl(actionUrl util.Nullable[string]) {
+	m.ActionUrl = &actionUrl
+}
+
+func (m *MobilePush) SetActionUrlNull() {
+	m.ActionUrl = &util.Nullable[string]{IsNull: true}
+}
+
+func (m *MobilePush) GetContent() *string {
+	if m == nil {
+		return nil
+	}
+	return m.Content
+}
+
+func (m *MobilePush) SetContent(content string) {
+	m.Content = &content
+}
+
+func (m *MobilePush) GetTitle() *string {
+	if m == nil {
+		return nil
+	}
+	return m.Title
+}
+
+func (m *MobilePush) SetTitle(title string) {
+	m.Title = &title
+}
+
+func (m MobilePush) String() string {
+	jsonData, err := json.MarshalIndent(m, "", "  ")
+	if err != nil {
+		return "error converting struct: MobilePush to string"
+	}
+	return string(jsonData)
+}
+
+func (m *MobilePush) UnmarshalJSON(data []byte) error {
+	return unmarshal.UnmarshalNullable(data, m)
+}

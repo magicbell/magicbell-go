@@ -1,0 +1,41 @@
+package channels
+
+import "encoding/json"
+
+// The encryption keys from the PushSubscription.getKey() method, needed to encrypt push messages for this subscription.
+type WebPushTokenKeys struct {
+	// The authentication secret obtained from PushSubscription.getKey('auth'). Used to encrypt push messages for this subscription.
+	Auth *string `json:"auth,omitempty" required:"true"`
+	// The P-256 ECDH public key obtained from PushSubscription.getKey('p256dh'). Used to encrypt push messages for this subscription.
+	P256dh *string `json:"p256dh,omitempty" required:"true"`
+}
+
+func (w *WebPushTokenKeys) GetAuth() *string {
+	if w == nil {
+		return nil
+	}
+	return w.Auth
+}
+
+func (w *WebPushTokenKeys) SetAuth(auth string) {
+	w.Auth = &auth
+}
+
+func (w *WebPushTokenKeys) GetP256dh() *string {
+	if w == nil {
+		return nil
+	}
+	return w.P256dh
+}
+
+func (w *WebPushTokenKeys) SetP256dh(p256dh string) {
+	w.P256dh = &p256dh
+}
+
+func (w WebPushTokenKeys) String() string {
+	jsonData, err := json.MarshalIndent(w, "", "  ")
+	if err != nil {
+		return "error converting struct: WebPushTokenKeys to string"
+	}
+	return string(jsonData)
+}

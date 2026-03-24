@@ -2,23 +2,23 @@
 
 **Properties**
 
-| Name           | Type                             | Required | Description                                                                                                                                                                       |
-| :------------- | :------------------------------- | :------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| CreatedAt      | string                           | ✅       |                                                                                                                                                                                   |
-| DeviceToken    | string                           | ✅       |                                                                                                                                                                                   |
-| Id             | string                           | ✅       |                                                                                                                                                                                   |
-| AppId          | string                           | ❌       | (Optional) The bundle identifier of the application that is registering this token. Use this field to override the default identifier specified in the projects APNs integration. |
-| DiscardedAt    | string                           | ❌       |                                                                                                                                                                                   |
-| InstallationId | channels.ApnsTokenInstallationId | ❌       | (Optional) The APNs environment the token is registered for. If none is provided we assume the token is used in `production`.                                                     |
-| UpdatedAt      | string                           | ❌       |                                                                                                                                                                                   |
+| Name           | Type                             | Required | Description                                                                                                                                      |
+| :------------- | :------------------------------- | :------- | :----------------------------------------------------------------------------------------------------------------------------------------------- |
+| CreatedAt      | string                           | ✅       | The timestamp when the token was created.                                                                                                        |
+| DeviceToken    | string                           | ✅       | The APNs device token to register with MagicBell.                                                                                                |
+| Id             | string                           | ✅       | The unique identifier for the token.                                                                                                             |
+| AppId          | string                           | ❌       | The bundle identifier of the application registering this token. Use this to override the default identifier configured on the APNs integration. |
+| DiscardedAt    | string                           | ❌       | The timestamp when the token was discarded, if applicable.                                                                                       |
+| InstallationId | channels.ApnsTokenInstallationId | ❌       | The APNs environment this token belongs to. If omitted we assume it targets `production`.                                                        |
+| UpdatedAt      | string                           | ❌       | The timestamp when the token metadata last changed.                                                                                              |
 
 # ApnsTokenInstallationId
 
-(Optional) The APNs environment the token is registered for. If none is provided we assume the token is used in `production`.
+The APNs environment this token belongs to. If omitted we assume it targets `production`.
 
 **Properties**
 
 | Name        | Type   | Required | Description   |
 | :---------- | :----- | :------- | :------------ |
-| development | string | ✅       | "development" |
-| production  | string | ✅       | "production"  |
+| Development | string | ✅       | "development" |
+| Production  | string | ✅       | "production"  |

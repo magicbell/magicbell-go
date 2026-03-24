@@ -2,20 +2,20 @@
 
 **Properties**
 
-| Name             | Type   | Required | Description |
-| :--------------- | :----- | :------- | :---------- |
-| CreatedAt        | string | ✅       |             |
-| Id               | string | ✅       |             |
-| Title            | string | ✅       |             |
-| UpdatedAt        | string | ✅       |             |
-| UserId           | string | ✅       |             |
-| ActionUrl        | string | ❌       |             |
-| ArchivedAt       | string | ❌       |             |
-| Category         | string | ❌       |             |
-| Content          | string | ❌       |             |
-| CustomAttributes | any    | ❌       |             |
-| DiscardedAt      | string | ❌       |             |
-| ReadAt           | string | ❌       |             |
-| SeenAt           | string | ❌       |             |
-| SentAt           | string | ❌       |             |
-| Topic            | string | ❌       |             |
+| Name             | Type   | Required | Description                                             |
+| :--------------- | :----- | :------- | :------------------------------------------------------ |
+| CreatedAt        | string | ✅       | The timestamp when the notification was created.        |
+| Id               | string | ✅       | The unique identifier for the notification.             |
+| Title            | string | ✅       | The title that is displayed to recipients.              |
+| UpdatedAt        | string | ✅       | The timestamp when the notification was last updated.   |
+| UserId           | string | ✅       | The user that should receive the notification.          |
+| ActionUrl        | string | ❌       | The link associated with the notification.              |
+| ArchivedAt       | string | ❌       | The timestamp when the notification was archived.       |
+| Category         | string | ❌       | The category grouping for the notification.             |
+| Content          | string | ❌       | The body content of the notification.                   |
+| CustomAttributes | any    | ❌       | The custom data stored with the notification.           |
+| DiscardedAt      | string | ❌       | The timestamp when the notification was discarded.      |
+| ReadAt           | string | ❌       | The timestamp when the notification was marked as read. |
+| SeenAt           | string | ❌       | The timestamp when the notification was seen.           |
+| SentAt           | string | ❌       | The timestamp when the notification was sent.           |
+| Topic            | string | ❌       | The topic for additional classification.                |

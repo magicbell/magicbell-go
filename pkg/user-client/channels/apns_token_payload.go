@@ -3,10 +3,11 @@ package channels
 import "encoding/json"
 
 type ApnsTokenPayload struct {
-	// (Optional) The bundle identifier of the application that is registering this token. Use this field to override the default identifier specified in the projects APNs integration.
-	AppId       *string `json:"app_id,omitempty" pattern:"^[a-zA-Z0-9]+(.[a-zA-Z0-9]+)*$"`
+	// The bundle identifier of the application registering this token. Use this to override the default identifier configured on the APNs integration.
+	AppId *string `json:"app_id,omitempty" pattern:"^[a-zA-Z0-9]+(.[a-zA-Z0-9]+)*$"`
+	// The APNs device token to register with MagicBell.
 	DeviceToken *string `json:"device_token,omitempty" required:"true" minLength:"64"`
-	// (Optional) The APNs environment the token is registered for. If none is provided we assume the token is used in `production`.
+	// The APNs environment this token belongs to. If omitted we assume it targets `production`.
 	InstallationId *ApnsTokenPayloadInstallationId `json:"installation_id,omitempty"`
 }
 
@@ -50,11 +51,3 @@ func (a ApnsTokenPayload) String() string {
 	}
 	return string(jsonData)
 }
-
-// (Optional) The APNs environment the token is registered for. If none is provided we assume the token is used in `production`.
-type ApnsTokenPayloadInstallationId string
-
-const (
-	APNS_TOKEN_PAYLOAD_INSTALLATION_ID_DEVELOPMENT ApnsTokenPayloadInstallationId = "development"
-	APNS_TOKEN_PAYLOAD_INSTALLATION_ID_PRODUCTION  ApnsTokenPayloadInstallationId = "production"
-)

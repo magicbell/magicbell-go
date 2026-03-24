@@ -1,0 +1,67 @@
+package integrations
+
+import "encoding/json"
+
+// Overrides for unseen notifications.
+type Unseen struct {
+	// Background color applied to unseen notifications.
+	BackgroundColor *string `json:"backgroundColor,omitempty" required:"true"`
+	// Hover styles for unseen notifications.
+	Hover *UnseenHover `json:"hover,omitempty"`
+	// State indicator styling for unseen notifications.
+	State *UnseenState `json:"state,omitempty"`
+	// Text color used when a notification is unseen.
+	TextColor *string `json:"textColor,omitempty" required:"true"`
+}
+
+func (u *Unseen) GetBackgroundColor() *string {
+	if u == nil {
+		return nil
+	}
+	return u.BackgroundColor
+}
+
+func (u *Unseen) SetBackgroundColor(backgroundColor string) {
+	u.BackgroundColor = &backgroundColor
+}
+
+func (u *Unseen) GetHover() *UnseenHover {
+	if u == nil {
+		return nil
+	}
+	return u.Hover
+}
+
+func (u *Unseen) SetHover(hover UnseenHover) {
+	u.Hover = &hover
+}
+
+func (u *Unseen) GetState() *UnseenState {
+	if u == nil {
+		return nil
+	}
+	return u.State
+}
+
+func (u *Unseen) SetState(state UnseenState) {
+	u.State = &state
+}
+
+func (u *Unseen) GetTextColor() *string {
+	if u == nil {
+		return nil
+	}
+	return u.TextColor
+}
+
+func (u *Unseen) SetTextColor(textColor string) {
+	u.TextColor = &textColor
+}
+
+func (u Unseen) String() string {
+	jsonData, err := json.MarshalIndent(u, "", "  ")
+	if err != nil {
+		return "error converting struct: Unseen to string"
+	}
+	return string(jsonData)
+}

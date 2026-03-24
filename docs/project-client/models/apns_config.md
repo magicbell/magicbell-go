@@ -2,8 +2,8 @@
 
 **Properties**
 
-| Name   | Type                           | Required | Description |
-| :----- | :----------------------------- | :------- | :---------- |
-| Config | integrations.ApnsConfigPayload | ✅       |             |
-| Id     | string                         | ✅       |             |
-| Name   | string                         | ✅       |             |
+| Name   | Type                                                     | Required | Description |
+| :----- | :------------------------------------------------------- | :------- | :---------- |
+| Config | [integrations.ApnsConfigPayload](apns_config_payload.md) | ✅       |             |
+| Id     | string                                                   | ✅       |             |
+| Name   | string                                                   | ✅       |             |

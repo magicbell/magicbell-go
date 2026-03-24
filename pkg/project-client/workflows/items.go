@@ -1,0 +1,50 @@
+package workflows
+
+import "encoding/json"
+
+type Items struct {
+	Disabled *bool        `json:"disabled,omitempty"`
+	Key      *string      `json:"key,omitempty" required:"true" minLength:"3" pattern:"^[A-Za-z0-9\_\.\-\:]+$"`
+	Steps    []ItemsSteps `json:"steps,omitempty" required:"true"`
+}
+
+func (i *Items) GetDisabled() *bool {
+	if i == nil {
+		return nil
+	}
+	return i.Disabled
+}
+
+func (i *Items) SetDisabled(disabled bool) {
+	i.Disabled = &disabled
+}
+
+func (i *Items) GetKey() *string {
+	if i == nil {
+		return nil
+	}
+	return i.Key
+}
+
+func (i *Items) SetKey(key string) {
+	i.Key = &key
+}
+
+func (i *Items) GetSteps() []ItemsSteps {
+	if i == nil {
+		return nil
+	}
+	return i.Steps
+}
+
+func (i *Items) SetSteps(steps []ItemsSteps) {
+	i.Steps = steps
+}
+
+func (i Items) String() string {
+	jsonData, err := json.MarshalIndent(i, "", "  ")
+	if err != nil {
+		return "error converting struct: Items to string"
+	}
+	return string(jsonData)
+}

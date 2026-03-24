@@ -1,0 +1,62 @@
+package workflows
+
+import "encoding/json"
+
+type WorkflowRun struct {
+	CreatedAt   *string            `json:"created_at,omitempty"`
+	Id          *string            `json:"id,omitempty"`
+	Status      *WorkflowRunStatus `json:"status,omitempty"`
+	WorkflowKey *string            `json:"workflow_key,omitempty"`
+}
+
+func (w *WorkflowRun) GetCreatedAt() *string {
+	if w == nil {
+		return nil
+	}
+	return w.CreatedAt
+}
+
+func (w *WorkflowRun) SetCreatedAt(createdAt string) {
+	w.CreatedAt = &createdAt
+}
+
+func (w *WorkflowRun) GetId() *string {
+	if w == nil {
+		return nil
+	}
+	return w.Id
+}
+
+func (w *WorkflowRun) SetId(id string) {
+	w.Id = &id
+}
+
+func (w *WorkflowRun) GetStatus() *WorkflowRunStatus {
+	if w == nil {
+		return nil
+	}
+	return w.Status
+}
+
+func (w *WorkflowRun) SetStatus(status WorkflowRunStatus) {
+	w.Status = &status
+}
+
+func (w *WorkflowRun) GetWorkflowKey() *string {
+	if w == nil {
+		return nil
+	}
+	return w.WorkflowKey
+}
+
+func (w *WorkflowRun) SetWorkflowKey(workflowKey string) {
+	w.WorkflowKey = &workflowKey
+}
+
+func (w WorkflowRun) String() string {
+	jsonData, err := json.MarshalIndent(w, "", "  ")
+	if err != nil {
+		return "error converting struct: WorkflowRun to string"
+	}
+	return string(jsonData)
+}

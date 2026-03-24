@@ -1,0 +1,53 @@
+package channels
+
+import "encoding/json"
+
+type SlackTokenPayloadOauth struct {
+	// The ID of the Slack channel this installation is associated with
+	ChannelId *string `json:"channel_id,omitempty" required:"true"`
+	// A unique identifier for this Slack workspace installation
+	InstallationId *string `json:"installation_id,omitempty" required:"true"`
+	// The OAuth scope granted during installation
+	Scope *string `json:"scope,omitempty"`
+}
+
+func (s *SlackTokenPayloadOauth) GetChannelId() *string {
+	if s == nil {
+		return nil
+	}
+	return s.ChannelId
+}
+
+func (s *SlackTokenPayloadOauth) SetChannelId(channelId string) {
+	s.ChannelId = &channelId
+}
+
+func (s *SlackTokenPayloadOauth) GetInstallationId() *string {
+	if s == nil {
+		return nil
+	}
+	return s.InstallationId
+}
+
+func (s *SlackTokenPayloadOauth) SetInstallationId(installationId string) {
+	s.InstallationId = &installationId
+}
+
+func (s *SlackTokenPayloadOauth) GetScope() *string {
+	if s == nil {
+		return nil
+	}
+	return s.Scope
+}
+
+func (s *SlackTokenPayloadOauth) SetScope(scope string) {
+	s.Scope = &scope
+}
+
+func (s SlackTokenPayloadOauth) String() string {
+	jsonData, err := json.MarshalIndent(s, "", "  ")
+	if err != nil {
+		return "error converting struct: SlackTokenPayloadOauth to string"
+	}
+	return string(jsonData)
+}

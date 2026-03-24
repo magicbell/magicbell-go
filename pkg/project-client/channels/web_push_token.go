@@ -7,13 +7,17 @@ import (
 )
 
 type WebPushToken struct {
-	CreatedAt   *string                `json:"created_at,omitempty" required:"true"`
+	// The timestamp when the token was created.
+	CreatedAt *string `json:"created_at,omitempty" required:"true"`
+	// The timestamp when the token was discarded, if applicable.
 	DiscardedAt *util.Nullable[string] `json:"discarded_at,omitempty"`
 	// The push subscription URL obtained from PushSubscription.endpoint after calling registration.pushManager.subscribe(). This is the unique URL for this device that push messages will be sent to.
 	Endpoint *string `json:"endpoint,omitempty" required:"true"`
-	Id       *string `json:"id,omitempty" required:"true"`
+	// The unique identifier for the token.
+	Id *string `json:"id,omitempty" required:"true"`
 	// The encryption keys from the PushSubscription.getKey() method, needed to encrypt push messages for this subscription.
-	Keys      *Keys                  `json:"keys,omitempty" required:"true"`
+	Keys *Keys `json:"keys,omitempty" required:"true"`
+	// The timestamp when the token metadata last changed.
 	UpdatedAt *util.Nullable[string] `json:"updated_at,omitempty"`
 }
 
@@ -101,42 +105,4 @@ func (w WebPushToken) String() string {
 
 func (w *WebPushToken) UnmarshalJSON(data []byte) error {
 	return unmarshal.UnmarshalNullable(data, w)
-}
-
-// The encryption keys from the PushSubscription.getKey() method, needed to encrypt push messages for this subscription.
-type Keys struct {
-	// The authentication secret obtained from PushSubscription.getKey('auth'). Used to encrypt push messages for this subscription.
-	Auth *string `json:"auth,omitempty" required:"true"`
-	// The P-256 ECDH public key obtained from PushSubscription.getKey('p256dh'). Used to encrypt push messages for this subscription.
-	P256dh *string `json:"p256dh,omitempty" required:"true"`
-}
-
-func (k *Keys) GetAuth() *string {
-	if k == nil {
-		return nil
-	}
-	return k.Auth
-}
-
-func (k *Keys) SetAuth(auth string) {
-	k.Auth = &auth
-}
-
-func (k *Keys) GetP256dh() *string {
-	if k == nil {
-		return nil
-	}
-	return k.P256dh
-}
-
-func (k *Keys) SetP256dh(p256dh string) {
-	k.P256dh = &p256dh
-}
-
-func (k Keys) String() string {
-	jsonData, err := json.MarshalIndent(k, "", "  ")
-	if err != nil {
-		return "error converting struct: Keys to string"
-	}
-	return string(jsonData)
 }

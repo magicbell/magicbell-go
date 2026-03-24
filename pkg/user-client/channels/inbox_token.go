@@ -7,8 +7,10 @@ import (
 )
 
 type InboxToken struct {
+	// Realtime connection ID to restrict delivery to a specific Ably connection.
 	ConnectionId *util.Nullable[string] `json:"connection_id,omitempty"`
-	Token        *string                `json:"token,omitempty" required:"true" minLength:"64"`
+	// The in-app inbox token generated for this user.
+	Token *string `json:"token,omitempty" required:"true" minLength:"64"`
 }
 
 func (i *InboxToken) GetConnectionId() *util.Nullable[string] {

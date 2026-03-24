@@ -1,0 +1,67 @@
+package integrations
+
+import "encoding/json"
+
+// Overrides for unread notifications.
+type Unread struct {
+	// Background color applied to unread notifications.
+	BackgroundColor *string `json:"backgroundColor,omitempty" required:"true"`
+	// Hover styles for unread notifications.
+	Hover *UnreadHover `json:"hover,omitempty"`
+	// State indicator styling for unread notifications.
+	State *UnreadState `json:"state,omitempty"`
+	// Text color used when a notification is unread.
+	TextColor *string `json:"textColor,omitempty" required:"true"`
+}
+
+func (u *Unread) GetBackgroundColor() *string {
+	if u == nil {
+		return nil
+	}
+	return u.BackgroundColor
+}
+
+func (u *Unread) SetBackgroundColor(backgroundColor string) {
+	u.BackgroundColor = &backgroundColor
+}
+
+func (u *Unread) GetHover() *UnreadHover {
+	if u == nil {
+		return nil
+	}
+	return u.Hover
+}
+
+func (u *Unread) SetHover(hover UnreadHover) {
+	u.Hover = &hover
+}
+
+func (u *Unread) GetState() *UnreadState {
+	if u == nil {
+		return nil
+	}
+	return u.State
+}
+
+func (u *Unread) SetState(state UnreadState) {
+	u.State = &state
+}
+
+func (u *Unread) GetTextColor() *string {
+	if u == nil {
+		return nil
+	}
+	return u.TextColor
+}
+
+func (u *Unread) SetTextColor(textColor string) {
+	u.TextColor = &textColor
+}
+
+func (u Unread) String() string {
+	jsonData, err := json.MarshalIndent(u, "", "  ")
+	if err != nil {
+		return "error converting struct: Unread to string"
+	}
+	return string(jsonData)
+}

@@ -1,0 +1,53 @@
+package integrations
+
+import "encoding/json"
+
+type IncomingWebhook struct {
+	// Human readable name for the webhook channel.
+	Channel *string `json:"channel,omitempty" required:"true"`
+	// URL users can visit to manage the webhook.
+	ConfigurationUrl *string `json:"configuration_url,omitempty" required:"true"`
+	// Webhook URL that Slack posts events to.
+	Url *string `json:"url,omitempty" required:"true"`
+}
+
+func (i *IncomingWebhook) GetChannel() *string {
+	if i == nil {
+		return nil
+	}
+	return i.Channel
+}
+
+func (i *IncomingWebhook) SetChannel(channel string) {
+	i.Channel = &channel
+}
+
+func (i *IncomingWebhook) GetConfigurationUrl() *string {
+	if i == nil {
+		return nil
+	}
+	return i.ConfigurationUrl
+}
+
+func (i *IncomingWebhook) SetConfigurationUrl(configurationUrl string) {
+	i.ConfigurationUrl = &configurationUrl
+}
+
+func (i *IncomingWebhook) GetUrl() *string {
+	if i == nil {
+		return nil
+	}
+	return i.Url
+}
+
+func (i *IncomingWebhook) SetUrl(url string) {
+	i.Url = &url
+}
+
+func (i IncomingWebhook) String() string {
+	jsonData, err := json.MarshalIndent(i, "", "  ")
+	if err != nil {
+		return "error converting struct: IncomingWebhook to string"
+	}
+	return string(jsonData)
+}

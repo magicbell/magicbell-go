@@ -5,14 +5,19 @@ import (
 	"time"
 )
 
+// ConfigManager manages configuration across all services with synchronized updates.
+// Provides centralized configuration management and OAuth token handling for multiple services.
 type ConfigManager struct {
 	Broadcasts   clientconfig.Config
 	Channels     clientconfig.Config
 	Events       clientconfig.Config
 	Integrations clientconfig.Config
 	Users        clientconfig.Config
+	Workflows    clientconfig.Config
 }
 
+// NewConfigManager creates a new configuration manager with the provided config and optional OAuth token service.
+// Initializes service-specific configs and sets up OAuth token management if enabled.
 func NewConfigManager(config clientconfig.Config) *ConfigManager {
 	return &ConfigManager{
 		Broadcasts:   config,
@@ -20,33 +25,45 @@ func NewConfigManager(config clientconfig.Config) *ConfigManager {
 		Events:       config,
 		Integrations: config,
 		Users:        config,
+		Workflows:    config,
 	}
 }
 
+// SetBaseUrl updates the BaseUrl configuration parameter across all services.
+// Changes are applied synchronously to all registered service configurations.
 func (c *ConfigManager) SetBaseUrl(baseUrl string) {
 	c.Broadcasts.SetBaseUrl(baseUrl)
 	c.Channels.SetBaseUrl(baseUrl)
 	c.Events.SetBaseUrl(baseUrl)
 	c.Integrations.SetBaseUrl(baseUrl)
 	c.Users.SetBaseUrl(baseUrl)
+	c.Workflows.SetBaseUrl(baseUrl)
 }
 
+// SetTimeout updates the Timeout configuration parameter across all services.
+// Changes are applied synchronously to all registered service configurations.
 func (c *ConfigManager) SetTimeout(timeout time.Duration) {
 	c.Broadcasts.SetTimeout(timeout)
 	c.Channels.SetTimeout(timeout)
 	c.Events.SetTimeout(timeout)
 	c.Integrations.SetTimeout(timeout)
 	c.Users.SetTimeout(timeout)
+	c.Workflows.SetTimeout(timeout)
 }
 
+// SetAccessToken updates the AccessToken configuration parameter across all services.
+// Changes are applied synchronously to all registered service configurations.
 func (c *ConfigManager) SetAccessToken(accessToken string) {
 	c.Broadcasts.SetAccessToken(accessToken)
 	c.Channels.SetAccessToken(accessToken)
 	c.Events.SetAccessToken(accessToken)
 	c.Integrations.SetAccessToken(accessToken)
 	c.Users.SetAccessToken(accessToken)
+	c.Workflows.SetAccessToken(accessToken)
 }
 
+// UpdateAccessToken replaces an access token across all services that use the original value.
+// Used for token refresh to update all service configurations simultaneously.
 func (c *ConfigManager) UpdateAccessToken(originalValue string, newValue string) {
 
 	if c.Broadcasts.AccessToken != nil && *c.Broadcasts.AccessToken == originalValue {
@@ -68,20 +85,44 @@ func (c *ConfigManager) UpdateAccessToken(originalValue string, newValue string)
 	if c.Users.AccessToken != nil && *c.Users.AccessToken == originalValue {
 		c.Users.SetAccessToken(newValue)
 	}
+
+	if c.Workflows.AccessToken != nil && *c.Workflows.AccessToken == originalValue {
+		c.Workflows.SetAccessToken(newValue)
+	}
 }
 
+// GetBroadcasts returns the configuration for the Broadcasts service.
+// Returns a pointer to the service-specific config for use in API calls.
 func (c *ConfigManager) GetBroadcasts() *clientconfig.Config {
 	return &c.Broadcasts
 }
+
+// GetChannels returns the configuration for the Channels service.
+// Returns a pointer to the service-specific config for use in API calls.
 func (c *ConfigManager) GetChannels() *clientconfig.Config {
 	return &c.Channels
 }
+
+// GetEvents returns the configuration for the Events service.
+// Returns a pointer to the service-specific config for use in API calls.
 func (c *ConfigManager) GetEvents() *clientconfig.Config {
 	return &c.Events
 }
+
+// GetIntegrations returns the configuration for the Integrations service.
+// Returns a pointer to the service-specific config for use in API calls.
 func (c *ConfigManager) GetIntegrations() *clientconfig.Config {
 	return &c.Integrations
 }
+
+// GetUsers returns the configuration for the Users service.
+// Returns a pointer to the service-specific config for use in API calls.
 func (c *ConfigManager) GetUsers() *clientconfig.Config {
 	return &c.Users
+}
+
+// GetWorkflows returns the configuration for the Workflows service.
+// Returns a pointer to the service-specific config for use in API calls.
+func (c *ConfigManager) GetWorkflows() *clientconfig.Config {
+	return &c.Workflows
 }

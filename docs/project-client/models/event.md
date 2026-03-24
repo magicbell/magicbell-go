@@ -2,12 +2,13 @@
 
 **Properties**
 
-| Name      | Type   | Required | Description |
-| :-------- | :----- | :------- | :---------- |
-| Id        | string | ✅       |             |
-| Timestamp | string | ✅       |             |
-| Type\_    | string | ✅       |             |
-| Code      | int64  | ❌       |             |
-| Context   | any    | ❌       |             |
-| Level     | string | ❌       |             |
-| Log       | string | ❌       |             |
+| Name      | Type   | Required | Description                                     |
+| :-------- | :----- | :------- | :---------------------------------------------- |
+| Id        | string | ✅       | The unique identifier for the event.            |
+| Timestamp | string | ✅       | The time at which the event was recorded.       |
+| Type\_    | string | ✅       | The type of event that occurred.                |
+| Code      | int64  | ❌       | The numeric code that categorizes the event.    |
+| Context   | any    | ❌       | Additional contextual attributes for the event. |
+| Level     | string | ❌       | The severity level assigned to the event.       |
+| Log       | string | ❌       | A human-readable log message.                   |
+| Payload   | any    | ❌       | The raw payload delivered by the event source.  |

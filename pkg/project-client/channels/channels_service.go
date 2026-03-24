@@ -3,6 +3,7 @@ package channels
 import (
 	"context"
 	restClient "github.com/magicbell/magicbell-go/pkg/project-client/internal/clients/rest"
+	"github.com/magicbell/magicbell-go/pkg/project-client/internal/clients/rest/hooks"
 	"github.com/magicbell/magicbell-go/pkg/project-client/internal/clients/rest/httptransport"
 	"github.com/magicbell/magicbell-go/pkg/project-client/internal/configmanager"
 	"github.com/magicbell/magicbell-go/pkg/project-client/clientconfig"
@@ -10,8 +11,11 @@ import (
 	"time"
 )
 
+// ChannelsService provides methods to interact with ChannelsService-related API endpoints.
+// It uses a configuration manager for settings and supports custom hooks for request/response interception.
 type ChannelsService struct {
 	manager *configmanager.ConfigManager
+	hook    hooks.Hook
 }
 
 func NewChannelsService() *ChannelsService {
@@ -20,13 +24,26 @@ func NewChannelsService() *ChannelsService {
 	}
 }
 
+// WithConfigManager sets the configuration manager for this service.
+// Returns the service instance for method chaining.
 func (api *ChannelsService) WithConfigManager(manager *configmanager.ConfigManager) *ChannelsService {
 	api.manager = manager
 	return api
 }
 
+// WithHook sets a custom hook for request/response interception.
+// Returns the service instance for method chaining.
+func (api *ChannelsService) WithHook(hook hooks.Hook) *ChannelsService {
+	api.hook = hook
+	return api
+}
+
 func (api *ChannelsService) getConfig() *clientconfig.Config {
 	return api.manager.GetChannels()
+}
+
+func (api *ChannelsService) getHook() hooks.Hook {
+	return api.hook
 }
 
 func (api *ChannelsService) SetBaseUrl(baseUrl string) {
@@ -45,7 +62,7 @@ func (api *ChannelsService) SetAccessToken(accessToken string) {
 }
 
 // Save the channels configuration for a given key.
-func (api *ChannelsService) SaveChannelsConfig(ctx context.Context, categoryDeliveryConfig CategoryDeliveryConfig) (*shared.ClientResponse[CategoryDeliveryConfig], *shared.ClientError) {
+func (api *ChannelsService) SaveChannelsConfig(ctx context.Context, categoryDeliveryConfig CategoryDeliveryConfig) (*shared.ClientResponse[CategoryDeliveryConfig], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -58,17 +75,17 @@ func (api *ChannelsService) SaveChannelsConfig(ctx context.Context, categoryDeli
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[CategoryDeliveryConfig](config)
+	client := restClient.NewRestClient[CategoryDeliveryConfig, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[CategoryDeliveryConfig](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[CategoryDeliveryConfig](resp), nil
 }
 
 // Fetches the channels config for a given key.
-func (api *ChannelsService) FetchChannelsConfig(ctx context.Context, key string) (*shared.ClientResponse[CategoryDeliveryConfig], *shared.ClientError) {
+func (api *ChannelsService) FetchChannelsConfig(ctx context.Context, key string) (*shared.ClientResponse[CategoryDeliveryConfig], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -80,17 +97,17 @@ func (api *ChannelsService) FetchChannelsConfig(ctx context.Context, key string)
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[CategoryDeliveryConfig](config)
+	client := restClient.NewRestClient[CategoryDeliveryConfig, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[CategoryDeliveryConfig](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[CategoryDeliveryConfig](resp), nil
 }
 
 // Lists all Inbox tokens associated with a specific user. This endpoint is available to project administrators and returns a paginated list of tokens, including both active and revoked tokens.
-func (api *ChannelsService) ListUserInboxTokens(ctx context.Context, userId string, params ListUserInboxTokensRequestParams) (*shared.ClientResponse[InboxTokenResponseCollection], *shared.ClientError) {
+func (api *ChannelsService) ListUserInboxTokens(ctx context.Context, userId string, params ListUserInboxTokensRequestParams) (*shared.ClientResponse[InboxTokenResponseCollection], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -103,17 +120,17 @@ func (api *ChannelsService) ListUserInboxTokens(ctx context.Context, userId stri
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[InboxTokenResponseCollection](config)
+	client := restClient.NewRestClient[InboxTokenResponseCollection, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[InboxTokenResponseCollection](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[InboxTokenResponseCollection](resp), nil
 }
 
 // Fetches a specific Inbox token by its ID for a given user. This endpoint is available to project administrators and requires project-level authentication. Use this to inspect token details including its status, creation date, and associated metadata.
-func (api *ChannelsService) FetchUserInboxToken(ctx context.Context, userId string, tokenId string) (*shared.ClientResponse[InboxTokenResponse], *shared.ClientError) {
+func (api *ChannelsService) FetchUserInboxToken(ctx context.Context, userId string, tokenId string) (*shared.ClientResponse[InboxTokenResponse], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -126,17 +143,17 @@ func (api *ChannelsService) FetchUserInboxToken(ctx context.Context, userId stri
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[InboxTokenResponse](config)
+	client := restClient.NewRestClient[InboxTokenResponse, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[InboxTokenResponse](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[InboxTokenResponse](resp), nil
 }
 
 // Deletes a specific user's Inbox token. This endpoint is available to project administrators and permanently invalidates the specified token. Once revoked, the token can no longer be used to access channel features. This action cannot be undone.
-func (api *ChannelsService) DeleteUserInboxToken(ctx context.Context, userId string, tokenId string) (*shared.ClientResponse[DiscardResult], *shared.ClientError) {
+func (api *ChannelsService) DeleteUserInboxToken(ctx context.Context, userId string, tokenId string) (*shared.ClientResponse[DiscardResult], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -149,17 +166,17 @@ func (api *ChannelsService) DeleteUserInboxToken(ctx context.Context, userId str
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[DiscardResult](config)
+	client := restClient.NewRestClient[DiscardResult, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[DiscardResult](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[DiscardResult](resp), nil
 }
 
 // Lists all APNs tokens associated with a specific user. This endpoint is available to project administrators and returns a paginated list of tokens, including both active and revoked tokens.
-func (api *ChannelsService) ListUserApnsTokens(ctx context.Context, userId string, params ListUserApnsTokensRequestParams) (*shared.ClientResponse[ApnsTokenCollection], *shared.ClientError) {
+func (api *ChannelsService) ListUserApnsTokens(ctx context.Context, userId string, params ListUserApnsTokensRequestParams) (*shared.ClientResponse[ApnsTokenCollection], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -172,17 +189,17 @@ func (api *ChannelsService) ListUserApnsTokens(ctx context.Context, userId strin
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[ApnsTokenCollection](config)
+	client := restClient.NewRestClient[ApnsTokenCollection, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[ApnsTokenCollection](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[ApnsTokenCollection](resp), nil
 }
 
 // Fetches a specific APNs token by its ID for a given user. This endpoint is available to project administrators and requires project-level authentication. Use this to inspect token details including its status, creation date, and associated metadata.
-func (api *ChannelsService) FetchUserApnsToken(ctx context.Context, userId string, tokenId string) (*shared.ClientResponse[ApnsToken], *shared.ClientError) {
+func (api *ChannelsService) FetchUserApnsToken(ctx context.Context, userId string, tokenId string) (*shared.ClientResponse[ApnsToken], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -195,17 +212,17 @@ func (api *ChannelsService) FetchUserApnsToken(ctx context.Context, userId strin
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[ApnsToken](config)
+	client := restClient.NewRestClient[ApnsToken, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[ApnsToken](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[ApnsToken](resp), nil
 }
 
 // Deletes a specific user's APNs token. This endpoint is available to project administrators and permanently invalidates the specified token. Once revoked, the token can no longer be used to access channel features. This action cannot be undone.
-func (api *ChannelsService) DeleteUserApnsToken(ctx context.Context, userId string, tokenId string) (*shared.ClientResponse[DiscardResult], *shared.ClientError) {
+func (api *ChannelsService) DeleteUserApnsToken(ctx context.Context, userId string, tokenId string) (*shared.ClientResponse[DiscardResult], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -218,17 +235,17 @@ func (api *ChannelsService) DeleteUserApnsToken(ctx context.Context, userId stri
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[DiscardResult](config)
+	client := restClient.NewRestClient[DiscardResult, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[DiscardResult](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[DiscardResult](resp), nil
 }
 
 // Lists all Expo tokens associated with a specific user. This endpoint is available to project administrators and returns a paginated list of tokens, including both active and revoked tokens.
-func (api *ChannelsService) ListUserExpoTokens(ctx context.Context, userId string, params ListUserExpoTokensRequestParams) (*shared.ClientResponse[ExpoTokenCollection], *shared.ClientError) {
+func (api *ChannelsService) ListUserExpoTokens(ctx context.Context, userId string, params ListUserExpoTokensRequestParams) (*shared.ClientResponse[ExpoTokenCollection], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -241,17 +258,17 @@ func (api *ChannelsService) ListUserExpoTokens(ctx context.Context, userId strin
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[ExpoTokenCollection](config)
+	client := restClient.NewRestClient[ExpoTokenCollection, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[ExpoTokenCollection](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[ExpoTokenCollection](resp), nil
 }
 
 // Fetches a specific Expo token by its ID for a given user. This endpoint is available to project administrators and requires project-level authentication. Use this to inspect token details including its status, creation date, and associated metadata.
-func (api *ChannelsService) FetchUserExpoToken(ctx context.Context, userId string, tokenId string) (*shared.ClientResponse[ExpoToken], *shared.ClientError) {
+func (api *ChannelsService) FetchUserExpoToken(ctx context.Context, userId string, tokenId string) (*shared.ClientResponse[ExpoToken], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -264,17 +281,17 @@ func (api *ChannelsService) FetchUserExpoToken(ctx context.Context, userId strin
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[ExpoToken](config)
+	client := restClient.NewRestClient[ExpoToken, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[ExpoToken](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[ExpoToken](resp), nil
 }
 
 // Deletes a specific user's Expo token. This endpoint is available to project administrators and permanently invalidates the specified token. Once revoked, the token can no longer be used to access channel features. This action cannot be undone.
-func (api *ChannelsService) DeleteUserExpoToken(ctx context.Context, userId string, tokenId string) (*shared.ClientResponse[DiscardResult], *shared.ClientError) {
+func (api *ChannelsService) DeleteUserExpoToken(ctx context.Context, userId string, tokenId string) (*shared.ClientResponse[DiscardResult], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -287,17 +304,17 @@ func (api *ChannelsService) DeleteUserExpoToken(ctx context.Context, userId stri
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[DiscardResult](config)
+	client := restClient.NewRestClient[DiscardResult, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[DiscardResult](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[DiscardResult](resp), nil
 }
 
 // Lists all FCM tokens associated with a specific user. This endpoint is available to project administrators and returns a paginated list of tokens, including both active and revoked tokens.
-func (api *ChannelsService) ListUserFcmTokens(ctx context.Context, userId string, params ListUserFcmTokensRequestParams) (*shared.ClientResponse[FcmTokenCollection], *shared.ClientError) {
+func (api *ChannelsService) ListUserFcmTokens(ctx context.Context, userId string, params ListUserFcmTokensRequestParams) (*shared.ClientResponse[FcmTokenCollection], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -310,17 +327,17 @@ func (api *ChannelsService) ListUserFcmTokens(ctx context.Context, userId string
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[FcmTokenCollection](config)
+	client := restClient.NewRestClient[FcmTokenCollection, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[FcmTokenCollection](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[FcmTokenCollection](resp), nil
 }
 
 // Fetches a specific FCM token by its ID for a given user. This endpoint is available to project administrators and requires project-level authentication. Use this to inspect token details including its status, creation date, and associated metadata.
-func (api *ChannelsService) FetchUserFcmToken(ctx context.Context, userId string, tokenId string) (*shared.ClientResponse[FcmToken], *shared.ClientError) {
+func (api *ChannelsService) FetchUserFcmToken(ctx context.Context, userId string, tokenId string) (*shared.ClientResponse[FcmToken], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -333,17 +350,17 @@ func (api *ChannelsService) FetchUserFcmToken(ctx context.Context, userId string
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[FcmToken](config)
+	client := restClient.NewRestClient[FcmToken, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[FcmToken](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[FcmToken](resp), nil
 }
 
 // Deletes a specific user's FCM token. This endpoint is available to project administrators and permanently invalidates the specified token. Once revoked, the token can no longer be used to access channel features. This action cannot be undone.
-func (api *ChannelsService) DeleteUserFcmToken(ctx context.Context, userId string, tokenId string) (*shared.ClientResponse[DiscardResult], *shared.ClientError) {
+func (api *ChannelsService) DeleteUserFcmToken(ctx context.Context, userId string, tokenId string) (*shared.ClientResponse[DiscardResult], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -356,17 +373,86 @@ func (api *ChannelsService) DeleteUserFcmToken(ctx context.Context, userId strin
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[DiscardResult](config)
+	client := restClient.NewRestClient[DiscardResult, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[DiscardResult](err)
+		return nil, shared.NewClientError[[]byte](err)
+	}
+
+	return shared.NewClientResponse[DiscardResult](resp), nil
+}
+
+// Lists all MagicBell SlackBot tokens associated with a specific user. This endpoint is available to project administrators and returns a paginated list of tokens, including both active and revoked tokens.
+func (api *ChannelsService) ListUserMagicbellSlackbotTokens(ctx context.Context, userId string, params ListUserMagicbellSlackbotTokensRequestParams) (*shared.ClientResponse[SlackTokenCollection], *shared.ClientError[[]byte]) {
+	config := *api.getConfig()
+
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("GET").
+		WithPath("/users/{user_id}/channels/slack/magicbell_slackbot/tokens").
+		WithConfig(config).
+		AddPathParam("user_id", userId).
+		WithOptions(params).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
+	client := restClient.NewRestClient[SlackTokenCollection, []byte](config, api.getHook())
+	resp, err := client.Call(*request)
+	if err != nil {
+		return nil, shared.NewClientError[[]byte](err)
+	}
+
+	return shared.NewClientResponse[SlackTokenCollection](resp), nil
+}
+
+// Fetches a specific MagicBell SlackBot token by its ID for a given user. This endpoint is available to project administrators and requires project-level authentication. Use this to inspect token details including its status, creation date, and associated metadata.
+func (api *ChannelsService) FetchUserMagicbellSlackbotToken(ctx context.Context, userId string, tokenId string) (*shared.ClientResponse[SlackToken], *shared.ClientError[[]byte]) {
+	config := *api.getConfig()
+
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("GET").
+		WithPath("/users/{user_id}/channels/slack/magicbell_slackbot/tokens/{token_id}").
+		WithConfig(config).
+		AddPathParam("user_id", userId).
+		AddPathParam("token_id", tokenId).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
+	client := restClient.NewRestClient[SlackToken, []byte](config, api.getHook())
+	resp, err := client.Call(*request)
+	if err != nil {
+		return nil, shared.NewClientError[[]byte](err)
+	}
+
+	return shared.NewClientResponse[SlackToken](resp), nil
+}
+
+// Deletes a specific user's MagicBell SlackBot token. This endpoint is available to project administrators and permanently invalidates the specified token. Once revoked, the token can no longer be used to access channel features. This action cannot be undone.
+func (api *ChannelsService) DeleteUserMagicbellSlackbotToken(ctx context.Context, userId string, tokenId string) (*shared.ClientResponse[DiscardResult], *shared.ClientError[[]byte]) {
+	config := *api.getConfig()
+
+	request := httptransport.NewRequestBuilder().WithContext(ctx).
+		WithMethod("DELETE").
+		WithPath("/users/{user_id}/channels/slack/magicbell_slackbot/tokens/{token_id}").
+		WithConfig(config).
+		AddPathParam("user_id", userId).
+		AddPathParam("token_id", tokenId).
+		WithContentType(httptransport.ContentTypeJson).
+		WithResponseContentType(httptransport.ContentTypeJson).
+		Build()
+
+	client := restClient.NewRestClient[DiscardResult, []byte](config, api.getHook())
+	resp, err := client.Call(*request)
+	if err != nil {
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[DiscardResult](resp), nil
 }
 
 // Lists all Slack tokens associated with a specific user. This endpoint is available to project administrators and returns a paginated list of tokens, including both active and revoked tokens.
-func (api *ChannelsService) ListUserSlackTokens(ctx context.Context, userId string, params ListUserSlackTokensRequestParams) (*shared.ClientResponse[SlackTokenCollection], *shared.ClientError) {
+func (api *ChannelsService) ListUserSlackTokens(ctx context.Context, userId string, params ListUserSlackTokensRequestParams) (*shared.ClientResponse[SlackTokenCollection], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -379,17 +465,17 @@ func (api *ChannelsService) ListUserSlackTokens(ctx context.Context, userId stri
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[SlackTokenCollection](config)
+	client := restClient.NewRestClient[SlackTokenCollection, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[SlackTokenCollection](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[SlackTokenCollection](resp), nil
 }
 
 // Fetches a specific Slack token by its ID for a given user. This endpoint is available to project administrators and requires project-level authentication. Use this to inspect token details including its status, creation date, and associated metadata.
-func (api *ChannelsService) FetchUserSlackToken(ctx context.Context, userId string, tokenId string) (*shared.ClientResponse[SlackToken], *shared.ClientError) {
+func (api *ChannelsService) FetchUserSlackToken(ctx context.Context, userId string, tokenId string) (*shared.ClientResponse[SlackToken], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -402,17 +488,17 @@ func (api *ChannelsService) FetchUserSlackToken(ctx context.Context, userId stri
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[SlackToken](config)
+	client := restClient.NewRestClient[SlackToken, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[SlackToken](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[SlackToken](resp), nil
 }
 
 // Deletes a specific user's Slack token. This endpoint is available to project administrators and permanently invalidates the specified token. Once revoked, the token can no longer be used to access channel features. This action cannot be undone.
-func (api *ChannelsService) DeleteUserSlackToken(ctx context.Context, userId string, tokenId string) (*shared.ClientResponse[DiscardResult], *shared.ClientError) {
+func (api *ChannelsService) DeleteUserSlackToken(ctx context.Context, userId string, tokenId string) (*shared.ClientResponse[DiscardResult], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -425,17 +511,17 @@ func (api *ChannelsService) DeleteUserSlackToken(ctx context.Context, userId str
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[DiscardResult](config)
+	client := restClient.NewRestClient[DiscardResult, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[DiscardResult](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[DiscardResult](resp), nil
 }
 
 // Lists all Teams tokens associated with a specific user. This endpoint is available to project administrators and returns a paginated list of tokens, including both active and revoked tokens.
-func (api *ChannelsService) ListUserTeamsTokens(ctx context.Context, userId string, params ListUserTeamsTokensRequestParams) (*shared.ClientResponse[TeamsTokenCollection], *shared.ClientError) {
+func (api *ChannelsService) ListUserTeamsTokens(ctx context.Context, userId string, params ListUserTeamsTokensRequestParams) (*shared.ClientResponse[TeamsTokenCollection], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -448,17 +534,17 @@ func (api *ChannelsService) ListUserTeamsTokens(ctx context.Context, userId stri
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[TeamsTokenCollection](config)
+	client := restClient.NewRestClient[TeamsTokenCollection, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[TeamsTokenCollection](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[TeamsTokenCollection](resp), nil
 }
 
 // Fetches a specific Teams token by its ID for a given user. This endpoint is available to project administrators and requires project-level authentication. Use this to inspect token details including its status, creation date, and associated metadata.
-func (api *ChannelsService) FetchUserTeamsToken(ctx context.Context, userId string, tokenId string) (*shared.ClientResponse[TeamsToken], *shared.ClientError) {
+func (api *ChannelsService) FetchUserTeamsToken(ctx context.Context, userId string, tokenId string) (*shared.ClientResponse[TeamsToken], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -471,17 +557,17 @@ func (api *ChannelsService) FetchUserTeamsToken(ctx context.Context, userId stri
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[TeamsToken](config)
+	client := restClient.NewRestClient[TeamsToken, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[TeamsToken](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[TeamsToken](resp), nil
 }
 
 // Deletes a specific user's Teams token. This endpoint is available to project administrators and permanently invalidates the specified token. Once revoked, the token can no longer be used to access channel features. This action cannot be undone.
-func (api *ChannelsService) DeleteUserTeamsToken(ctx context.Context, userId string, tokenId string) (*shared.ClientResponse[DiscardResult], *shared.ClientError) {
+func (api *ChannelsService) DeleteUserTeamsToken(ctx context.Context, userId string, tokenId string) (*shared.ClientResponse[DiscardResult], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -494,17 +580,17 @@ func (api *ChannelsService) DeleteUserTeamsToken(ctx context.Context, userId str
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[DiscardResult](config)
+	client := restClient.NewRestClient[DiscardResult, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[DiscardResult](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[DiscardResult](resp), nil
 }
 
 // Lists all Web Push tokens associated with a specific user. This endpoint is available to project administrators and returns a paginated list of tokens, including both active and revoked tokens.
-func (api *ChannelsService) ListUserWebPushTokens(ctx context.Context, userId string, params ListUserWebPushTokensRequestParams) (*shared.ClientResponse[WebPushTokenCollection], *shared.ClientError) {
+func (api *ChannelsService) ListUserWebPushTokens(ctx context.Context, userId string, params ListUserWebPushTokensRequestParams) (*shared.ClientResponse[WebPushTokenCollection], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -517,17 +603,17 @@ func (api *ChannelsService) ListUserWebPushTokens(ctx context.Context, userId st
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[WebPushTokenCollection](config)
+	client := restClient.NewRestClient[WebPushTokenCollection, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[WebPushTokenCollection](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[WebPushTokenCollection](resp), nil
 }
 
 // Fetches a specific Web Push token by its ID for a given user. This endpoint is available to project administrators and requires project-level authentication. Use this to inspect token details including its status, creation date, and associated metadata.
-func (api *ChannelsService) FetchUserWebPushToken(ctx context.Context, userId string, tokenId string) (*shared.ClientResponse[WebPushToken], *shared.ClientError) {
+func (api *ChannelsService) FetchUserWebPushToken(ctx context.Context, userId string, tokenId string) (*shared.ClientResponse[WebPushToken], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -540,17 +626,17 @@ func (api *ChannelsService) FetchUserWebPushToken(ctx context.Context, userId st
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[WebPushToken](config)
+	client := restClient.NewRestClient[WebPushToken, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[WebPushToken](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[WebPushToken](resp), nil
 }
 
 // Deletes a specific user's Web Push token. This endpoint is available to project administrators and permanently invalidates the specified token. Once revoked, the token can no longer be used to access channel features. This action cannot be undone.
-func (api *ChannelsService) DeleteUserWebPushToken(ctx context.Context, userId string, tokenId string) (*shared.ClientResponse[DiscardResult], *shared.ClientError) {
+func (api *ChannelsService) DeleteUserWebPushToken(ctx context.Context, userId string, tokenId string) (*shared.ClientResponse[DiscardResult], *shared.ClientError[[]byte]) {
 	config := *api.getConfig()
 
 	request := httptransport.NewRequestBuilder().WithContext(ctx).
@@ -563,10 +649,10 @@ func (api *ChannelsService) DeleteUserWebPushToken(ctx context.Context, userId s
 		WithResponseContentType(httptransport.ContentTypeJson).
 		Build()
 
-	client := restClient.NewRestClient[DiscardResult](config)
+	client := restClient.NewRestClient[DiscardResult, []byte](config, api.getHook())
 	resp, err := client.Call(*request)
 	if err != nil {
-		return nil, shared.NewClientError[DiscardResult](err)
+		return nil, shared.NewClientError[[]byte](err)
 	}
 
 	return shared.NewClientResponse[DiscardResult](resp), nil

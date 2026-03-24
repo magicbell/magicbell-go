@@ -1,0 +1,41 @@
+package workflows
+
+import (
+	"encoding/json"
+	"github.com/magicbell/magicbell-go/pkg/project-client/shared"
+)
+
+type WorkflowRunCollection struct {
+	Data  []WorkflowRun `json:"data,omitempty"`
+	Links *shared.Links `json:"links,omitempty"`
+}
+
+func (w *WorkflowRunCollection) GetData() []WorkflowRun {
+	if w == nil {
+		return nil
+	}
+	return w.Data
+}
+
+func (w *WorkflowRunCollection) SetData(data []WorkflowRun) {
+	w.Data = data
+}
+
+func (w *WorkflowRunCollection) GetLinks() *shared.Links {
+	if w == nil {
+		return nil
+	}
+	return w.Links
+}
+
+func (w *WorkflowRunCollection) SetLinks(links shared.Links) {
+	w.Links = &links
+}
+
+func (w WorkflowRunCollection) String() string {
+	jsonData, err := json.MarshalIndent(w, "", "  ")
+	if err != nil {
+		return "error converting struct: WorkflowRunCollection to string"
+	}
+	return string(jsonData)
+}

@@ -2,7 +2,7 @@
 
 **Properties**
 
-| Name  | Type                 | Required | Description |
-| :---- | :------------------- | :------- | :---------- |
-| Data  | []channels.ExpoToken | ❌       |             |
-| Links | shared.Links         | ❌       |             |
+| Name  | Type                                  | Required | Description |
+| :---- | :------------------------------------ | :------- | :---------- |
+| Data  | [][channels.ExpoToken](expo_token.md) | ❌       |             |
+| Links | [shared.Links](links.md)              | ❌       |             |

@@ -2,20 +2,10 @@
 
 **Properties**
 
-| Name           | Type                            | Required | Description |
-| :------------- | :------------------------------ | :------- | :---------- |
-| CreatedAt      | string                          | ✅       |             |
-| DeviceToken    | string                          | ✅       |             |
-| Id             | string                          | ✅       |             |
-| DiscardedAt    | string                          | ❌       |             |
-| InstallationId | channels.FcmTokenInstallationId | ❌       |             |
-| UpdatedAt      | string                          | ❌       |             |
-
-# FcmTokenInstallationId
-
-**Properties**
-
-| Name        | Type   | Required | Description   |
-| :---------- | :----- | :------- | :------------ |
-| development | string | ✅       | "development" |
-| production  | string | ✅       | "production"  |
+| Name        | Type   | Required | Description                                                                        |
+| :---------- | :----- | :------- | :--------------------------------------------------------------------------------- |
+| CreatedAt   | string | ✅       | The timestamp when the token was created.                                          |
+| DeviceToken | string | ✅       | The Firebase Cloud Messaging device registration token to associate with the user. |
+| Id          | string | ✅       | The unique identifier for the token.                                               |
+| DiscardedAt | string | ❌       | The timestamp when the token was discarded, if applicable.                         |
+| UpdatedAt   | string | ❌       | The timestamp when the token metadata last changed.                                |

@@ -1,0 +1,28 @@
+package integrations
+
+import "encoding/json"
+
+// Badge styling for unseen notification counts.
+type UnseenBadge struct {
+	// Badge background color.
+	BackgroundColor *string `json:"backgroundColor,omitempty" required:"true"`
+}
+
+func (u *UnseenBadge) GetBackgroundColor() *string {
+	if u == nil {
+		return nil
+	}
+	return u.BackgroundColor
+}
+
+func (u *UnseenBadge) SetBackgroundColor(backgroundColor string) {
+	u.BackgroundColor = &backgroundColor
+}
+
+func (u UnseenBadge) String() string {
+	jsonData, err := json.MarshalIndent(u, "", "  ")
+	if err != nil {
+		return "error converting struct: UnseenBadge to string"
+	}
+	return string(jsonData)
+}

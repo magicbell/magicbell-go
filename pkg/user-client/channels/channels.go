@@ -1,0 +1,38 @@
+package channels
+
+import "encoding/json"
+
+type Channels struct {
+	Enabled *bool   `json:"enabled,omitempty"`
+	Name    *string `json:"name,omitempty"`
+}
+
+func (c *Channels) GetEnabled() *bool {
+	if c == nil {
+		return nil
+	}
+	return c.Enabled
+}
+
+func (c *Channels) SetEnabled(enabled bool) {
+	c.Enabled = &enabled
+}
+
+func (c *Channels) GetName() *string {
+	if c == nil {
+		return nil
+	}
+	return c.Name
+}
+
+func (c *Channels) SetName(name string) {
+	c.Name = &name
+}
+
+func (c Channels) String() string {
+	jsonData, err := json.MarshalIndent(c, "", "  ")
+	if err != nil {
+		return "error converting struct: Channels to string"
+	}
+	return string(jsonData)
+}

@@ -7,21 +7,36 @@ import (
 )
 
 type Notification struct {
-	ActionUrl        *util.Nullable[string] `json:"action_url,omitempty" maxLength:"2048"`
-	ArchivedAt       *util.Nullable[string] `json:"archived_at,omitempty"`
-	Category         *util.Nullable[string] `json:"category,omitempty" maxLength:"100"`
-	Content          *util.Nullable[string] `json:"content,omitempty" maxLength:"10485760"`
-	CreatedAt        *string                `json:"created_at,omitempty" required:"true"`
-	CustomAttributes *util.Nullable[any]    `json:"custom_attributes,omitempty"`
-	DiscardedAt      *util.Nullable[string] `json:"discarded_at,omitempty"`
-	Id               *string                `json:"id,omitempty" required:"true"`
-	ReadAt           *util.Nullable[string] `json:"read_at,omitempty"`
-	SeenAt           *util.Nullable[string] `json:"seen_at,omitempty"`
-	SentAt           *util.Nullable[string] `json:"sent_at,omitempty"`
-	Title            *string                `json:"title,omitempty" required:"true" maxLength:"255" minLength:"1"`
-	Topic            *util.Nullable[string] `json:"topic,omitempty" maxLength:"100"`
-	UpdatedAt        *string                `json:"updated_at,omitempty" required:"true"`
-	UserId           *string                `json:"user_id,omitempty" required:"true"`
+	// The link associated with the notification.
+	ActionUrl *util.Nullable[string] `json:"action_url,omitempty" maxLength:"2048"`
+	// The timestamp when the notification was archived.
+	ArchivedAt *util.Nullable[string] `json:"archived_at,omitempty"`
+	// The category grouping for the notification.
+	Category *util.Nullable[string] `json:"category,omitempty" maxLength:"100"`
+	// The body content of the notification.
+	Content *util.Nullable[string] `json:"content,omitempty" maxLength:"10485760"`
+	// The timestamp when the notification was created.
+	CreatedAt *string `json:"created_at,omitempty" required:"true"`
+	// The custom data stored with the notification.
+	CustomAttributes *util.Nullable[any] `json:"custom_attributes,omitempty"`
+	// The timestamp when the notification was discarded.
+	DiscardedAt *util.Nullable[string] `json:"discarded_at,omitempty"`
+	// The unique identifier for the notification.
+	Id *string `json:"id,omitempty" required:"true"`
+	// The timestamp when the notification was marked as read.
+	ReadAt *util.Nullable[string] `json:"read_at,omitempty"`
+	// The timestamp when the notification was seen.
+	SeenAt *util.Nullable[string] `json:"seen_at,omitempty"`
+	// The timestamp when the notification was sent.
+	SentAt *util.Nullable[string] `json:"sent_at,omitempty"`
+	// The title that is displayed to recipients.
+	Title *string `json:"title,omitempty" required:"true" maxLength:"255" minLength:"1"`
+	// The topic for additional classification.
+	Topic *util.Nullable[string] `json:"topic,omitempty" maxLength:"100"`
+	// The timestamp when the notification was last updated.
+	UpdatedAt *string `json:"updated_at,omitempty" required:"true"`
+	// The user that should receive the notification.
+	UserId *string `json:"user_id,omitempty" required:"true"`
 }
 
 func (n *Notification) GetActionUrl() *util.Nullable[string] {

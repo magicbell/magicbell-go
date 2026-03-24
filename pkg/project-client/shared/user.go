@@ -7,16 +7,26 @@ import (
 )
 
 type User struct {
-	CreatedAt        *util.Nullable[string] `json:"created_at,omitempty"`
-	CustomAttributes *util.Nullable[any]    `json:"custom_attributes,omitempty"`
-	Email            *util.Nullable[string] `json:"email,omitempty"`
-	ExternalId       *util.Nullable[string] `json:"external_id,omitempty"`
-	FirstName        *util.Nullable[string] `json:"first_name,omitempty"`
-	Id               *string                `json:"id,omitempty"`
-	LastName         *util.Nullable[string] `json:"last_name,omitempty"`
-	LastNotifiedAt   *util.Nullable[string] `json:"last_notified_at,omitempty"`
-	LastSeenAt       *util.Nullable[string] `json:"last_seen_at,omitempty"`
-	UpdatedAt        *util.Nullable[string] `json:"updated_at,omitempty"`
+	// The timestamp when the user was created.
+	CreatedAt *util.Nullable[string] `json:"created_at,omitempty"`
+	// Arbitrary custom values stored on the user.
+	CustomAttributes *util.Nullable[any] `json:"custom_attributes,omitempty"`
+	// The primary email address of the user.
+	Email *util.Nullable[string] `json:"email,omitempty"`
+	// The user identifier from an external system.
+	ExternalId *util.Nullable[string] `json:"external_id,omitempty"`
+	// The first name of the user.
+	FirstName *util.Nullable[string] `json:"first_name,omitempty"`
+	// The unique identifier for the user.
+	Id *string `json:"id,omitempty"`
+	// The last name of the user.
+	LastName *util.Nullable[string] `json:"last_name,omitempty"`
+	// The timestamp when the user last received a notification.
+	LastNotifiedAt *util.Nullable[string] `json:"last_notified_at,omitempty"`
+	// The timestamp when the user last opened the inbox.
+	LastSeenAt *util.Nullable[string] `json:"last_seen_at,omitempty"`
+	// The timestamp when the user was last updated.
+	UpdatedAt *util.Nullable[string] `json:"updated_at,omitempty"`
 }
 
 func (u *User) GetCreatedAt() *util.Nullable[string] {
